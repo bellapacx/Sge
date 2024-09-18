@@ -10,10 +10,13 @@ const Header: React.FC = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
+                const cookieValue = 's%3A8HIfircUAvDgPgIIGc_ECWSYNrtxXL0l.wovZpQPc8zy8wSNmU%2FtBbcN%2FgTC8C%2FDir31aO0Z5u6U';
+
                 const response = await fetch('https://sgebackend.onrender.com/api/current-user', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
+                         'Cookie': `connect.sid=${cookieValue}`
                     },
                     credentials: 'include', // Ensure cookies are sent with the request
                 });
