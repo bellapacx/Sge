@@ -23,9 +23,9 @@ const LoginForm: React.FC = () => {
 
       if (response.ok) {
         console.log('Login successful, navigating to /dashboard');
-        navigate('/');
+        navigate('/sell');
         // Reload the page
-        window.location.reload();
+        //window.location.reload();
       } else {
         console.log('Login failed:', data.error);
         setError(data.error || 'Login failed');
