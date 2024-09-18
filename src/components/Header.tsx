@@ -14,10 +14,11 @@ const Header: React.FC = () => {
 
                 const response = await fetch('https://sgebackend.onrender.com/api/current-user', {
                     method: 'GET',
+                    credentials: 'include', 
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    credentials: 'include', // Ensure cookies are sent with the request
+                    // Ensure cookies are sent with the request
                 });
 
                 if (response.ok) {
