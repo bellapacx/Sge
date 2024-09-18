@@ -38,7 +38,7 @@ const AuthenticatedRoute: React.FC<AuthenticatedRouteProps> = ({ element, requir
     }, []);
 
     if (isAuthenticated === null) {
-        return <div>Loading...</div>;
+        return <div></div>;
     }
 
     console.log('User role:', userRole); // Debugging

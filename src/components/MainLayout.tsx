@@ -23,7 +23,7 @@ const MainLayout: React.FC = () => {
                 <main className="flex-1 p-4">
                     <Routes>
                         <Route path="/" element={<Navigate to="/dashboard" />} />
-                        <Route path="/dashboard" element={<AuthenticatedRoute element={<Dashboard />} requiredRoles={['admin', ]} />} />
+                        <Route path="/dashboard"  element={<Dashboard />} />
                         <Route path="/products" element={<AuthenticatedRoute element={<Products />} requiredRoles={["admin"]} />} />
                         <Route path="/reports" element={<AuthenticatedRoute element={<SellReports />} requiredRoles={['admin']} />} />
                         <Route path="/purchase" element={<AuthenticatedRoute element={<PurchaseOrders />} requiredRoles={['admin','shopkeeper']} />} />
