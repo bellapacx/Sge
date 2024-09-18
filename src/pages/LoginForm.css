@@ -1,0 +1,90 @@
+body {
+    margin: 0;
+    background-color: #1f1f1f;
+    font-family: Arial, sans-serif;
+    color: #000000; /* Set the default text color to white */
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  
+}
+
+.login-box {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    background-color: #1f1f1f;
+}
+
+h2 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.input-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 10px 40px 10px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white; /* Text color inside input fields */
+}
+
+.input-container input::placeholder {
+    color: #aaa; /* Placeholder text color to ensure visibility */
+}
+
+.input-container .icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: white;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.options label, .options a {
+    color: white;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+p {
+    color: white;
+    margin-top: 10px;
+}
+
+p a {
+    color: #4CAF50;
+}
