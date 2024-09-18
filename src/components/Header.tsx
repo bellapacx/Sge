@@ -36,6 +36,10 @@ const Header: React.FC = () => {
         }
     };
 
+    const handleLoginRedirect = () => {
+        navigate('/login');
+    };
+
     return (
         <div className="w-full flex justify-between items-center p-4 bg-gray-700">
             <div className="flex items-center space-x-2">
@@ -53,12 +57,19 @@ const Header: React.FC = () => {
                         <span className="ml-2 text-white">{username ? username : 'Guest'}</span>
                     )}
                 </div>
-                {username && (
+                {username ? (
                     <button
                         onClick={handleLogout}
                         className="bg-red-500 text-white px-4 py-2 rounded-md"
                     >
                         Logout
+                    </button>
+                ) : (
+                    <button
+                        onClick={handleLoginRedirect}
+                        className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                    >
+                        Login
                     </button>
                 )}
             </div>
