@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
-import axios from 'axios'; // Import axios for making HTTP requests
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Header: React.FC = () => {
     const [username, setUsername] = useState<string | null>(null);
-    const navigate = useNavigate(); // Initialize useNavigate
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch the current user when the component mounts
         const fetchUser = async () => {
             try {
                 const response = await axios.get('https://sgebackend.onrender.com/api/current-user', { withCredentials: true });
                 setUsername(response.data.username);
             } catch (error) {
                 console.error('Error fetching user', error);
-                setUsername(null); // Handle case where user is not authenticated
+                setUsername(null);
+                setError('Not authenticated. Please log in.');
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -23,12 +27,12 @@ const Header: React.FC = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.post('https://sgebackend.onrender.com/api/logout', {}, { withCredentials: true }); // Adjust URL as necessary
-            setUsername(null); // Clear username from state
-            navigate('/login'); // Redirect to login page after logout
+            await axios.post('https://sgebackend.onrender.com/api/logout', {}, { withCredentials: true });
+            setUsername(null);
+            navigate('/login');
         } catch (error) {
             console.error('Logout failed', error);
-            // Handle logout failure
+            setError('Logout failed. Please try again.');
         }
     };
 
@@ -41,8 +45,13 @@ const Header: React.FC = () => {
             <div className="flex items-center space-x-4">
                 <div className="rounded-full bg-gray-300 p-2">🔔</div>
                 <div className="flex items-center">
-                    {/*<img src="/path-to-image" alt="User" className="rounded-full h-8 w-8" />*/}
-                    <span className="ml-2 text-white">{username ? username : 'Guest'}</span>
+                    {loading ? (
+                        <span className="ml-2 text-white">Loading...</span>
+                    ) : error ? (
+                        <span className="ml-2 text-red-500">{error}</span>
+                    ) : (
+                        <span className="ml-2 text-white">{username ? username : 'Guest'}</span>
+                    )}
                 </div>
                 {username && (
                     <button
