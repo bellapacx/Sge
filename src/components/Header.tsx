@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 const Header: React.FC = () => {
     const [username, setUsername] = useState<string | null>(null);
@@ -11,8 +10,20 @@ const Header: React.FC = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get('https://sgebackend.onrender.com/api/current-user', { withCredentials: true });
-                setUsername(response.data.username);
+                const response = await fetch('https://sgebackend.onrender.com/api/current-user', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include', // Ensure cookies are sent with the request
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setUsername(data.username);
+                } else {
+                    throw new Error('Failed to fetch user data');
+                }
             } catch (error) {
                 console.error('Error fetching user', error);
                 setUsername(null);
@@ -27,9 +38,20 @@ const Header: React.FC = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.post('https://sgebackend.onrender.com/api/logout', {}, { withCredentials: true });
-            setUsername(null);
-            navigate('/login');
+            const response = await fetch('https://sgebackend.onrender.com/api/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include', // Ensure cookies are sent with the request
+            });
+
+            if (response.ok) {
+                setUsername(null);
+                navigate('/login');
+            } else {
+                throw new Error('Logout failed');
+            }
         } catch (error) {
             console.error('Logout failed', error);
             setError('Logout failed. Please try again.');
