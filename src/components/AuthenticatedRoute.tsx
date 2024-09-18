@@ -12,19 +12,29 @@ const AuthenticatedRoute: React.FC<AuthenticatedRouteProps> = ({ element, requir
     const [userRole, setUserRole] = useState<string>('');
 
     useEffect(() => {
+        let isMounted = true; // Track whether the component is mounted
+
         const checkAuthentication = async () => {
             try {
                 const response = await axios.get('https://sgebackend.onrender.com/api/current-user', { withCredentials: true });
                 console.log('API Response:', response.data); // Debugging
-                setIsAuthenticated(true);
-                setUserRole(response.data.role || '');
+                if (isMounted) {
+                    setIsAuthenticated(true);
+                    setUserRole(response.data.role || ''); // Adjust if role is named differently
+                }
             } catch (error) {
                 console.log('Authentication error:', error); // Debugging
-                setIsAuthenticated(false);
+                if (isMounted) {
+                    setIsAuthenticated(false);
+                }
             }
         };
 
         checkAuthentication();
+
+        return () => {
+            isMounted = false; // Cleanup function to avoid setting state after unmount
+        };
     }, []);
 
     if (isAuthenticated === null) {
