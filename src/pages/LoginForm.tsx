@@ -23,7 +23,7 @@ const LoginForm: React.FC = () => {
 
       if (response.ok) {
         console.log('Login successful, navigating to /dashboard');
-        navigate('/');
+        navigate('/login');
         // Reload the page
         //window.location.reload();
       } else {
