@@ -22,16 +22,16 @@ const MainLayout: React.FC = () => {
                 <Sidebar />
                 <main className="flex-1 p-4">
                     <Routes>
-                        <Route path="/" element={<Navigate to="/dashboard" />} />
-                        <Route path="/dashboard" element={<AuthenticatedRoute element={<Dashboard />} requiredRoles={['admin', ]} />} />
-                        <Route path="/products" element={<AuthenticatedRoute element={<Products />} requiredRoles={["admin"]} />} />
-                        <Route path="/reports" element={<AuthenticatedRoute element={<SellReports />} requiredRoles={['admin']} />} />
-                        <Route path="/purchase" element={<AuthenticatedRoute element={<PurchaseOrders />} requiredRoles={['admin','shopkeeper']} />} />
-                        <Route path="/empty" element={<AuthenticatedRoute element={<Empty />} requiredRoles={['admin', 'cashier']} />} />
-                        <Route path="/stores" element={<AuthenticatedRoute element={<Stores />} requiredRoles={['admin']} />} />
-                        <Route path="/users" element={<AuthenticatedRoute element={<User />} requiredRoles={['admin']} />} />
-                        <Route path="/vehicles" element={<AuthenticatedRoute element={<Vehicles />} requiredRoles={['admin']} />} />
-                        <Route path="/sell" element={<AuthenticatedRoute element={<SellOrder />} requiredRoles={['admin','cashier']} />} />
+                        <Route path="/" element={<Navigate to="Sge/dashboard" />} />
+                        <Route path="Sge/dashboard" element={<AuthenticatedRoute element={<Dashboard />} requiredRoles={['admin', ]} />} />
+                        <Route path="Sge/products" element={<AuthenticatedRoute element={<Products />} requiredRoles={["admin"]} />} />
+                        <Route path="Sge/reports" element={<AuthenticatedRoute element={<SellReports />} requiredRoles={['admin']} />} />
+                        <Route path="Sge/purchase" element={<AuthenticatedRoute element={<PurchaseOrders />} requiredRoles={['admin','shopkeeper']} />} />
+                        <Route path="Sge/empty" element={<AuthenticatedRoute element={<Empty />} requiredRoles={['admin', 'cashier']} />} />
+                        <Route path="Sge/stores" element={<AuthenticatedRoute element={<Stores />} requiredRoles={['admin']} />} />
+                        <Route path="Sge/users" element={<AuthenticatedRoute element={<User />} requiredRoles={['admin']} />} />
+                        <Route path="Sge/vehicles" element={<AuthenticatedRoute element={<Vehicles />} requiredRoles={['admin']} />} />
+                        <Route path="Sge/sell" element={<AuthenticatedRoute element={<SellOrder />} requiredRoles={['admin','cashier']} />} />
                         <Route path="/login" element={<Login />} />
                     </Routes>
                 </main>
