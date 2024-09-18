@@ -10,7 +10,7 @@ const Header: React.FC = () => {
         // Fetch the current user when the component mounts
         const fetchUser = async () => {
             try {
-                const response = await axios.get('http://localhost:5010/api/current-user', { withCredentials: true });
+                const response = await axios.get('https://sgebackend.onrender.com/api/current-user', { withCredentials: true });
                 setUsername(response.data.username);
             } catch (error) {
                 console.error('Error fetching user', error);
@@ -23,7 +23,7 @@ const Header: React.FC = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.post('http://localhost:5010/api/logout', {}, { withCredentials: true }); // Adjust URL as necessary
+            await axios.post('https://sgebackend.onrender.com/api/logout', {}, { withCredentials: true }); // Adjust URL as necessary
             setUsername(null); // Clear username from state
             navigate('/login'); // Redirect to login page after logout
         } catch (error) {
