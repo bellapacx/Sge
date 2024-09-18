@@ -20,7 +20,7 @@ const Sidebar = () => {
   }, []);
 
   if (userRole === null) {
-    return <div>Loading...</div>; // Optionally show a loading indicator
+    return <div></div>; // Optionally show a loading indicator
   }
 
   return (
