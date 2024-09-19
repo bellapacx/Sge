@@ -12,12 +12,12 @@ interface ModalProps {
     sell_date: string;
     customer_name: string;
   }) => void;
-  userStoreId: string; // Make userStoreId optional// Add userStoreId prop
+  userStoreId: string; // userStoreId prop
 }
 
 const ModalS: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, userStoreId }) => {
   const [formData, setFormData] = useState({
-    store_id: userStoreId, // Initialize store_id with userStoreId
+    store_id: userStoreId || '', // Initialize store_id with userStoreId
     product_id: '',
     quantity: 0,
     sell_price: 0,
@@ -51,22 +51,30 @@ const ModalS: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, userStoreId }
     fetchStoresAndProducts();
   }, [userStoreId]);
 
+  // Update store_id when userStoreId changes
+  useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      store_id: userStoreId,
+    }));
+  }, [userStoreId]);
+
   useEffect(() => {
     if (formData.product_id) {
       const product = products.find((p) => p._id === formData.product_id);
       if (product) {
         setSelectedProduct(product);
-        setFormData({
-          ...formData,
-          sell_price: product.sell_price * formData.quantity // Update sell_price when product or quantity changes
-        });
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          sell_price: product.sell_price * prevFormData.quantity, // Update sell_price when product or quantity changes
+        }));
       }
     } else {
       setSelectedProduct(null);
-      setFormData({
-        ...formData,
-        sell_price: 0
-      });
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        sell_price: 0,
+      }));
     }
   }, [formData.product_id, formData.quantity, products]);
 
@@ -75,17 +83,17 @@ const ModalS: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, userStoreId }
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const quantity = parseInt(e.target.value, 10);
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       quantity,
-      sell_price: selectedProduct ? selectedProduct.sell_price * quantity : 0
-    });
+      sell_price: selectedProduct ? selectedProduct.sell_price * quantity : 0,
+    }));
   };
 
   const handleSubmit = () => {
@@ -109,7 +117,9 @@ const ModalS: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, userStoreId }
               className="w-full p-2 border border-gray-300 rounded-md"
               disabled
             >
-              <option value={userStoreId}> {stores.length > 0 ? stores[0].name : 'Loading...'} </option>
+              <option value={userStoreId}>
+                {stores.length > 0 ? stores[0].name : 'Loading...'}
+              </option>
             </select>
           </div>
           <div>
