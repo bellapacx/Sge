@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FaHome, FaTags, FaShoppingCart, FaUsers, FaSalesforce, FaStore, FaCar, FaArrowsAltV, FaWineBottle } from 'react-icons/fa';
 import SidebarLink from './SidebarLink';
-import axios from 'axios';
+
 
 const Sidebar = () => {
   const [userRole, setUserRole] = useState<string | null>(null);
@@ -11,12 +11,18 @@ const Sidebar = () => {
       try {
         // Get the token from localStorage
         const token = localStorage.getItem('token');
-        const response = await axios.get('https://sgebackend.onrender.com/api/current-users', { 
+        const response = await fetch('https://sgebackend.onrender.com/api/current-user', {
+          method: 'GET',
+         
           headers: {
-            Authorization: `Bearer ${token}`, // Attach the token in the Authorization header
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
           },
-          withCredentials: true });
-        setUserRole(response.data.role || null);
+          credentials: 'include'
+          // Ensure cookies are sent with the request
+      });
+      const data = await response.json();
+        setUserRole(data.role || null);
       } catch (error) {
         setUserRole(null);
       }
