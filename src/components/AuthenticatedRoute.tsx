@@ -25,11 +25,16 @@ const AuthenticatedRoute: React.FC<AuthenticatedRouteProps> = ({ element, requir
                     },
                     // Ensure cookies are sent with the request
                 }); // Debugging
-                const data = await response.json();
-                if (isMounted) {
-                    setIsAuthenticated(true);
-                    setUserRole(data.role || ''); // Adjust if role is named differently
+                if (response.ok) {
+                    const data = await response.json();
+                    if (isMounted) {
+                        setIsAuthenticated(true);
+                        setUserRole(data.role || ''); // Adjust if role is named differently
+                    }
+                } else {
+                    throw new Error('Failed to fetch user data');
                 }
+                
             } catch (error) {
                 console.log('Authentication error:', error); // Debugging
                 if (isMounted) {

@@ -21,8 +21,13 @@ const Sidebar = () => {
           credentials: 'include'
           // Ensure cookies are sent with the request
       });
-      const data = await response.json();
+      if (response.ok) {
+        const data = await response.json();
         setUserRole(data.role || null);
+    } else {
+        throw new Error('Failed to fetch user data');
+    }
+      
       } catch (error) {
         setUserRole(null);
       }
