@@ -20,7 +20,7 @@ const LoginForm: React.FC = () => {
       });
 
       const data = await response.json();
-
+      console.log(data);
       if (response.ok) {
         console.log('Login successful, navigating to /dashboard');
         navigate('/');
