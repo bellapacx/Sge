@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import axios from 'axios';
+
 
 interface AuthenticatedRouteProps {
     element: React.ReactElement;
@@ -17,15 +17,18 @@ const AuthenticatedRoute: React.FC<AuthenticatedRouteProps> = ({ element, requir
         const checkAuthentication = async () => {
             try {
                 const token = localStorage.getItem('authToken');
-                const response = await axios.get('https://sgebackend.onrender.com/api/current-user', { 
-                headers: {
-                        Authorization: `Bearer ${token}`, // Attach the token in the Authorization header
-                      },
-                withCredentials: true });
-                // Debugging
+                const response = await fetch('https://sgebackend.onrender.com/api/current-user', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                    // Ensure cookies are sent with the request
+                }); // Debugging
+                const data = await response.json();
                 if (isMounted) {
                     setIsAuthenticated(true);
-                    setUserRole(response.data.role || ''); // Adjust if role is named differently
+                    setUserRole(data.role || ''); // Adjust if role is named differently
                 }
             } catch (error) {
                 console.log('Authentication error:', error); // Debugging
