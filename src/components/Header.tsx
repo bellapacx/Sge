@@ -10,12 +10,13 @@ const Header: React.FC = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-               
-
+                
+                const token = localStorage.getItem('authToken');
                 const response = await fetch('https://sgebackend.onrender.com/api/current-user', {
                     method: 'GET',
                     credentials: 'include', 
                     headers: {
+                        'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json',
                     },
                     // Ensure cookies are sent with the request

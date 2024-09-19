@@ -12,7 +12,7 @@ const LoginForm: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://sgebackend.onrender.com/api/login', { // Adjust the URL to match your backend
+      const response = await fetch('https://sgebackend.onrender.com/api/login/', { // Adjust the URL to match your backend
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include', 
