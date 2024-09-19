@@ -47,7 +47,6 @@ const LoginForm: React.FC = () => {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h2>Login</h2>
         {error && <p className="error">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="input-container">
