@@ -76,7 +76,7 @@ const LoginForm: React.FC = () => {
             </label>
             <a href="#">Forgot password?</a>
           </div>
-          <button type="submit">Login</button>
+          <button type="submit" className= "button">Login</button>
           <p>
             Don't have an account? <a href="#">Register</a>
           </p>
