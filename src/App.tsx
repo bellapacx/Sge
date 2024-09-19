@@ -4,7 +4,7 @@ import MainLayout from './components/MainLayout'; // Adjust the path as necessar
 
 const App: React.FC = () => {
   return (
-    <Router basename='Sge' >
+    <Router basename='/Sge' >
       <MainLayout />
     </Router>
   );
