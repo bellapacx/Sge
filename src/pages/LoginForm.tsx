@@ -10,23 +10,29 @@ const LoginForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     try {
       const response = await fetch('https://sgebackend.onrender.com/api/login/', { // Adjust the URL to match your backend
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', 
+        credentials: 'include', // Ensure cookies are sent with the request if using sessions
         body: JSON.stringify({ username, password }),
-       // Ensure cookies are sent with the request
       });
-
+  
       const data = await response.json();
-      console.log(data);
       if (response.ok) {
-        console.log('Login successful, navigating to /dashboard');
-        navigate('/');
-        // Reload the page
-        //window.location.reload();
+        // Assuming the response contains a JWT token
+        const { token } = data;
+  
+        if (token) {
+          // Save the JWT token to localStorage or sessionStorage
+          localStorage.setItem('authToken', token);
+          console.log('Login successful, navigating to /dashboard');
+          navigate('/'); // Navigate to the dashboard or any other protected route
+        } else {
+          console.log('No token received');
+          setError('Login failed, no token received');
+        }
       } else {
         console.log('Login failed:', data.error);
         setError(data.error || 'Login failed');
@@ -36,7 +42,7 @@ const LoginForm: React.FC = () => {
       setError('An error occurred. Please try again.');
     }
   };
-
+  
   return (
     <div className="login-container">
       <div className="login-box">
