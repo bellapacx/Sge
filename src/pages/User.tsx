@@ -24,8 +24,23 @@ const Users: React.FC = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('https://sgebackend.onrender.com/api/users');
-        setUsers(response.data);
+      
+        const token = localStorage.getItem('authToken');
+        const response = await fetch('https://sgebackend.onrender.com/api/users', {
+            method: 'GET',                  
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            // Ensure cookies are sent with the request
+        });
+        if (response.ok) {
+            const data = await response.json();
+            setUsers(data);
+        } else {
+            throw new Error('Failed to fetch user data');
+        }
+       
       } catch (error) {
         console.error('Error fetching users:', error);
       }
@@ -60,8 +75,22 @@ const Users: React.FC = () => {
         await axios.post('https://sgebackend.onrender.com/api/register', formData);
       }
       // Refresh the user list after add or update
-      const response = await axios.get('https://sgebackend.onrender.com/api/users');
-      setUsers(response.data);
+      const token = localStorage.getItem('authToken');
+        const response = await fetch('https://sgebackend.onrender.com/api/users', {
+            method: 'GET',                  
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            // Ensure cookies are sent with the request
+        });
+        if (response.ok) {
+            const data = await response.json();
+            setUsers(data);
+        } else {
+            throw new Error('Failed to fetch user data');
+        }
+      
     } catch (error) {
       console.error('Error saving user:', error);
     } finally {

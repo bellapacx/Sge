@@ -60,7 +60,6 @@ const Sidebar = () => {
             <SidebarLink icon={FaStore} label="Stores" to='/stores'/>
             <SidebarLink icon={FaUsers} label="Users" to='/users'/>
             <SidebarLink icon={FaCar} label="Vehicles" to='/vehicles'/>
-            <SidebarLink icon={FaSalesforce} label="Sales" to='/sell'/>
             <SidebarLink icon={FaWineBottle} label="Empty" to='/empty'/>
           </>
         )}
