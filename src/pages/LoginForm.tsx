@@ -30,7 +30,7 @@ const LoginForm: React.FC = () => {
           const t = localStorage.getItem('authToken')
           console.log('Login successful, navigating to /dashboard');
           console.log(t);
-          navigate('/'); // Navigate to the dashboard or any other protected route
+          navigate('/dashboard'); // Navigate to the dashboard or any other protected route
         } else {
           console.log('No token received');
           setError('Login failed, no token received');
