@@ -46,12 +46,12 @@ const Header: React.FC = () => {
             const response = await fetch('https://sgebackend.onrender.com/api/logout', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include', // Ensure cookies are sent with the request
+                    'Authorization': `Bearer ${localStorage.getItem('token')}` // Send the token in Authorization header
+                }
             });
-
+    
             if (response.ok) {
+                localStorage.removeItem('token'); // Clear the token from localStorage
                 setUsername(null);
                 navigate('/login');
             } else {
@@ -62,6 +62,7 @@ const Header: React.FC = () => {
             setError('Logout failed. Please try again.');
         }
     };
+    
 
     const handleLogin = () => {
         navigate('/login');
