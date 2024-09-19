@@ -46,14 +46,22 @@ const PurchaseOrders: React.FC = () => {
     const fetchCurrentUser = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        const response = await axios.get('https://sgebackend.onrender.com/api/current-user', { 
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-        },
-           });
-        setUserStoreId(response.data.store_id); // Get store_id from current user
-        setIsAdmin(response.data.role === 'admin'); // Check if user is admin
+        const response = await fetch('https://sgebackend.onrender.com/api/current-user', {
+            method: 'GET',                  
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            // Ensure cookies are sent with the request
+        });
+        if (response.ok) {
+            const data = await response.json();
+            setUserStoreId(data.store_id); // Get store_id from current user
+            setIsAdmin(data.role === 'admin');
+        } else {
+            throw new Error('Failed to fetch user data');
+        }
+        // Check if user is admin
       } catch (error) {
         console.error('Error fetching current user:', error);
       }
