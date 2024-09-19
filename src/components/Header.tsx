@@ -19,10 +19,8 @@ const Header: React.FC = () => {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json',
                     },
-                    credentials: 'include'
                     // Ensure cookies are sent with the request
                 });
-
                 if (response.ok) {
                     const data = await response.json();
                     setUsername(data.username);
