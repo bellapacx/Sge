@@ -10,10 +10,10 @@ const Sidebar = () => {
     const fetchUserRole = async () => {
       try {
         // Get the token from localStorage
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('authToken');
         const response = await fetch('https://sgebackend.onrender.com/api/current-user', {
           method: 'GET',
-         
+
           headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',
