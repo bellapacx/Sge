@@ -13,8 +13,7 @@ const Header: React.FC = () => {
                 
                 const token = localStorage.getItem('authToken');
                 const response = await fetch('https://sgebackend.onrender.com/api/current-user', {
-                    method: 'GET',
-                   
+                    method: 'GET',                  
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json',
@@ -71,7 +70,7 @@ const Header: React.FC = () => {
     };
 
     return (
-        <div className="w-full flex justify-between items-center p-4 bg-gray-700">
+        <div className="w-full flex justify-between items-center p-4 bg-gray-700 mt-0">
             <div className="flex items-center space-x-2">
                 <div className="bg-gray-300 p-2 rounded-md">☰</div>
                 <input type="text" placeholder="Search..." className="border rounded-md p-2" />
