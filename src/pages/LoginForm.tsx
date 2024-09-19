@@ -27,7 +27,9 @@ const LoginForm: React.FC = () => {
         if (token) {
           // Save the JWT token to localStorage or sessionStorage
           localStorage.setItem('authToken', token);
+          const t = localStorage.getItem('authToken')
           console.log('Login successful, navigating to /dashboard');
+          console.log(t);
           navigate('/'); // Navigate to the dashboard or any other protected route
         } else {
           console.log('No token received');
