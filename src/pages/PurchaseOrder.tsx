@@ -45,7 +45,13 @@ const PurchaseOrders: React.FC = () => {
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        const response = await axios.get('https://sgebackend.onrender.com/api/current-user', { withCredentials: true });
+        const token = localStorage.getItem('authToken');
+        const response = await axios.get('https://sgebackend.onrender.com/api/current-user', { 
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+           });
         setUserStoreId(response.data.store_id); // Get store_id from current user
         setIsAdmin(response.data.role === 'admin'); // Check if user is admin
       } catch (error) {
