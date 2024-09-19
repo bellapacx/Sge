@@ -44,7 +44,7 @@ const Header: React.FC = () => {
     const handleLogout = async () => {
         try {
             // Simply remove the token from localStorage
-            localStorage.removeItem('token'); 
+            localStorage.removeItem('authToken'); 
     
             // Optionally, you can also perform any server-side logout operation if needed
             // const response = await fetch('https://sgebackend.onrender.com/api/logout', {
