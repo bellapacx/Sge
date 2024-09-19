@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import './LoginForm.css';
 
 const LoginForm: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,10 +27,9 @@ const LoginForm: React.FC = () => {
         if (token) {
           // Save the JWT token to localStorage or sessionStorage
           localStorage.setItem('authToken', token);
-          console.log('Login successful, navigating to /dashboard');
-          
-          navigate('/dashboard'); // Navigate to the dashboard or any other protected route
-          window.location.reload()
+          console.log('Login successful, navigating to Sge page');
+            // Redirect to the URL after login
+            window.location.href = 'https://bellapacx.github.io/Sge/';
         } else {
           console.log('No token received');
           setError('Login failed, no token received');
