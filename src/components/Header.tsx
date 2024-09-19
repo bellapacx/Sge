@@ -43,25 +43,29 @@ const Header: React.FC = () => {
 
     const handleLogout = async () => {
         try {
-            const response = await fetch('https://sgebackend.onrender.com/api/logout', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}` // Send the token in Authorization header
-                }
-            });
+            // Simply remove the token from localStorage
+            localStorage.removeItem('token'); 
     
-            if (response.ok) {
-                localStorage.removeItem('token'); // Clear the token from localStorage
-                setUsername(null);
-                navigate('/login');
-            } else {
-                throw new Error('Logout failed');
-            }
+            // Optionally, you can also perform any server-side logout operation if needed
+            // const response = await fetch('https://sgebackend.onrender.com/api/logout', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Authorization': `Bearer ${localStorage.getItem('token')}`
+            //     }
+            // });
+    
+            // if (!response.ok) {
+            //     throw new Error('Logout failed');
+            // }
+    
+            setUsername(null);
+            navigate('/login');
         } catch (error) {
             console.error('Logout failed', error);
             setError('Logout failed. Please try again.');
         }
     };
+    
     
 
     const handleLogin = () => {

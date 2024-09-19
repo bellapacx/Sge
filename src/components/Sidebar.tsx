@@ -11,7 +11,7 @@ const Sidebar = () => {
       try {
         // Get the token from localStorage
         const token = localStorage.getItem('token');
-        const response = await axios.get('https://sgebackend.onrender.com/api/current-user', { 
+        const response = await axios.get('https://sgebackend.onrender.com/api/current-users', { 
           headers: {
             Authorization: `Bearer ${token}`, // Attach the token in the Authorization header
           },
