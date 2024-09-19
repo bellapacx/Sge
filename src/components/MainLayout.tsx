@@ -22,16 +22,16 @@ const MainLayout: React.FC = () => {
                 <Sidebar />
                 <main className="flex-1 p-4">
                     <Routes >
-                        <Route path="/" element={<Navigate to="/dashboard" />} />
-                        <Route path="/dashboard"  element={<Dashboard />} />
-                        <Route path="/products" element={<Products />}  />
-                        <Route path="/reports" element={<SellReports />} />
-                        <Route path="/purchase" element={<PurchaseOrders/>} />
-                        <Route path="/empty" element={<Empty />}  />
-                        <Route path="/stores" element={<Stores />} />
-                        <Route path="/users" element={<User />}   />
-                        <Route path="/sell" element={<SellOrder />} />
+                    <Route path="/" element={<Navigate to="/dashboard" />} />
+                        <Route path="/dashboard"  element={<AuthenticatedRoute element={<Dashboard />} requiredRoles={["admin"]} />} />
+                        <Route path="/products" element={<AuthenticatedRoute element={<Products />} requiredRoles={["admin"]} />} />
+                        <Route path="/reports" element={<AuthenticatedRoute element={<SellReports />} requiredRoles={['admin']} />} />
+                        <Route path="/purchase" element={<AuthenticatedRoute element={<PurchaseOrders />} requiredRoles={['admin','shopkeeper']} />} />
+                        <Route path="/empty" element={<AuthenticatedRoute element={<Empty />} requiredRoles={['admin', 'cashier']} />} />
+                        <Route path="/stores" element={<AuthenticatedRoute element={<Stores />} requiredRoles={['admin']} />} />
+                        <Route path="/users" element={<AuthenticatedRoute element={<User />} requiredRoles={['admin']} />} />
                         <Route path="/vehicles" element={<AuthenticatedRoute element={<Vehicles />} requiredRoles={['admin']} />} />
+                        <Route path="/sell" element={<AuthenticatedRoute element={<SellOrder />} requiredRoles={['admin','cashier']} />} />
                         <Route path="/login" element={<Login />} />
                     </Routes>
                 </main>
