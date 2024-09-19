@@ -16,8 +16,13 @@ const AuthenticatedRoute: React.FC<AuthenticatedRouteProps> = ({ element, requir
 
         const checkAuthentication = async () => {
             try {
-                const response = await axios.get('https://sgebackend.onrender.com/api/current-user', { withCredentials: true });
-                console.log('API Response:', response.data); // Debugging
+                const token = localStorage.getItem('authToken');
+                const response = await axios.get('https://sgebackend.onrender.com/api/current-user', { 
+                headers: {
+                        Authorization: `Bearer ${token}`, // Attach the token in the Authorization header
+                      },
+                withCredentials: true });
+                // Debugging
                 if (isMounted) {
                     setIsAuthenticated(true);
                     setUserRole(response.data.role || ''); // Adjust if role is named differently

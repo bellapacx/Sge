@@ -9,7 +9,13 @@ const Sidebar = () => {
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
-        const response = await axios.get('https://sgebackend.onrender.com/api/current-user', { withCredentials: true });
+        // Get the token from localStorage
+        const token = localStorage.getItem('token');
+        const response = await axios.get('https://sgebackend.onrender.com/api/current-user', { 
+          headers: {
+            Authorization: `Bearer ${token}`, // Attach the token in the Authorization header
+          },
+          withCredentials: true });
         setUserRole(response.data.role || null);
       } catch (error) {
         setUserRole(null);
