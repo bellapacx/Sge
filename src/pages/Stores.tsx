@@ -116,12 +116,12 @@ const Stores: React.FC = () => {
           return (
             <div key={store._id} className="bg-gray-300 p-4 rounded-lg shadow-md flex items-start">
               <div className="w-3/4 pr-4">
-                <h2 className="text-xl font-semibold mb-2">{store.name}</h2>
+                <h2 className="text-xl text-black font-semibold mb-2">{store.name}</h2>
                 <div>
                   <h3 className="text-lg font-medium mb-2">Stock:</h3>
                   <div className="space-y-2 h-40 overflow-y-scroll">
                     {store.inventory.map((item) => (
-                      <div key={item.product_id._id} className="p-2 border text-lg  border-gray-200 rounded-md">
+                      <div key={item.product_id._id} className="p-2 border text-lg text-black  border-gray-200 rounded-md">
                         <p><strong>{item.product_id.name}</strong></p>
                         {/*<p>Unit: {item.product_id.unit}</p>*/}
                         <p className='font-medium'>Qut: {item.quantity}</p>

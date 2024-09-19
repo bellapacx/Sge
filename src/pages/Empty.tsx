@@ -99,7 +99,7 @@ const PieChart: React.FC = () => {
     <div className="flex flex-wrap gap-4 h-full overflow-y-auto max-h-96">
       {Object.entries(data).map(([storeId, chartData]) => (
    <div key={storeId} className="w-full sm:w-1/4 p-2">
-   <div className="bg-white shadow-md rounded-md p-2 ">
+   <div className="bg-white shadow-md rounded-md p-2 border-black ">
      <h3 className="text-lg font-semibold mb-1 truncate">{storeNames.get(storeId) || 'Unknown Store'}</h3>
      <Pie data={chartData} />
      <div className="mt-1 text-lg">

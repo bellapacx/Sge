@@ -334,7 +334,7 @@ const PurchaseOrders: React.FC = () => {
 
   return (
     <div>
-      <h1>Purchase Orders</h1>
+      <h1 className='mb-2'>Purchase Orders</h1>
       {isAdmin && (
       <button
         onClick={() => setIsModalOpen(true)}
@@ -387,12 +387,14 @@ const PurchaseOrders: React.FC = () => {
                           Accept
                         </button>
                       )}
+                      {isAdmin && (
                       <button
                         onClick={() => handleEditPurchaseOrder(po._id)}
                         className="ml-2 bg-yellow-500 text-white px-4 py-2 rounded-md"
                       >
                         Edit
                       </button>
+                      )}
                     </td>
                   </tr>
                 ))}

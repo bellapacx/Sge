@@ -104,8 +104,8 @@ const SellReports: React.FC = () => {
         <div>
           <h2 className="text-xl text-black font-bold mb-2">Report Summary</h2>
           <p className='text-black'><strong>Store:</strong> {reportData.sell_orders[0]?.store_id.name}</p>
-          <p className='text-blackx'><strong>Quantity Sold:</strong> {reportData.quantity_sold}</p>
-          <p className='text-blackx'><strong>Total Revenue:</strong> ${reportData.total_revenue.toFixed(2)}</p>
+          <p className='text-black'><strong>Quantity Sold:</strong> {reportData.quantity_sold}</p>
+          <p className='text-black'><strong>Total Revenue:</strong> ${reportData.total_revenue.toFixed(2)}</p>
           <h3 className="text-lg font-semibold mt-4">Sell Orders</h3>
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
