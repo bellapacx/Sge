@@ -15,8 +15,9 @@ const LoginForm: React.FC = () => {
       const response = await fetch('https://sgebackend.onrender.com/api/login', { // Adjust the URL to match your backend
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', 
         body: JSON.stringify({ username, password }),
-        credentials: 'include', // Ensure cookies are sent with the request
+       // Ensure cookies are sent with the request
       });
 
       const data = await response.json();
