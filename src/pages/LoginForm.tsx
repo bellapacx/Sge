@@ -27,7 +27,7 @@ const LoginForm: React.FC = () => {
         if (token) {
           // Save the JWT token to localStorage or sessionStorage
           localStorage.setItem('authToken', token);
-          console.log('Login successful, navigating to Sge page');
+          console.log('Login successful, navigating to SGE page');
             // Redirect to the URL after login
             window.location.href = 'https://bellapacx.github.io/Sge/';
         } else {
