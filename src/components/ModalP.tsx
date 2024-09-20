@@ -7,7 +7,7 @@ interface Store {
 }
 
 interface SubAgent {
-  id: string; // Update based on your API response
+  _id: string; // Update based on your API response
   name: string; // Update based on your API response
 }
 
@@ -259,7 +259,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, initialData })
                 >
                   <option value="" disabled>Select Sub-Agent</option>
                   {subAgents.map(subAgent => (
-                    <option key={subAgent.id} value={subAgent.id}>{subAgent.name}</option>
+                    <option key={subAgent._id} value={subAgent._id}>{subAgent.name}</option>
                   ))}
                 </select>
                 <input
