@@ -7,8 +7,8 @@ interface Store {
 }
 
 interface SubAgent {
-  _id: string; // Update based on your API response
-  name: string; // Update based on your API response
+  _id: string;
+  name: string;
 }
 
 interface StorePrice {
@@ -83,16 +83,16 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, initialData })
 
     const fetchStores = async () => {
       try {
-        const response = await axios.get('https://sgebackend.onrender.com/api/stores'); // Adjust the URL as needed
+        const response = await axios.get('https://sgebackend.onrender.com/api/stores');
         setStores(response.data);
       } catch (error) {
-        console.error('Error fetching storres:', error);
+        console.error('Error fetching stores:', error);
       }
     };
 
     const fetchSubAgents = async () => {
       try {
-        const response = await axios.get('https://sgebackend.onrender.com/api/subagent'); // Adjust the URL as needed
+        const response = await axios.get('https://sgebackend.onrender.com/api/subagent');
         setSubAgents(response.data);
       } catch (error) {
         console.error('Error fetching subagents:', error);
