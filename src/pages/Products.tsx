@@ -76,6 +76,16 @@ const Products: React.FC = () => {
     setIsModalOpen(true);
   };
 
+  const handleDeleteClick = async (id: string) => {
+    try {
+      await axios.delete(`https://sgebackend.onrender.com/api/products/${id}`);
+      // Refresh the product list after deletion
+      setProducts(products.filter(product => product._id !== id));
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
+  };
+
   return (
     <div>
       <h1>Products</h1>
@@ -118,6 +128,12 @@ const Products: React.FC = () => {
                 >
                   Edit
                 </button>
+                <button
+                  onClick={() => handleDeleteClick(product._id)}
+                  className="ml-2 bg-red-500 text-white px-4 py-2 rounded-md"
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
@@ -136,8 +152,8 @@ const Products: React.FC = () => {
           purchase_price: editingProduct.purchase_price.toString(),
           default_sell_price: editingProduct.default_sell_price.toString(),
           unit: editingProduct.unit,
-          store_prices: editingProduct.store_prices || [], 
-          sub_agent_prices: editingProduct.sub_agent_prices || [], 
+          store_prices: editingProduct.store_prices || [],
+          sub_agent_prices: editingProduct.sub_agent_prices || [],
         } : {
           name: '',
           category: '',
