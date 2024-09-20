@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 interface SubAgentPrice {
-  sub_agent_id: string; // or ObjectId if you're using MongoDB ObjectId
+  sub_agent_id: string;
   sell_price: number;
 }
 
@@ -28,10 +28,9 @@ interface ModalProps {
     store_id: string;
     product_id: string;
     quantity: number;
-    sell_price: number;
     sell_date: string;
     customer_name: string;
-    pricing_type: string; // New field for pricing type
+    pricing_type: string;
     sub_agent_id?: string; // Optional field for sub-agent
   }) => void;
   userStoreId: string; // userStoreId prop
@@ -42,7 +41,6 @@ const ModalS: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, userStoreId }
     store_id: userStoreId || '',
     product_id: '',
     quantity: 0,
-    sell_price: 0,
     sell_date: new Date().toISOString().split('T')[0],
     customer_name: '',
     pricing_type: 'store', // Default to store pricing
@@ -51,8 +49,7 @@ const ModalS: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, userStoreId }
 
   const [stores, setStores] = useState<any[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
-  const [subAgents, setSubAgents] = useState<SubAgent[]>([]); // State for sub-agents
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [subAgents, setSubAgents] = useState<SubAgent[]>([]);
 
   useEffect(() => {
     const fetchStoresProductsAndSubAgents = async () => {
@@ -75,31 +72,6 @@ const ModalS: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, userStoreId }
     fetchStoresProductsAndSubAgents();
   }, [userStoreId]);
 
-  useEffect(() => {
-    if (formData.product_id) {
-      const product = products.find((p) => p._id === formData.product_id);
-      if (product) {
-        setSelectedProduct(product);
-        const sellPrice = formData.pricing_type === 'sub_agent' && formData.sub_agent_id
-          ? product.sub_agent_prices?.find((sa) => sa.sub_agent_id === formData.sub_agent_id)?.sell_price ?? product.default_sell_price
-          : product.store_prices?.find(sp => sp.store_id === formData.store_id)?.sell_price ?? product.default_sell_price;
-
-        setFormData((prevFormData) => ({
-          ...prevFormData,
-          sell_price: sellPrice * formData.quantity,
-        }));
-      }
-    } else {
-      setSelectedProduct(null);
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        sell_price: 0,
-      }));
-    }
-  }, [formData.product_id, formData.quantity, products, formData.pricing_type, formData.sub_agent_id]);
-
-  if (!isOpen) return null;
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
@@ -107,20 +79,11 @@ const ModalS: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, userStoreId }
     });
   };
 
-  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const quantity = parseInt(e.target.value, 10);
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      quantity,
-      sell_price: selectedProduct ? (formData.pricing_type === 'sub_agent' && formData.sub_agent_id
-        ? selectedProduct.sub_agent_prices?.find((sa) => sa.sub_agent_id === formData.sub_agent_id)?.sell_price ?? selectedProduct.default_sell_price * quantity
-        : selectedProduct.store_prices?.find(sp => sp.store_id === formData.store_id)?.sell_price ?? selectedProduct.default_sell_price * quantity) * quantity : 0,
-    }));
-  };
-
   const handleSubmit = () => {
     onSubmit(formData);
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -163,7 +126,7 @@ const ModalS: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, userStoreId }
               name="quantity"
               placeholder="Quantity"
               value={formData.quantity}
-              onChange={handleQuantityChange}
+              onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
             />
           </div>
@@ -220,17 +183,6 @@ const ModalS: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, userStoreId }
               </select>
             </div>
           )}
-          <div>
-            <label htmlFor="sell_price" className="block text-sm font-medium text-gray-700">Sell Price</label>
-            <input
-              type="number"
-              id="sell_price"
-              name="sell_price"
-              value={formData.sell_price}
-              readOnly
-              className="w-full p-2 border border-gray-300 rounded-md bg-gray-100"
-            />
-          </div>
         </div>
         <div className="mt-4 flex justify-end space-x-2">
           <button onClick={handleSubmit} className="bg-blue-500 text-white px-4 py-2 rounded-md">Submit</button>

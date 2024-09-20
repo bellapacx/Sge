@@ -80,7 +80,7 @@ const SellOrders: React.FC = () => {
         // Filter orders based on role
         const filteredOrders = isAdmin 
           ? orders 
-          : orders.filter((order: SellOrder) => userStoreId && order.store_id._id === userStoreId); // Check if userStoreId is not null
+          : orders.filter((order: SellOrder) => order.store_id && order.store_id._id === userStoreId); // Check if userStoreId is not null
 
         // Sort orders by sell_date in descending order
         const sortedOrders = filteredOrders.sort((a: SellOrder, b: SellOrder) => 
