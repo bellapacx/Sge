@@ -96,7 +96,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, initialData })
         const response = await axios.get('https://sgebackend.onrender.com/api/subagent'); // Adjust the URL as needed
         setSubAgents(response.data);
       } catch (error) {
-        console.error('Error fetching sub-agents:', error);
+        console.error('Error fetching subagents:', error);
       }
     };
 
