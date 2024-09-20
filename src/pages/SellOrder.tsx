@@ -12,7 +12,7 @@ interface Product {
   _id: string;
   name: string;
   category: string;
-  sell_price: number;
+  sell_price: number; // Default sell price
   store_prices: { store_id: string; sell_price: number }[];
   sub_agent_prices: { sub_agent_id: string; sell_price: number }[];
 }
@@ -30,7 +30,7 @@ interface SellOrder {
 
 const SellOrders: React.FC = () => {
   const [sellOrders, setSellOrders] = useState<SellOrder[]>([]);
-  const [products, setProducts] = useState<Product[]>([]); // New state to store products
+  const [products, setProducts] = useState<Product[]>([]); // State to store products
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userStoreId, setUserStoreId] = useState<string | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -78,12 +78,12 @@ const SellOrders: React.FC = () => {
         const orders = response.data;
 
         // Filter orders based on role
-        const filteredOrders = isAdmin
-          ? orders
-          : orders.filter((order: SellOrder) => order.store_id._id === userStoreId);
+        const filteredOrders = isAdmin 
+          ? orders 
+          : orders.filter((order: SellOrder) => userStoreId && order.store_id._id === userStoreId); // Check if userStoreId is not null
 
         // Sort orders by sell_date in descending order
-        const sortedOrders = filteredOrders.sort((a: SellOrder, b: SellOrder) =>
+        const sortedOrders = filteredOrders.sort((a: SellOrder, b: SellOrder) => 
           new Date(b.sell_date).getTime() - new Date(a.sell_date).getTime()
         );
 
@@ -92,7 +92,7 @@ const SellOrders: React.FC = () => {
         console.error('Error fetching sell orders:', error);
       }
     };
-
+  
     fetchSellOrders();
   }, [userStoreId, isAdmin]);
 
@@ -111,7 +111,7 @@ const SellOrders: React.FC = () => {
         throw new Error('Product not found in the local product list');
       }
 
-      let sell_price;
+      let sell_price: number;
 
       // Determine the sell price based on the pricing type
       if (formData.sub_agent_id) {
@@ -124,8 +124,14 @@ const SellOrders: React.FC = () => {
 
       // Prepare data for submission
       const dataToSubmit = {
-        ...formData,
-        sell_price,
+        store_id: formData.store_id,
+        product_id: formData.product_id,
+        quantity: formData.quantity,
+        sell_date: formData.sell_date,
+        customer_name: formData.customer_name,
+        pricing_type: formData.sub_agent_id ? 'sub_agent' : 'store', // Determine pricing type
+        sub_agent_id: formData.sub_agent_id || null, // Use null if not provided
+        sell_price, // Include calculated sell price
       };
 
       // Post the new sell order to the backend
