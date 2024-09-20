@@ -66,7 +66,7 @@ const Sidebar = () => {
         )}
         {userRole === 'cashier' && (
           <>
-            <SidebarLink icon={FaSalesforce} label="Sales" to='/sell'/>
+            <SidebarLink icon={FaSalesforce} label="Sale" to='/sell'/>
           </>
         )}
         {userRole === 'shopkeeper' && (

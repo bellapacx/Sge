@@ -247,9 +247,11 @@ const SellOrders: React.FC = () => {
               {sellOrders.map((so) => (
                 <tr key={so._id}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                  {so.store_id ? so.store_id.name : 'Unknown Store'}
+                  {so.store_id ? so.store_id.name : 'N/A'}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{so.product_id.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                  {so.product_id ? so.product_id.name : 'N/A'}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap">{so.quantity}</td>
                   <td className="px-6 py-4 whitespace-nowrap">${so.sell_price.toFixed(2)}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{new Date(so.sell_date).toLocaleDateString()}</td>
