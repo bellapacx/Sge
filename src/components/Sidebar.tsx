@@ -56,7 +56,7 @@ const Sidebar = () => {
             <SidebarLink icon={FaArrowsAltV} label="Reports" to='/reports'/>
             <SidebarLink icon={FaTags} label="Products" to='/products'/>
             <SidebarLink icon={FaShoppingCart} label="Orders" to='/purchase'/>
-            <SidebarLink icon={FaSalesforce} label="Sale" to='/sell'/>
+            <SidebarLink icon={FaSalesforce} label="Sales" to='/sell'/>
             <SidebarLink icon={FaStore} label="Stores" to='/stores'/>
             <SidebarLink icon={FaUsers} label="Users" to='/users'/>
             <SidebarLink icon={FaCar} label="Vehicles" to='/vehicles'/>
