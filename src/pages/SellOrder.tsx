@@ -111,16 +111,9 @@ const SellOrders: React.FC = () => {
         throw new Error('Product not found in the local product list');
       }
 
-      let sell_price: number;
 
       // Determine the sell price based on the pricing type
-      if (formData.sub_agent_id) {
-        const subAgentPrice = product.sub_agent_prices.find(price => price.sub_agent_id === formData.sub_agent_id);
-        sell_price = subAgentPrice ? subAgentPrice.sell_price * formData.quantity : product.sell_price * formData.quantity;
-      } else {
-        const storePrice = product.store_prices.find(price => price.store_id === formData.store_id);
-        sell_price = storePrice ? storePrice.sell_price * formData.quantity : product.sell_price * formData.quantity;
-      }
+      
 
       // Prepare data for submission
       const dataToSubmit = {
