@@ -2,13 +2,25 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Modal from '../components/ModalP';
 
+interface StorePrice {
+  store_id: string; // or whatever your store ID type is
+  sell_price: number;
+}
+
+interface SubAgentPrice {
+  sub_agent_id: string; // or whatever your sub-agent ID type is
+  sell_price: number;
+}
+
 interface Product {
   _id: string;
   name: string;
   category: string;
   purchase_price: number;
-  sell_price: number;
+  default_sell_price: number; // Use default_sell_price to differentiate from store-specific prices
   unit: string;
+  store_prices?: StorePrice[];
+  sub_agent_prices?: SubAgentPrice[];
   created_at: Date;
   updated_at: Date;
 }
@@ -35,8 +47,10 @@ const Products: React.FC = () => {
     name: string;
     category: string;
     purchase_price: string;
-    sell_price: string;
+    default_sell_price: string; // Updated to default_sell_price
     unit: string;
+    store_prices?: StorePrice[]; // Add these fields if you're collecting them
+    sub_agent_prices?: SubAgentPrice[]; // Add these fields if you're collecting them
   }) => {
     try {
       if (editingProduct) {
@@ -80,7 +94,7 @@ const Products: React.FC = () => {
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purchase Price</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sell Price</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Default Sell Price</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
           </tr>
@@ -94,7 +108,7 @@ const Products: React.FC = () => {
                 ${product.purchase_price ? product.purchase_price.toFixed(2) : 'N/A'}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
-                ${product.sell_price ? product.sell_price.toFixed(2) : 'N/A'}
+                ${product.default_sell_price ? product.default_sell_price.toFixed(2) : 'N/A'}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">{product.unit}</td>
               <td className="px-6 py-4 whitespace-nowrap">
@@ -120,14 +134,18 @@ const Products: React.FC = () => {
           name: editingProduct.name,
           category: editingProduct.category,
           purchase_price: editingProduct.purchase_price.toString(),
-          sell_price: editingProduct.sell_price.toString(),
+          default_sell_price: editingProduct.default_sell_price.toString(),
           unit: editingProduct.unit,
+          store_prices: editingProduct.store_prices || [], 
+          sub_agent_prices: editingProduct.sub_agent_prices || [], 
         } : {
           name: '',
           category: '',
           purchase_price: '',
-          sell_price: '',
+          default_sell_price: '',
           unit: '',
+          store_prices: [],
+          sub_agent_prices: [],
         }}
       />
     </div>
