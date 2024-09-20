@@ -3,12 +3,12 @@ import axios from 'axios';
 import Modal from '../components/ModalP';
 
 interface StorePrice {
-  store_id: string; // or whatever your store ID type is
+  store_id: string; // Store ID type
   sell_price: number;
 }
 
 interface SubAgentPrice {
-  sub_agent_id: string; // or whatever your sub-agent ID type is
+  sub_agent_id: string; // Sub-agent ID type
   sell_price: number;
 }
 
@@ -17,7 +17,7 @@ interface Product {
   name: string;
   category: string;
   purchase_price: number;
-  default_sell_price: number; // Use default_sell_price to differentiate from store-specific prices
+  default_sell_price: number;
   unit: string;
   store_prices?: StorePrice[];
   sub_agent_prices?: SubAgentPrice[];
@@ -47,10 +47,10 @@ const Products: React.FC = () => {
     name: string;
     category: string;
     purchase_price: string;
-    default_sell_price: string; // Updated to default_sell_price
+    default_sell_price: string;
     unit: string;
-    store_prices?: StorePrice[]; // Add these fields if you're collecting them
-    sub_agent_prices?: SubAgentPrice[]; // Add these fields if you're collecting them
+    store_prices?: StorePrice[];
+    sub_agent_prices?: SubAgentPrice[];
   }) => {
     try {
       if (editingProduct) {

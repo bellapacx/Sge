@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 interface Store {
-  id: string; // Adjust based on your API response
-  name: string; // Adjust based on your API response
+  _id: string;
+  name: string;
 }
 
 interface SubAgent {
-  id: string; // Adjust based on your API response
-  name: string; // Adjust based on your API response
+  id: string; // Update based on your API response
+  name: string; // Update based on your API response
 }
 
 interface StorePrice {
@@ -81,7 +81,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, initialData })
       });
     }
 
-    // Fetch stores and sub-agents
     const fetchStores = async () => {
       try {
         const response = await axios.get('https://sgebackend.onrender.com/api/stores'); // Adjust the URL as needed
@@ -160,7 +159,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, initialData })
         <form onSubmit={handleSubmit}>
           {/* Product Form Fields */}
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Name</label>
+            <label className="block text-sm font-medium text-gray-700">Product Name</label>
             <input
               type="text"
               name="name"
@@ -170,6 +169,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, initialData })
               required
             />
           </div>
+
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Category</label>
             <input
@@ -181,6 +181,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, initialData })
               required
             />
           </div>
+
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Purchase Price</label>
             <input
@@ -192,6 +193,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, initialData })
               required
             />
           </div>
+
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Default Sell Price</label>
             <input
@@ -203,6 +205,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, initialData })
               required
             />
           </div>
+
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Unit</label>
             <input
@@ -227,7 +230,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, initialData })
                 >
                   <option value="" disabled>Select Store</option>
                   {stores.map(store => (
-                    <option key={store.id} value={store.id}>{store.name}</option>
+                    <option key={store._id} value={store._id}>{store.name}</option>
                   ))}
                 </select>
                 <input
