@@ -13,6 +13,7 @@ import Stores from '../pages/Stores';
 import User from '../pages/User';
 import Vehicles from '../pages/Vehicles';
 import SellOrder from '../pages/SellOrder';
+import SubAgents from '../pages/Subagent';
 
 const MainLayout: React.FC = () => {
     return (
@@ -32,6 +33,7 @@ const MainLayout: React.FC = () => {
                         <Route path="/users" element={<AuthenticatedRoute element={<User />} requiredRoles={['admin']} />} />
                         <Route path="/vehicles" element={<AuthenticatedRoute element={<Vehicles />} requiredRoles={['admin']} />} />
                         <Route path="/sell" element={<AuthenticatedRoute element={<SellOrder />} requiredRoles={['admin','cashier']} />} />
+                        <Route path="/subagent" element={<SubAgents />} />
                         <Route path="/login" element={<Login />} />
                     </Routes>
                 </main>

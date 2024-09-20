@@ -61,6 +61,7 @@ const Sidebar = () => {
             <SidebarLink icon={FaUsers} label="Users" to='/users'/>
             <SidebarLink icon={FaCar} label="Vehicles" to='/vehicles'/>
             <SidebarLink icon={FaWineBottle} label="Empty" to='/empty'/>
+            <SidebarLink icon={FaWineBottle} label="Subagent" to='/subagent'/>
           </>
         )}
         {userRole === 'cashier' && (
