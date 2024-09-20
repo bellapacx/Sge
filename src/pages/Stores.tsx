@@ -64,6 +64,7 @@ const Stores: React.FC = () => {
     }
   };
 
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Stores</h1>
@@ -76,24 +77,29 @@ const Stores: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {stores.map((store) => {
           const chartData = {
-            labels: store.inventory.map(item => item.product_id.name),
+            labels: store.inventory.map((item) => item.product_id.name),
             datasets: [
               {
-                data: store.inventory.map(item => item.quantity),
-                backgroundColor: store.inventory.map(() => '#' + Math.floor(Math.random()*16777215).toString(16)), // Random colors
+                data: store.inventory.map((item) => item.quantity),
+                backgroundColor: store.inventory.map(
+                  () => '#' + Math.floor(Math.random() * 16777215).toString(16)
+                ), // Random colors
               },
             ],
           };
-
+  
           const chartOptions = {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
               tooltip: {
                 callbacks: {
-                  label: function(tooltipItem: any) {
+                  label: function (tooltipItem: any) {
                     const dataset = tooltipItem.dataset;
-                    const total = dataset.data.reduce((sum: number, value: number) => sum + value, 0);
+                    const total = dataset.data.reduce(
+                      (sum: number, value: number) => sum + value,
+                      0
+                    );
                     const value = dataset.data[tooltipItem.dataIndex];
                     const percent = ((value / total) * 100).toFixed(2);
                     return `${tooltipItem.label}: ${value} (${percent}%)`;
@@ -104,7 +110,10 @@ const Stores: React.FC = () => {
                 display: true,
                 formatter: (value: number, context: any) => {
                   const dataset = context.dataset;
-                  const total = dataset.data.reduce((sum: number, value: number) => sum + value, 0);
+                  const total = dataset.data.reduce(
+                    (sum: number, value: number) => sum + value,
+                    0
+                  );
                   const percent = ((value / total) * 100).toFixed(2);
                   return `${percent}%`;
                 },
@@ -112,7 +121,19 @@ const Stores: React.FC = () => {
               },
             },
           };
-
+  
+          // Delete handler function
+          const handleDeleteStore = async (storeId: string) => {
+            try {
+              await axios.delete(`https://sgebackend.onrender.com/api/stores/${storeId}`);
+              // Refresh stores list after deletion
+              const response = await axios.get('https://sgebackend.onrender.com/api/stores');
+              setStores(response.data);
+            } catch (error) {
+              console.error('Error deleting store:', error);
+            }
+          };
+  
           return (
             <div key={store._id} className="bg-gray-300 p-4 rounded-lg shadow-md flex items-start">
               <div className="w-3/4 pr-4">
@@ -121,9 +142,8 @@ const Stores: React.FC = () => {
                   <h3 className="text-lg font-medium mb-2">Stock:</h3>
                   <div className="space-y-2 h-40 overflow-y-scroll">
                     {store.inventory.map((item) => (
-                      <div key={item.product_id._id} className="p-2 border text-lg text-black  border-gray-200 rounded-md">
+                      <div key={item.product_id._id} className="p-2 border text-lg text-black border-gray-200 rounded-md">
                         <p className='text-black'><strong>{item.product_id.name}</strong></p>
-                        {/*<p>Unit: {item.product_id.unit}</p>*/}
                         <p className='text-black font-medium'>Qut: {item.quantity}</p>
                       </div>
                     ))}
@@ -133,6 +153,12 @@ const Stores: React.FC = () => {
               <div className="w-1/2 h-40">
                 <Pie data={chartData} options={chartOptions} />
               </div>
+              <button
+                onClick={() => handleDeleteStore(store._id)}
+                className="ml-4 bg-red-600 text-white px-4 py-2 rounded-md"
+              >
+                Delete Store
+              </button>
             </div>
           );
         })}
@@ -140,6 +166,7 @@ const Stores: React.FC = () => {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={handleAddStore} />
     </div>
   );
+  
 };
 
 export default Stores;
