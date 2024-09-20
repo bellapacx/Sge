@@ -7,36 +7,22 @@ interface Store {
   name: string;
 }
 
-interface Product {
-  _id: string;
-  name: string;
-  category: string;
-  sell_price: number;
-}
-
-interface AssignedProduct {
-  product_id: string;
-  sell_price: number;
-}
-
 interface SubAgent {
   _id?: string;
   name: string;
   contact_info?: string;
   assigned_stores: Store[];
-  assigned_products: AssignedProduct[];
 }
 
 const SubAgents: React.FC = () => {
   const [subAgents, setSubAgents] = useState<SubAgent[]>([]);
   const [stores, setStores] = useState<Store[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingSubAgent, setEditingSubAgent] = useState<SubAgent | null>(null);
 
   useEffect(() => {
     const fetchSubAgents = async () => {
-      const response = await axios.get('https://sgebackend.onrender.com/api/subagents');
+      const response = await axios.get('https://sgebackend.onrender.com/api/subagent');
       setSubAgents(response.data);
     };
 
@@ -45,36 +31,28 @@ const SubAgents: React.FC = () => {
       setStores(response.data);
     };
 
-    const fetchProducts = async () => {
-      const response = await axios.get('https://sgebackend.onrender.com/api/products');
-      setProducts(response.data);
-    };
-
     fetchSubAgents();
     fetchStores();
-    fetchProducts();
   }, []);
 
   const handleAddOrUpdateSubAgent = async (formData: {
     name: string;
     contact_info?: string;
     assigned_stores: string[]; // Keep this as string[] for selection
-    assigned_products: AssignedProduct[];
   }) => {
     try {
       const dataToSubmit: SubAgent = {
         name: formData.name,
         contact_info: formData.contact_info,
         assigned_stores: stores.filter(store => formData.assigned_stores.includes(store._id)), // Convert to Store[]
-        assigned_products: formData.assigned_products,
       };
 
       if (editingSubAgent) {
-        await axios.put(`https://sgebackend.onrender.com/api/subagents/${editingSubAgent._id}`, dataToSubmit);
+        await axios.put(`https://sgebackend.onrender.com/api/subagent/${editingSubAgent._id}`, dataToSubmit);
       } else {
-        await axios.post('https://sgebackend.onrender.com/api/subagents', dataToSubmit);
+        await axios.post('https://sgebackend.onrender.com/api/subagent', dataToSubmit);
       }
-      const response = await axios.get('https://sgebackend.onrender.com/api/subagents');
+      const response = await axios.get('https://sgebackend.onrender.com/api/subagent');
       setSubAgents(response.data);
     } catch (error) {
       console.error('Error saving sub-agent:', error);
@@ -91,7 +69,7 @@ const SubAgents: React.FC = () => {
 
   const handleDeleteClick = async (id: string) => {
     try {
-      await axios.delete(`https://sgebackend.onrender.com/api/subagents/${id}`);
+      await axios.delete(`https://sgebackend.onrender.com/api/subagent/${id}`);
       setSubAgents((prev) => prev.filter((subAgent) => subAgent._id !== id));
     } catch (error) {
       console.error('Error deleting sub-agent:', error);
@@ -148,18 +126,12 @@ const SubAgents: React.FC = () => {
           name: editingSubAgent.name,
           contact_info: editingSubAgent.contact_info,
           assigned_stores: editingSubAgent.assigned_stores.map(store => store._id),
-          assigned_products: editingSubAgent.assigned_products.map(product => ({
-            product_id: product.product_id,
-            sell_price: product.sell_price,
-          })),
         } : {
           name: '',
           contact_info: '',
           assigned_stores: [],
-          assigned_products: [],
         }}
         stores={stores}
-        products={products}
       />
     </div>
   );

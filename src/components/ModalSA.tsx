@@ -5,18 +5,6 @@ interface Store {
   name: string;
 }
 
-interface Product {
-  _id: string;
-  name: string;
-  category: string;
-  sell_price: number;
-}
-
-interface AssignedProduct {
-  product_id: string;
-  sell_price: number;
-}
-
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -24,19 +12,16 @@ interface ModalProps {
     name: string;
     contact_info?: string;
     assigned_stores: string[]; // Keep this as string[] for selection
-    assigned_products: AssignedProduct[];
   }) => void;
   initialData: {
     name: string;
     contact_info?: string;
     assigned_stores: string[];
-    assigned_products: AssignedProduct[];
   };
   stores: Store[];
-  products: Product[];
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, initialData, stores, products }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, initialData, stores }) => {
   const [formData, setFormData] = useState(initialData);
 
   useEffect(() => {
@@ -50,13 +35,8 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, initialData, s
 
   const handleStoreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    setFormData({ ...formData, assigned_stores: value ? [...formData.assigned_stores, value] : [] });
-  };
-
-  const handleProductChange = (productId: string) => {
-    if (productId) {
-      const newProduct = { product_id: productId, sell_price: 0 }; // Default sell_price
-      setFormData({ ...formData, assigned_products: [...formData.assigned_products, newProduct] });
+    if (value && !formData.assigned_stores.includes(value)) {
+      setFormData({ ...formData, assigned_stores: [...formData.assigned_stores, value] });
     }
   };
 
@@ -98,15 +78,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, initialData, s
                 <option value="">Select Store</option>
                 {stores.map(store => (
                   <option key={store._id} value={store._id}>{store.name}</option>
-                ))}
-              </select>
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Assigned Products</label>
-              <select onChange={(e) => handleProductChange(e.target.value)} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                <option value="">Select Product</option>
-                {products.map(product => (
-                  <option key={product._id} value={product._id}>{product.name}</option>
                 ))}
               </select>
             </div>
