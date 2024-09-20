@@ -78,7 +78,7 @@ const Products: React.FC = () => {
 
   return (
     <div>
-      <h1>Products</h1>
+      <h1>Product</h1>
       <button
         onClick={() => {
           setEditingProduct(null);

@@ -86,7 +86,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, initialData })
         const response = await axios.get('https://sgebackend.onrender.com/api/stores'); // Adjust the URL as needed
         setStores(response.data);
       } catch (error) {
-        console.error('Error fetching stores:', error);
+        console.error('Error fetching storres:', error);
       }
     };
 
