@@ -368,10 +368,10 @@ const PurchaseOrders: React.FC = () => {
                 {purchaseOrders.map((po) => (
                   <tr key={po._id}>
                     <td className="px-4 py-3 whitespace-nowrap">
-                      {po.store_id ? `${po.store_id.name}` : 'No Store'}
+                      {po.store_id ? po.store_id.name : 'No Store'}
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap">
-                      {`${po.product_id.name} (${po.product_id.category})`}
+                    {po.product_id ? po.product_id.name : 'N/A'}
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap">{po.quantity}</td>
                     <td className="px-4 py-3 whitespace-nowrap">{po.supplier}</td>
