@@ -55,7 +55,7 @@ const SubAgents: React.FC = () => {
       const response = await axios.get('https://sgebackend.onrender.com/api/subagent');
       setSubAgents(response.data);
     } catch (error) {
-      console.error('Error saving sub-agent:', error);
+      console.error('Error saving subagent:', error);
     } finally {
       setIsModalOpen(false);
       setEditingSubAgent(null);
@@ -72,7 +72,7 @@ const SubAgents: React.FC = () => {
       await axios.delete(`https://sgebackend.onrender.com/api/subagent/${id}`);
       setSubAgents((prev) => prev.filter((subAgent) => subAgent._id !== id));
     } catch (error) {
-      console.error('Error deleting sub-agent:', error);
+      console.error('Error deleting subagent:', error);
     }
   };
 
