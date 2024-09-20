@@ -96,7 +96,9 @@ const PieChart: React.FC = () => {
   }, []);
 
   return (
+    
     <div className="flex flex-wrap gap-4 h-full overflow-y-auto max-h-96">
+    
       {Object.entries(data).map(([storeId, chartData]) => (
    <div key={storeId} className="w-full sm:w-1/4 p-2">
    <div className="bg-white shadow-md rounded-md p-2 border-black ">
