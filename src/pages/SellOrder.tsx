@@ -12,7 +12,9 @@ interface Product {
   _id: string;
   name: string;
   category: string;
-  sell_price: number; 
+  sell_price: number;
+  store_prices: { store_id: string; sell_price: number }[];
+  sub_agent_prices: { sub_agent_id: string; sell_price: number }[];
 }
 
 interface SellOrder {
@@ -28,36 +30,45 @@ interface SellOrder {
 
 const SellOrders: React.FC = () => {
   const [sellOrders, setSellOrders] = useState<SellOrder[]>([]);
+  const [products, setProducts] = useState<Product[]>([]); // New state to store products
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [userStoreId, setUserStoreId] = useState<string | null>(null); // Store ID from current user
-  const [isAdmin, setIsAdmin] = useState(false); // User role status
+  const [userStoreId, setUserStoreId] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
         const token = localStorage.getItem('authToken');
         const response = await fetch('https://sgebackend.onrender.com/api/current-user', {
-            method: 'GET',                  
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-            // Ensure cookies are sent with the request
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
         });
         if (response.ok) {
-            const data = await response.json();
-            setUserStoreId(data.store_id); // Get store_id from current user
-            setIsAdmin(data.role === 'admin'); // Check if user is admin
+          const data = await response.json();
+          setUserStoreId(data.store_id);
+          setIsAdmin(data.role === 'admin');
         } else {
-            throw new Error('Failed to fetch user data');
+          throw new Error('Failed to fetch user data');
         }
-       
       } catch (error) {
         console.error('Error fetching current user:', error);
       }
     };
 
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get('https://sgebackend.onrender.com/api/products');
+        setProducts(response.data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
     fetchCurrentUser();
+    fetchProducts(); // Fetch products when the component mounts
   }, []);
 
   useEffect(() => {
@@ -67,12 +78,12 @@ const SellOrders: React.FC = () => {
         const orders = response.data;
 
         // Filter orders based on role
-        const filteredOrders = isAdmin 
-          ? orders 
+        const filteredOrders = isAdmin
+          ? orders
           : orders.filter((order: SellOrder) => order.store_id._id === userStoreId);
 
-        // Sort orders by sell_date in descending order (latest to oldest)
-        const sortedOrders = filteredOrders.sort((a: SellOrder, b: SellOrder) => 
+        // Sort orders by sell_date in descending order
+        const sortedOrders = filteredOrders.sort((a: SellOrder, b: SellOrder) =>
           new Date(b.sell_date).getTime() - new Date(a.sell_date).getTime()
         );
 
@@ -91,49 +102,59 @@ const SellOrders: React.FC = () => {
     quantity: number;
     sell_date: string;
     customer_name: string;
+    sub_agent_id?: string; // Optional
   }) => {
     try {
-      const productResponse = await axios.get(`https://sgebackend.onrender.com/api/products/${formData.product_id}`);
-      const product = productResponse.data as Product;
-      const sell_price = product.sell_price * formData.quantity;
+      // Find the selected product from the products state
+      const product = products.find(p => p._id === formData.product_id);
+      if (!product) {
+        throw new Error('Product not found in the local product list');
+      }
 
+      let sell_price;
+
+      // Determine the sell price based on the pricing type
+      if (formData.sub_agent_id) {
+        const subAgentPrice = product.sub_agent_prices.find(price => price.sub_agent_id === formData.sub_agent_id);
+        sell_price = subAgentPrice ? subAgentPrice.sell_price * formData.quantity : product.sell_price * formData.quantity;
+      } else {
+        const storePrice = product.store_prices.find(price => price.store_id === formData.store_id);
+        sell_price = storePrice ? storePrice.sell_price * formData.quantity : product.sell_price * formData.quantity;
+      }
+
+      // Prepare data for submission
       const dataToSubmit = {
         ...formData,
         sell_price,
       };
 
-      console.log("Submitting the following data:", dataToSubmit);
-
+      // Post the new sell order to the backend
       await axios.post('https://sgebackend.onrender.com/api/sorders', dataToSubmit);
-      console.log("Sell order submitted successfully");
 
+      // Update empty crates for the store after a sell order
       await updateEmptyCrates(formData.store_id, formData.product_id, formData.quantity);
-      console.log("Empty crates updated successfully");
 
+      // Fetch updated sell orders and apply filtering/sorting logic
       const response = await axios.get('https://sgebackend.onrender.com/api/sorders');
       const orders = response.data;
 
-      const filteredOrders = isAdmin 
-        ? orders 
+      const filteredOrders = isAdmin
+        ? orders
         : orders.filter((order: SellOrder) => order.store_id._id === userStoreId);
-      const sortedOrders = filteredOrders.sort((a: SellOrder, b: SellOrder) => 
+
+      const sortedOrders = filteredOrders.sort((a: SellOrder, b: SellOrder) =>
         new Date(b.sell_date).getTime() - new Date(a.sell_date).getTime()
       );
 
       setSellOrders(sortedOrders);
+
     } catch (err) {
       console.error('Error adding sell order:', err);
-
-      if (axios.isAxiosError(err)) {
-        console.error('Axios error response:', err.response?.data);
-      } else {
-        console.error('Unexpected error:', err);
-      }
     } finally {
-      setIsModalOpen(false);
+      setIsModalOpen(false); // Close the modal
     }
   };
-  
+
   const updateEmptyCrates = async (storeId: string, productId: string, quantity: number) => {
     try {
       let emptyCrates;
@@ -154,8 +175,6 @@ const SellOrders: React.FC = () => {
             store_id: storeId,
             inventory: [{ product_id: productId, quantity: quantity }],
           });
-
-          console.log('Created new empty crates entry');
           return;
         }
       } catch (err) {
@@ -171,8 +190,6 @@ const SellOrders: React.FC = () => {
             store_id: storeId,
             inventory: [{ product_id: productId, quantity: quantity }],
           });
-
-          console.log('Created new empty crates entry');
           return;
         } else {
           throw err;
@@ -193,13 +210,8 @@ const SellOrders: React.FC = () => {
         updated_at: new Date(),
       });
 
-      console.log('Updated empty crates entry');
     } catch (err) {
-      if (axios.isAxiosError(err)) {
-        console.error('Error updating empty crates:', err.response?.data || err.message);
-      } else {
-        console.error('Unexpected error:', err);
-      }
+      console.error('Error updating empty crates:', err);
     }
   };
 
@@ -217,30 +229,15 @@ const SellOrders: React.FC = () => {
           <table className="divide-y divide-gray-200 w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Store Name
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Product Name
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Quantity
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Sell Price
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Sell Date
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Customer Name
-                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Store Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sell Price</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sell Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer Name</th>
               </tr>
-              </thead>
-            </table>
-            <div className="max-h-96 overflow-y-auto bg-white">
-            <table className="divide-y divide-gray-200 w-full">
-            <tbody >
+            </thead>
+            <tbody>
               {sellOrders.map((so) => (
                 <tr key={so._id}>
                   <td className="px-6 py-4 whitespace-nowrap">{so.store_id.name}</td>
@@ -252,9 +249,7 @@ const SellOrders: React.FC = () => {
                 </tr>
               ))}
             </tbody>
-            </table>
-            </div>
-        
+          </table>
         </div>
       </div>
 
@@ -262,7 +257,7 @@ const SellOrders: React.FC = () => {
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
         onSubmit={handleAddSellOrder} 
-        userStoreId={userStoreId!} // Ensure userStoreId is passed here
+        userStoreId={userStoreId!}
       />
     </div>
   );
