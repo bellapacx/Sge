@@ -131,8 +131,8 @@ const SellOrders: React.FC = () => {
       await axios.post('https://sgebackend.onrender.com/api/sorders', dataToSubmit);
 
       // Update empty crates for the store after a sell order
-      //const storeid = userStoreId ?? '';
-      await updateEmptyCrates(formData.store_id, formData.product_id, formData.quantity);
+      const storei = userStoreId ?? '';
+      await updateEmptyCrates(storei, formData.product_id, formData.quantity);
 
       // Fetch updated sell orders and apply filtering/sorting logic
       const response = await axios.get('https://sgebackend.onrender.com/api/sorders');
