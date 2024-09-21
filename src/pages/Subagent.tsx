@@ -106,11 +106,11 @@ const SubAgents: React.FC = () => {
             <td className="px-4 py-4 whitespace-nowrap">
               {subAgent.assigned_stores.map(store => store.name).join(', ')}
             </td>
-            <td className="px-4 py-4 whitespace-nowrap">
-              <button onClick={() => handleEditClick(subAgent)} className="ml-2 bg-gray-500 text-white px-4 py-2 rounded-md">
+            <td className="px-4 py-4 whitespace-nowrap flex flex-wrap gap-2">
+              <button onClick={() => handleEditClick(subAgent)} className="bg-gray-500 text-white px-2 py-1 rounded-md">
                 Edit
               </button>
-              <button onClick={() => handleDeleteClick(subAgent._id!)} className="ml-2 bg-red-500 text-white px-4 py-2 rounded-md">
+              <button onClick={() => handleDeleteClick(subAgent._id!)} className="bg-red-500 text-white px-2 py-1 rounded-md">
                 Delete
               </button>
             </td>
@@ -138,7 +138,6 @@ const SubAgents: React.FC = () => {
     stores={stores}
   />
 </div>
-
 
   );
 };
