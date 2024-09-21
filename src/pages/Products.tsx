@@ -87,84 +87,87 @@ const Products: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Products</h1>
-      <button
-        onClick={() => {
-          setEditingProduct(null);
-          setIsModalOpen(true);
-        }}
-        className="mb-4 bg-gray-600 text-white px-4 py-2 rounded-md"
-      >
-        Add Product
-      </button>
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purchase Price</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Default Sell Price</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+    <div className="p-4">
+  <h1 className="text-2xl font-bold mb-4">Products</h1>
+  <button
+    onClick={() => {
+      setEditingProduct(null);
+      setIsModalOpen(true);
+    }}
+    className="mb-4 bg-gray-600 text-white px-4 py-2 rounded-md text-sm sm:text-base"
+  >
+    Add Product
+  </button>
+  <div className="overflow-x-auto">
+    <table className="min-w-full divide-y divide-gray-200">
+      <thead className="bg-gray-50">
+        <tr>
+          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purchase Price</th>
+          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Default Sell Price</th>
+          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit</th>
+          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+        </tr>
+      </thead>
+      <tbody className="bg-white divide-y divide-gray-200">
+        {products.map(product => (
+          <tr key={product._id}>
+            <td className="px-4 py-4 whitespace-nowrap text-sm">{product.name}</td>
+            <td className="px-4 py-4 whitespace-nowrap text-sm">{product.category}</td>
+            <td className="px-4 py-4 whitespace-nowrap text-sm">
+              ${product.purchase_price ? product.purchase_price.toFixed(2) : 'N/A'}
+            </td>
+            <td className="px-4 py-4 whitespace-nowrap text-sm">
+              ${product.default_sell_price ? product.default_sell_price.toFixed(2) : 'N/A'}
+            </td>
+            <td className="px-4 py-4 whitespace-nowrap text-sm">{product.unit}</td>
+            <td className="px-4 py-4 whitespace-nowrap text-sm">
+              <button
+                onClick={() => handleEditClick(product)}
+                className="ml-2 bg-gray-500 text-white px-2 py-1 rounded-md text-xs sm:text-sm"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => handleDeleteClick(product._id)}
+                className="ml-2 bg-red-500 text-white px-2 py-1 rounded-md text-xs sm:text-sm"
+              >
+                Delete
+              </button>
+            </td>
           </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          {products.map(product => (
-            <tr key={product._id}>
-              <td className="px-6 py-4 whitespace-nowrap">{product.name}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{product.category}</td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                ${product.purchase_price ? product.purchase_price.toFixed(2) : 'N/A'}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                ${product.default_sell_price ? product.default_sell_price.toFixed(2) : 'N/A'}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">{product.unit}</td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <button
-                  onClick={() => handleEditClick(product)}
-                  className="ml-2 bg-gray-500 text-white px-4 py-2 rounded-md"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDeleteClick(product._id)}
-                  className="ml-2 bg-red-500 text-white px-4 py-2 rounded-md"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setEditingProduct(null); // Reset editing state on close
-        }}
-        onSubmit={handleAddOrUpdateProduct}
-        initialData={editingProduct ? {
-          name: editingProduct.name,
-          category: editingProduct.category,
-          purchase_price: editingProduct.purchase_price.toString(),
-          default_sell_price: editingProduct.default_sell_price.toString(),
-          unit: editingProduct.unit,
-          store_prices: editingProduct.store_prices || [],
-          sub_agent_prices: editingProduct.sub_agent_prices || [],
-        } : {
-          name: '',
-          category: '',
-          purchase_price: '',
-          default_sell_price: '',
-          unit: '',
-          store_prices: [],
-          sub_agent_prices: [],
-        }}
-      />
-    </div>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <Modal
+    isOpen={isModalOpen}
+    onClose={() => {
+      setIsModalOpen(false);
+      setEditingProduct(null); // Reset editing state on close
+    }}
+    onSubmit={handleAddOrUpdateProduct}
+    initialData={editingProduct ? {
+      name: editingProduct.name,
+      category: editingProduct.category,
+      purchase_price: editingProduct.purchase_price.toString(),
+      default_sell_price: editingProduct.default_sell_price.toString(),
+      unit: editingProduct.unit,
+      store_prices: editingProduct.store_prices || [],
+      sub_agent_prices: editingProduct.sub_agent_prices || [],
+    } : {
+      name: '',
+      category: '',
+      purchase_price: '',
+      default_sell_price: '',
+      unit: '',
+      store_prices: [],
+      sub_agent_prices: [],
+    }}
+  />
+</div>
+
   );
 };
 
