@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
@@ -16,9 +16,14 @@ import SellOrder from '../pages/SellOrder';
 import SubAgents from '../pages/Subagent';
 
 const MainLayout: React.FC = () => {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    };
     return (
         <div className="bg-gray-200 flex flex-col h-full">
-            <Header />
+            <Header toggleSidebar={toggleSidebar}/>
             <div className="flex flex-1">
                 <Sidebar />
                 <main className="flex-1 p-4">
