@@ -225,37 +225,37 @@ const SellOrders: React.FC = () => {
         Add Sell Order
       </button>
       
-        <div className="min-w-full">
-          <table className="divide-y divide-gray-200 w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Store Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Product Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Quantity</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Sell Price</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Sell Date</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Customer Name</th>
-              </tr>
-            </thead>
-            <tbody style={{ display: 'block', maxHeight: '300px', overflowY: 'auto' }}>
-    {sellOrders.map((so) => (
-      <tr key={so._id} style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
-        <td className="px-6 py-4 whitespace-nowrap">
-          {so.store_id ? so.store_id.name : 'N/A'}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          {so.product_id ? so.product_id.name : 'N/A'}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap">{so.quantity}</td>
-        <td className="px-6 py-4 whitespace-nowrap">${so.sell_price.toFixed(2)}</td>
-        <td className="px-6 py-4 whitespace-nowrap">{new Date(so.sell_date).toLocaleDateString()}</td>
-        <td className="px-6 py-4 whitespace-nowrap">{so.customer_name}</td>
+      <div className="min-w-full">
+  <table className="divide-y divide-gray-200 w-full">
+    <thead className="bg-gray-50">
+      <tr style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
+        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Store Name</th>
+        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Product Name</th>
+        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Quantity</th>
+        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Sell Price</th>
+        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Sell Date</th>
+        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>CustomerName</th>
       </tr>
-    ))}
-  </tbody>
-          </table>
-        
-      </div>
+    </thead>
+    <tbody style={{ display: 'block', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
+      {sellOrders.map((so) => (
+        <tr key={so._id} style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
+          <td className="px-6 py-4 whitespace-nowrap" style={{ width: '150px' }}>
+            {so.store_id ? so.store_id.name : 'N/A'}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap" style={{ width: '150px' }}>
+            {so.product_id ? so.product_id.name : 'N/A'}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap" style={{ width: '150px' }}>{so.quantity}</td>
+          <td className="px-6 py-4 whitespace-nowrap" style={{ width: '150px' }}>${so.sell_price.toFixed(2)}</td>
+          <td className="px-6 py-4 whitespace-nowrap" style={{ width: '150px' }}>{new Date(so.sell_date).toLocaleDateString()}</td>
+          <td className="px-6 py-4 whitespace-nowrap" style={{ width: '150px' }}>{so.customer_name}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
 
       <Modal 
         isOpen={isModalOpen} 
