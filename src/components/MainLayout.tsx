@@ -21,12 +21,14 @@ const MainLayout: React.FC = () => {
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
-
+    const closeSidebar = () => {
+        setIsSidebarOpen(false); // Close the sidebar
+    };
     return (
         <div className="bg-gray-200 flex flex-col h-full">
             <Header toggleSidebar={toggleSidebar} />
             <div className="flex flex-1">
-                <Sidebar isOpen={isSidebarOpen} />
+            {isSidebarOpen && <Sidebar isOpen={isSidebarOpen} closeSidebar={closeSidebar} />}
                 <main className="flex-1 p-4">
                     <Routes>
                         <Route path="/" element={<Navigate to="" />} />
