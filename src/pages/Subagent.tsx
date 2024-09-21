@@ -77,63 +77,68 @@ const SubAgents: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Sub Agents</h1>
-      <button
-        onClick={() => {
-          setEditingSubAgent(null);
-          setIsModalOpen(true);
-        }}
-        className="mb-4 bg-gray-600 text-white px-4 py-2 rounded-md"
-      >
-        Add Sub-Agent
-      </button>
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
-            <th>Name</th>
-            <th>Contact Info</th>
-            <th>Assigned Stores</th>
-            <th>Actions</th>
+    <div className="p-4">
+  <h1 className="text-2xl font-bold mb-4">Sub Agents</h1>
+  <button
+    onClick={() => {
+      setEditingSubAgent(null);
+      setIsModalOpen(true);
+    }}
+    className="mb-4 bg-gray-600 text-white px-4 py-2 rounded-md"
+  >
+    Add Sub-Agent
+  </button>
+  <div className="overflow-x-auto">
+    <table className="min-w-full divide-y divide-gray-200">
+      <thead className="bg-gray-50">
+        <tr>
+          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact Info</th>
+          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assigned Stores</th>
+          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+        </tr>
+      </thead>
+      <tbody className="bg-white divide-y divide-gray-200">
+        {subAgents.map((subAgent) => (
+          <tr key={subAgent._id}>
+            <td className="px-4 py-4 whitespace-nowrap">{subAgent.name}</td>
+            <td className="px-4 py-4 whitespace-nowrap">{subAgent.contact_info || 'N/A'}</td>
+            <td className="px-4 py-4 whitespace-nowrap">
+              {subAgent.assigned_stores.map(store => store.name).join(', ')}
+            </td>
+            <td className="px-4 py-4 whitespace-nowrap">
+              <button onClick={() => handleEditClick(subAgent)} className="ml-2 bg-gray-500 text-white px-4 py-2 rounded-md">
+                Edit
+              </button>
+              <button onClick={() => handleDeleteClick(subAgent._id!)} className="ml-2 bg-red-500 text-white px-4 py-2 rounded-md">
+                Delete
+              </button>
+            </td>
           </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          {subAgents.map((subAgent) => (
-            <tr key={subAgent._id}>
-              <td>{subAgent.name}</td>
-              <td>{subAgent.contact_info || 'N/A'}</td>
-              <td>{subAgent.assigned_stores.map(store => store.name).join(', ')}</td>
-              <td>
-                <button onClick={() => handleEditClick(subAgent)} className="ml-2 bg-gray-500 text-white px-4 py-2 rounded-md">
-                  Edit
-                </button>
-                <button onClick={() => handleDeleteClick(subAgent._id!)} className="ml-2 bg-red-500 text-white px-4 py-2 rounded-md">
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setEditingSubAgent(null);
-        }}
-        onSubmit={handleAddOrUpdateSubAgent}
-        initialData={editingSubAgent ? {
-          name: editingSubAgent.name,
-          contact_info: editingSubAgent.contact_info,
-          assigned_stores: editingSubAgent.assigned_stores.map(store => store._id),
-        } : {
-          name: '',
-          contact_info: '',
-          assigned_stores: [],
-        }}
-        stores={stores}
-      />
-    </div>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <Modal
+    isOpen={isModalOpen}
+    onClose={() => {
+      setIsModalOpen(false);
+      setEditingSubAgent(null);
+    }}
+    onSubmit={handleAddOrUpdateSubAgent}
+    initialData={editingSubAgent ? {
+      name: editingSubAgent.name,
+      contact_info: editingSubAgent.contact_info,
+      assigned_stores: editingSubAgent.assigned_stores.map(store => store._id),
+    } : {
+      name: '',
+      contact_info: '',
+      assigned_stores: [],
+    }}
+    stores={stores}
+  />
+</div>
+
   );
 };
 
