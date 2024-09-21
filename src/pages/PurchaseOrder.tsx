@@ -178,7 +178,7 @@ const PurchaseOrders: React.FC = () => {
       // Fetch the purchase order to get its quantity
       const response = await axios.get(`https://sgebackend.onrender.com/api/porders/${id}`);
       const po = response.data as PurchaseOrder;
-
+      console.log(po);
       const acceptedQuantity = prompt('Enter the accepted quantity:');
       
       if (!acceptedQuantity || isNaN(Number(acceptedQuantity))) {
@@ -198,9 +198,9 @@ const PurchaseOrders: React.FC = () => {
       });
        
       const storeid = userStoreId ?? '';
-      const productid = selectedPO?.product_id ?? '';
+      const productid = po.product_id ?? '';
       // Call the updateEmptyCrates function to update inventory
-      await updateEmptyCrates(storeid, productid, acceptedQty);
+      await updateEmptyCrates(storeid, productid._id, acceptedQty);
 
       await refreshPurchaseOrders();
     } catch (error) {
