@@ -70,7 +70,7 @@ const Header: React.FC = () => {
     };
 
     return (
-        <div className="w-full flex flex-col md:flex-row justify-between items-center p-4 bg-gray-700 mt-0 space-y-2 md:space-y-0">
+        <div className="w-full flex flex-col md:flex-row justify-between items-center p-4 bg-green-700 mt-0 space-y-2 md:space-y-0">
         <div className="flex items-center space-x-2">
             <div className="bg-gray-300 p-2 rounded-md">☰</div>
         </div>
