@@ -217,48 +217,63 @@ const SellOrders: React.FC = () => {
 
   return (
     <div className="p-4">
-  <h1 className="text-2xl font-bold mb-4">Sell Orders</h1>
-  <button
-    onClick={() => setIsModalOpen(true)}
-    className="mb-4 bg-gray-600 text-white px-4 py-2 rounded-md text-sm sm:text-base"
-  >
-    Add Sell Order
-  </button>
-
-  <div className="overflow-x-auto border border-black">
-    <table className="min-w-full divide-y divide-gray-200">
-      <thead className="bg-gray-50">
-        <tr>
-          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Store Name</th>
-          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
-          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sell Price</th>
-          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sell Date</th>
-          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer Name</th>
-        </tr>
-      </thead>
-      <tbody className="bg-white divide-y divide-gray-200">
-        {sellOrders.map((so) => (
-          <tr key={so._id}>
-            <td className="px-4 py-4 whitespace-nowrap">{so.store_id ? so.store_id.name : 'N/A'}</td>
-            <td className="px-4 py-4 whitespace-nowrap">{so.product_id ? so.product_id.name : 'N/A'}</td>
-            <td className="px-4 py-4 whitespace-nowrap">{so.quantity}</td>
-            <td className="px-4 py-4 whitespace-nowrap">${so.sell_price.toFixed(2)}</td>
-            <td className="px-4 py-4 whitespace-nowrap">{new Date(so.sell_date).toLocaleDateString()}</td>
-            <td className="px-4 py-4 whitespace-nowrap">{so.customer_name}</td>
+    <h1 className="text-2xl font-bold mb-4">Sell Orders</h1>
+    <button
+      onClick={() => setIsModalOpen(true)}
+      className="mb-4 bg-gray-600 text-white px-4 py-2 rounded-md text-sm sm:text-base"
+    >
+      Add Sell Order
+    </button>
+  
+    <div className="hidden md:block overflow-x-auto border border-black">
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Store Name</th>
+            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
+            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sell Price</th>
+            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sell Date</th>
+            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer Name</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {sellOrders.map((so) => (
+            <tr key={so._id}>
+              <td className="px-4 py-4 whitespace-nowrap">{so.store_id ? so.store_id.name : 'N/A'}</td>
+              <td className="px-4 py-4 whitespace-nowrap">{so.product_id ? so.product_id.name : 'N/A'}</td>
+              <td className="px-4 py-4 whitespace-nowrap">{so.quantity}</td>
+              <td className="px-4 py-4 whitespace-nowrap">${so.sell_price.toFixed(2)}</td>
+              <td className="px-4 py-4 whitespace-nowrap">{new Date(so.sell_date).toLocaleDateString()}</td>
+              <td className="px-4 py-4 whitespace-nowrap">{so.customer_name}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  
+    {/* Responsive Card View for Mobile */}
+    <div className="md:hidden">
+      {sellOrders.map((so) => (
+        <div key={so._id} className="mb-4 p-4 border border-gray-300 rounded-md shadow-sm">
+          <h2 className="text-lg font-bold">Store: {so.store_id ? so.store_id.name : 'N/A'}</h2>
+          <p><strong>Product:</strong> {so.product_id ? so.product_id.name : 'N/A'}</p>
+          <p><strong>Quantity:</strong> {so.quantity}</p>
+          <p><strong>Sell Price:</strong> ${so.sell_price.toFixed(2)}</p>
+          <p><strong>Sell Date:</strong> {new Date(so.sell_date).toLocaleDateString()}</p>
+          <p><strong>Customer:</strong> {so.customer_name}</p>
+        </div>
+      ))}
+    </div>
+  
+    <Modal 
+      isOpen={isModalOpen} 
+      onClose={() => setIsModalOpen(false)} 
+      onSubmit={handleAddSellOrder} 
+      userStoreId={userStoreId!}
+    />
   </div>
-
-  <Modal 
-    isOpen={isModalOpen} 
-    onClose={() => setIsModalOpen(false)} 
-    onSubmit={handleAddSellOrder} 
-    userStoreId={userStoreId!}
-  />
-</div>
+  
 
   );
 };
