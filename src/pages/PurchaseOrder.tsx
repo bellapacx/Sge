@@ -287,7 +287,7 @@ const PurchaseOrders: React.FC = () => {
         (item: { product_id: string }) => item.product_id === productId
       );
       if (existingProductIndex >= 0) {
-        emptyCrates.inventory[existingProductIndex].quantity -= quantity;
+        emptyCrates.inventory[existingProductIndex].quantity -= -quantity;
       } else {
         // Add new product entry with negative quantity
         emptyCrates.inventory.push({ product_id: productId, quantity: -quantity });
