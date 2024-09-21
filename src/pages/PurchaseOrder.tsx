@@ -253,7 +253,7 @@ const PurchaseOrders: React.FC = () => {
             inventory: [{ product_id: productId, quantity: -quantity }],
           });
 
-          console.log('Created new empty crates entry');
+          console.log('Created new empty crates entryy');
           return;
         }
       } catch (err) {
