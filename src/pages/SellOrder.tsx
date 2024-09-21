@@ -140,7 +140,7 @@ const SellOrders: React.FC = () => {
 
       const filteredOrders = isAdmin
         ? orders
-        : orders.filter((order: SellOrder) => order.store_id._id === userStoreId);
+        : orders.filter((order: SellOrder) => order.store_id && order.store_id._id === userStoreId);
 
       const sortedOrders = filteredOrders.sort((a: SellOrder, b: SellOrder) =>
         new Date(b.sell_date).getTime() - new Date(a.sell_date).getTime()
