@@ -224,7 +224,7 @@ const SellOrders: React.FC = () => {
       >
         Add Sell Order
       </button>
-      <div className="overflow-x-auto">
+      
         <div className="min-w-full">
           <table className="divide-y divide-gray-200 w-full">
             <thead className="bg-gray-50">
@@ -254,7 +254,7 @@ const SellOrders: React.FC = () => {
     ))}
   </tbody>
           </table>
-        </div>
+        
       </div>
 
       <Modal 
