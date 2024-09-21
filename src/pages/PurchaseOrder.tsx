@@ -271,7 +271,7 @@ const PurchaseOrders: React.FC = () => {
           // POST to create a new empty crates entry
           await axios.post('https://sgebackend.onrender.com/api/emptycrates', {
             store_id: userStoreId,
-            inventory: [{ product_id: productId, quantity: -quantity }],
+            inventory: [{ product_id: productId, quantity: quantity }],
           });
 
           console.log('Created new empty crates entry');
@@ -287,10 +287,10 @@ const PurchaseOrders: React.FC = () => {
         (item: { product_id: string }) => item.product_id === productId
       );
       if (existingProductIndex >= 0) {
-        emptyCrates.inventory[existingProductIndex].quantity -= -quantity;
+        emptyCrates.inventory[existingProductIndex].quantity -= quantity;
       } else {
         // Add new product entry with negative quantity
-        emptyCrates.inventory.push({ product_id: productId, quantity: -quantity });
+        emptyCrates.inventory.push({ product_id: productId, quantity: quantity });
       }
 
       // PUT to update the existing empty crates entry in the database
@@ -345,66 +345,56 @@ const PurchaseOrders: React.FC = () => {
         Add Purchase Order
       </button>
     )}
-      <div className="overflow-x-auto">
-        <div className="min-w-full">
-          {/* Table Header */}
-          <table className="divide-y divide-gray-200 w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Store</th>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Supplier</th>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purchase Date</th>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Cost</th>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
-          </table>
-          
-          {/* Table Body */}
-          <div className="max-h-96 overflow-y-auto bg-white">
-            <table className="divide-y divide-gray-200 w-full">
-              <tbody>
-                {purchaseOrders.map((po) => (
-                  <tr key={po._id}>
-                    <td className="px-4 py-3 whitespace-nowrap">
-                      {po.store_id ? po.store_id.name : 'No Store'}
-                    </td>
-                    <td className="px-4 py-3 whitespace-nowrap">
-                    {po.product_id ? po.product_id.name : 'N/A'}
-                    </td>
-                    <td className="px-4 py-3 whitespace-nowrap">{po.quantity}</td>
-                    <td className="px-4 py-3 whitespace-nowrap">{po.supplier}</td>
-                    <td className="px-4 py-3 whitespace-nowrap">{new Date(po.purchase_date).toLocaleDateString()}</td>
-                    <td className="px-4 py-3 whitespace-nowrap">${po.total_cost.toFixed(2)}</td>
-                    <td className="px-4 py-3 whitespace-nowrap">{po.status}</td>
-                    <td className="px-4 py-3 whitespace-nowrap">
-                      {po.status === 'pending' && (
-                        <button
-                          onClick={() => handleAcceptPurchaseOrder(po._id)}
-                          className="bg-blue-600 text-white px-4 py-2 rounded-md"
-                        >
-                          Accept
-                        </button>
-                      )}
-                      {isAdmin && (
-                      <button
-                        onClick={() => handleEditPurchaseOrder(po._id)}
-                        className="ml-2 bg-yellow-500 text-white px-4 py-2 rounded-md"
-                      >
-                        Edit
-                      </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+      <div className="overflow-x-auto border border-black">
+  <div className="min-w-full">
+    {/* Table Header */}
+    <table className="divide-y divide-gray-200 w-full">
+      <thead className="bg-gray-50">
+        <tr>
+          <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Store</th>
+          <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Product</th>
+          <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Quantity</th>
+          <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Supplier</th>
+          <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Purchase Date</th>
+          <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Total Cost</th>
+          <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Status</th>
+          <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Actions</th>
+        </tr>
+      </thead>
+    </table>
+
+    {/* Table Body */}
+    <div className="max-h-96 overflow-y-auto bg-white">
+      <table className="divide-y divide-gray-200 w-full">
+        <tbody style={{ display: 'block', maxHeight: '300px', overflowY: 'auto' }}>
+          {purchaseOrders.map((po) => (
+            <tr key={po._id} style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
+              <td className="px-4 py-3 whitespace-nowrap">{po.store_id ? po.store_id.name : 'No Store'}</td>
+              <td className="px-4 py-3 whitespace-nowrap">{po.product_id ? po.product_id.name : 'N/A'}</td>
+              <td className="px-4 py-3 whitespace-nowrap">{po.quantity}</td>
+              <td className="px-4 py-3 whitespace-nowrap">{po.supplier}</td>
+              <td className="px-4 py-3 whitespace-nowrap">{new Date(po.purchase_date).toLocaleDateString()}</td>
+              <td className="px-4 py-3 whitespace-nowrap">${po.total_cost.toFixed(2)}</td>
+              <td className="px-4 py-3 whitespace-nowrap">{po.status}</td>
+              <td className="px-4 py-3 whitespace-nowrap">
+                {po.status === 'pending' && (
+                  <button onClick={() => handleAcceptPurchaseOrder(po._id)} className="bg-blue-600 text-white px-4 py-2 rounded-md">
+                    Accept
+                  </button>
+                )}
+                {isAdmin && (
+                  <button onClick={() => handleEditPurchaseOrder(po._id)} className="ml-2 bg-yellow-500 text-white px-4 py-2 rounded-md">
+                    Edit
+                  </button>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
       <ModalP
         isOpen={isModalOpen}

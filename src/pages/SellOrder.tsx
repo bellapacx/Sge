@@ -225,7 +225,7 @@ const SellOrders: React.FC = () => {
         Add Sell Order
       </button>
       
-      <div className="min-w-full">
+      <div className="min-w-full border border-black">
   <table className="divide-y divide-gray-200 w-full">
     <thead className="bg-gray-50">
       <tr style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
