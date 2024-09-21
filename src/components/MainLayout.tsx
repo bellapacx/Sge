@@ -38,7 +38,7 @@ const MainLayout: React.FC = () => {
                 });
                 if (response.ok) {
                     const data = await response.json();
-                    setUserRole(data.role || null);
+                    setUserRole(data.role);
                 }
             } catch (error) {
                 console.error('Error fetching user role!', error);
