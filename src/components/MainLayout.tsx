@@ -41,7 +41,7 @@ const MainLayout: React.FC = () => {
                     setUserRole(data.role || null);
                 }
             } catch (error) {
-                console.error('Error fetching user role', error);
+                console.error('Error fetching user role!', error);
                 setUserRole(null);
             }
         };

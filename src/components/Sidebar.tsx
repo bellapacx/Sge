@@ -49,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
       <nav className="flex flex-col flex-grow">
         {userRole === 'admin' && (
           <>
-            <SidebarLink icon={FaHome} label="Dashboar" to='/dashboard' closeSidebar={closeSidebar}/>
+            <SidebarLink icon={FaHome} label="Dashboard" to='/dashboard' closeSidebar={closeSidebar}/>
             <SidebarLink icon={FaArrowsAltV} label="Reports" to='/reports' closeSidebar={closeSidebar}/>
             <SidebarLink icon={FaTags} label="Products" to='/products' closeSidebar={closeSidebar}/>
             <SidebarLink icon={FaShoppingCart} label="Orders" to='/purchase' closeSidebar={closeSidebar}/>
