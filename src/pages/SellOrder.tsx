@@ -89,7 +89,7 @@ const SellOrders: React.FC = () => {
 
         setSellOrders(sortedOrders);
       } catch (error) {
-        console.error('Error fetching sell orders:', error);
+        console.error('Error fetching sellorders:', error);
       }
     };
   
