@@ -198,7 +198,7 @@ const PurchaseOrders: React.FC = () => {
       });
 
       // Call the updateEmptyCrates function to update inventory
-      await updateEmptyCrates( po.product_id._id, acceptedQty);
+      await updateEmptyCrates(po.store_id._id, po.product_id._id, acceptedQty);
 
       await refreshPurchaseOrders();
     } catch (error) {
@@ -229,7 +229,7 @@ const PurchaseOrders: React.FC = () => {
     }
   };
 
-  const updateEmptyCrates = async ( productId: string, quantity: number) => {
+  const updateEmptyCrates = async (userStoreId: string, productId: string, quantity: number) => {
     try {
       let emptyCrates;
 
@@ -253,7 +253,7 @@ const PurchaseOrders: React.FC = () => {
             inventory: [{ product_id: productId, quantity: -quantity }],
           });
 
-          console.log('Created new empty crates entryy');
+          console.log('Created new empty crates entry');
           return;
         }
       } catch (err) {
