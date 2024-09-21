@@ -336,8 +336,8 @@ const PurchaseOrders: React.FC = () => {
 
   return (
     <div>
-      <h1 className='mb-2'>Purchase Orders</h1>
-      {isAdmin && (
+    <h1 className='mb-2'>Purchase Orders</h1>
+    {isAdmin && (
       <button
         onClick={() => setIsModalOpen(true)}
         className="mb-4 bg-gray-600 text-white px-4 py-2 rounded-md"
@@ -345,30 +345,25 @@ const PurchaseOrders: React.FC = () => {
         Add Purchase Order
       </button>
     )}
-      <div className="overflow-x-auto border border-black">
-  <div className="min-w-full">
-    {/* Table Header */}
-    <table className="divide-y divide-gray-200 w-full">
-      <thead className="bg-gray-50">
-        <tr>
-          <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Store</th>
-          <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Product</th>
-          <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Quantity</th>
-          <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Supplier</th>
-          <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Purchase Date</th>
-          <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Total Cost</th>
-          <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Status</th>
-          <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Actions</th>
-        </tr>
-      </thead>
-    </table>
-
-    {/* Table Body */}
-    <div className="max-h-96 overflow-y-auto bg-white">
+  
+    {/* Responsive Table for Larger Screens */}
+    <div className="hidden md:block overflow-x-auto border border-black">
       <table className="divide-y divide-gray-200 w-full">
-        <tbody style={{ display: 'block', maxHeight: '300px', overflowY: 'auto' }}>
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Store</th>
+            <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Product</th>
+            <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Quantity</th>
+            <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Supplier</th>
+            <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Purchase Date</th>
+            <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Total Cost</th>
+            <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Status</th>
+            <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px' }}>Actions</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-200">
           {purchaseOrders.map((po) => (
-            <tr key={po._id} style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
+            <tr key={po._id}>
               <td className="px-4 py-3 whitespace-nowrap">{po.store_id ? po.store_id.name : 'No Store'}</td>
               <td className="px-4 py-3 whitespace-nowrap">{po.product_id ? po.product_id.name : 'N/A'}</td>
               <td className="px-4 py-3 whitespace-nowrap">{po.quantity}</td>
@@ -393,26 +388,53 @@ const PurchaseOrders: React.FC = () => {
         </tbody>
       </table>
     </div>
-  </div>
-</div>
-
-      <ModalP
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setSelectedPO(null);
-        }}
-        onSubmit={selectedPO ? handleUpdatePurchaseOrder : handleAddPurchaseOrder}
-        initialData={selectedPO ? {
-          store_id: selectedPO.store_id,
-          product_id: selectedPO.product_id,
-          quantity: selectedPO.quantity,
-          supplier: selectedPO.supplier,
-          purchase_date: selectedPO.purchase_date,
-          total_cost: selectedPO.total_cost,
-        } : undefined}
-      />
+  
+    {/* Card Layout for Mobile Screens */}
+    <div className="md:hidden">
+      {purchaseOrders.map((po) => (
+        <div key={po._id} className="mb-4 p-4 border border-gray-300 rounded-md shadow-sm">
+          <h4 className="font-bold">Store: {po.store_id ? po.store_id.name : 'No Store'}</h4>
+          <p><strong>Product:</strong> {po.product_id ? po.product_id.name : 'N/A'}</p>
+          <p><strong>Quantity:</strong> {po.quantity}</p>
+          <p><strong>Supplier:</strong> {po.supplier}</p>
+          <p><strong>Purchase Date:</strong> {new Date(po.purchase_date).toLocaleDateString()}</p>
+          <p><strong>Total Cost:</strong> ${po.total_cost.toFixed(2)}</p>
+          <p><strong>Status:</strong> {po.status}</p>
+          <div className="mt-2">
+            {po.status === 'pending' && (
+              <button onClick={() => handleAcceptPurchaseOrder(po._id)} className="bg-blue-600 text-white px-4 py-2 rounded-md">
+                Accept
+              </button>
+            )}
+            {isAdmin && (
+              <button onClick={() => handleEditPurchaseOrder(po._id)} className="ml-2 bg-yellow-500 text-white px-4 py-2 rounded-md">
+                Edit
+              </button>
+            )}
+          </div>
+        </div>
+      ))}
     </div>
+  
+    {/* Modal for Adding/Updating Purchase Orders */}
+    <ModalP
+      isOpen={isModalOpen}
+      onClose={() => {
+        setIsModalOpen(false);
+        setSelectedPO(null);
+      }}
+      onSubmit={selectedPO ? handleUpdatePurchaseOrder : handleAddPurchaseOrder}
+      initialData={selectedPO ? {
+        store_id: selectedPO.store_id,
+        product_id: selectedPO.product_id,
+        quantity: selectedPO.quantity,
+        supplier: selectedPO.supplier,
+        purchase_date: selectedPO.purchase_date,
+        total_cost: selectedPO.total_cost,
+      } : undefined}
+    />
+  </div>
+  
   );
 };
 

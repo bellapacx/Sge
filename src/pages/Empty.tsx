@@ -32,17 +32,13 @@ const PieChart: React.FC = () => {
   const [storeNames, setStoreNames] = useState<Map<string, string>>(new Map());
 
   useEffect(() => {
-    // Fetch data from the API
     const fetchData = async () => {
       try {
-        // Fetch empty crates data
         const cratesResponse = await axios.get('https://sgebackend.onrender.com/api/empty-crates');
         const emptyCrates: EmptyCrate[] = cratesResponse.data;
 
-        // Collect unique store IDs from empty crates
         const storeIds = Array.from(new Set(emptyCrates.map(crate => crate.store_id)));
         
-        // Fetch store names for each store ID
         const storeNameMap = new Map<string, string>();
         await Promise.all(
           storeIds.map(async (storeId) => {
@@ -57,7 +53,6 @@ const PieChart: React.FC = () => {
         );
         setStoreNames(storeNameMap);
 
-        // Process the data
         const storeDataFormatted: { [storeId: string]: any } = {};
 
         emptyCrates.forEach(crate => {
@@ -73,7 +68,6 @@ const PieChart: React.FC = () => {
             }
           });
 
-          // Format data for Pie chart
           const labels = Object.keys(aggregatedData);
           const quantities = Object.values(aggregatedData);
 
@@ -96,25 +90,22 @@ const PieChart: React.FC = () => {
   }, []);
 
   return (
-    
     <div className="flex flex-wrap gap-4 h-full overflow-y-auto max-h-96">
-    
       {Object.entries(data).map(([storeId, chartData]) => (
-   <div key={storeId} className="w-full sm:w-1/4 p-2">
-   <div className="bg-white shadow-md rounded-md p-2 border-black ">
-     <h3 className="text-lg font-semibold mb-1 truncate">{storeNames.get(storeId) || 'Unknown Store'}</h3>
-     <Pie data={chartData} />
-     <div className="mt-1 text-lg">
-       {chartData.labels.map((label: string, index: number) => (
-         <div key={index} className="flex justify-between mb-0.5">
-           <span className="truncate">{label}</span>
-           <span>{chartData.datasets[0].data[index]}</span>
-         </div>
-       ))}
-     </div>
-   </div>
- </div>
- 
+        <div key={storeId} className="w-full sm:w-1/3 md:w-1/4 p-2">
+          <div className="bg-white shadow-md rounded-md p-2 border border-gray-200">
+            <h3 className="text-lg font-semibold mb-1 truncate">{storeNames.get(storeId) || 'Unknown Store'}</h3>
+            <Pie data={chartData} />
+            <div className="mt-1 text-lg">
+              {chartData.labels.map((label: string, index: number) => (
+                <div key={index} className="flex justify-between mb-0.5">
+                  <span className="truncate">{label}</span>
+                  <span>{chartData.datasets[0].data[index]}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       ))}
     </div>
   );

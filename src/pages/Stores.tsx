@@ -54,7 +54,6 @@ const Stores: React.FC = () => {
   }) => {
     try {
       await axios.post('https://sgebackend.onrender.com/api/stores', formData);
-      // Refresh the store list after adding a new store
       const response = await axios.get('https://sgebackend.onrender.com/api/stores');
       setStores(response.data);
     } catch (error) {
@@ -63,7 +62,6 @@ const Stores: React.FC = () => {
       setIsModalOpen(false);
     }
   };
-
 
   return (
     <div className="p-4">
@@ -87,7 +85,7 @@ const Stores: React.FC = () => {
               },
             ],
           };
-  
+
           const chartOptions = {
             responsive: true,
             maintainAspectRatio: false,
@@ -121,22 +119,20 @@ const Stores: React.FC = () => {
               },
             },
           };
-  
-          // Delete handler function
+
           const handleDeleteStore = async (storeId: string) => {
             try {
               await axios.delete(`https://sgebackend.onrender.com/api/stores/${storeId}`);
-              // Refresh stores list after deletion
               const response = await axios.get('https://sgebackend.onrender.com/api/stores');
               setStores(response.data);
             } catch (error) {
               console.error('Error deleting store:', error);
             }
           };
-  
+
           return (
-            <div key={store._id} className="bg-gray-300 p-4 rounded-lg shadow-md flex items-start">
-              <div className="w-3/4 pr-4">
+            <div key={store._id} className="bg-gray-300 p-4 rounded-lg shadow-md flex flex-col md:flex-row items-start">
+              <div className="w-full md:w-3/4 pr-4 mb-4 md:mb-0">
                 <h2 className="text-xl text-black font-semibold mb-2">{store.name}</h2>
                 <div>
                   <h3 className="text-lg font-medium mb-2">Stock:</h3>
@@ -150,12 +146,12 @@ const Stores: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="w-1/2 h-40">
+              <div className="w-full md:w-1/2 h-40 mb-4 md:mb-0">
                 <Pie data={chartData} options={chartOptions} />
               </div>
               <button
                 onClick={() => handleDeleteStore(store._id)}
-                className="ml-4 bg-red-600 text-white px-4 py-2 rounded-md"
+                className="bg-red-600 text-white px-4 py-2 rounded-md"
               >
                 Delete Store
               </button>
@@ -166,7 +162,6 @@ const Stores: React.FC = () => {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={handleAddStore} />
     </div>
   );
-  
 };
 
 export default Stores;

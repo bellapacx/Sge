@@ -33,7 +33,6 @@ const Vehicles: React.FC = () => {
       } else {
         await axios.post('https://sgebackend.onrender.com/api/vehicles', formData);
       }
-      // Refresh the vehicle list after adding or updating a vehicle
       const response = await axios.get('https://sgebackend.onrender.com/api/vehicles');
       setVehicles(response.data);
     } catch (error) {
@@ -61,31 +60,33 @@ const Vehicles: React.FC = () => {
       >
         Add Vehicle
       </button>
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Driver Name</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plate Number</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-          </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          {vehicles.map(vehicle => (
-            <tr key={vehicle._id}>
-              <td className="px-6 py-4 whitespace-nowrap">{vehicle.driverName}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{vehicle.plateNumber}</td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <button
-                  onClick={() => openEditModal(vehicle)}
-                  className="bg-gray-400 text-white px-4 py-2 rounded-md"
-                >
-                  Edit
-                </button>
-              </td>
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Driver Name</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plate Number</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {vehicles.map(vehicle => (
+              <tr key={vehicle._id}>
+                <td className="px-6 py-4 whitespace-nowrap">{vehicle.driverName}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{vehicle.plateNumber}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <button
+                    onClick={() => openEditModal(vehicle)}
+                    className="bg-gray-400 text-white px-4 py-2 rounded-md"
+                  >
+                    Edit
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <VehicleForm
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
