@@ -233,7 +233,7 @@ const PurchaseOrders: React.FC = () => {
   const updateEmptyCrates = async (userStoreId: string, productId: string, quantity: number) => {
     try {
       let emptyCrates;
-
+      console.log(productId);
       try {
         // Fetch current inventory for the store
         const response = await axios.get(`https://sgebackend.onrender.com/api/emptycrates/${userStoreId}`);
@@ -248,7 +248,8 @@ const PurchaseOrders: React.FC = () => {
       created_at: emptyCrates.created_at || new Date(),
       updated_at: new Date(),
     };
-
+     
+     
     // If the record was found but inventory is empty, update it using PUT
     await axios.put(`https://sgebackend.onrender.com/api/emptycrates/${userStoreId}`, {
       inventory: emptyCrates.inventory,
