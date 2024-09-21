@@ -160,7 +160,7 @@ const SellOrders: React.FC = () => {
       let emptyCrates;
 
       try {
-        const response = await axios.get(`https://sgebackend.onrender.com/api/emptycrates/${storeId}`);
+        const response = await axios.get(`https://sgebackend.onrender.com/api/emptycrates/${userStoreId}`);
         emptyCrates = response.data;
 
         if (emptyCrates.error === "No empty crates found for the specified store") {
