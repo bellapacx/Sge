@@ -198,8 +198,9 @@ const PurchaseOrders: React.FC = () => {
       });
        
       const storeid = userStoreId ?? '';
+      const productid = selectedPO?.product_id ?? '';
       // Call the updateEmptyCrates function to update inventory
-      await updateEmptyCrates(storeid, po.product_id._id, acceptedQty);
+      await updateEmptyCrates(storeid, productid, acceptedQty);
 
       await refreshPurchaseOrders();
     } catch (error) {
