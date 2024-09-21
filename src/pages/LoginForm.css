@@ -1,8 +1,8 @@
 body {
     margin: 0;
-    background-color: #1f1f1f;
+    background-color: #aaa;
     font-family: Arial, sans-serif;
-    color: #ffffff; /* Set the default text color to white */
+    color: #000000; /* Set the default text color to white */
 }
 
 .login-container {
