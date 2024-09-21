@@ -25,7 +25,7 @@ const MainLayout: React.FC = () => {
         <div className="bg-gray-200 flex flex-col h-full">
             <Header toggleSidebar={toggleSidebar}/>
             <div className="flex flex-1">
-                <Sidebar />
+                <Sidebar isOpen={isSidebarOpen} />
                 <main className="flex-1 p-4">
                     <Routes >
                     <Route path="/" element={<Navigate to="" />} />
