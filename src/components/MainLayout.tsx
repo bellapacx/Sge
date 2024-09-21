@@ -49,7 +49,7 @@ const MainLayout: React.FC = () => {
         fetchUserRole();
     }, []);
     return (
-        <div className="bg-gray-200 flex flex-col h-full">
+        <div className="bg-gray-400 flex flex-col h-full">
             <Header toggleSidebar={toggleSidebar} />
             <div className="flex flex-1">
             {isSidebarOpen && <Sidebar isOpen={isSidebarOpen} closeSidebar={closeSidebar} />}
