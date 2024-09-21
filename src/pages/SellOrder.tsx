@@ -237,22 +237,22 @@ const SellOrders: React.FC = () => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer Name</th>
               </tr>
             </thead>
-            <tbody>
-              {sellOrders.map((so) => (
-                <tr key={so._id}>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                  {so.store_id ? so.store_id.name : 'N/A'}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                  {so.product_id ? so.product_id.name : 'N/A'}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{so.quantity}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">${so.sell_price.toFixed(2)}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{new Date(so.sell_date).toLocaleDateString()}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{so.customer_name}</td>
-                </tr>
-              ))}
-            </tbody>
+            <tbody style={{ display: 'block', maxHeight: '300px', overflowY: 'auto' }}>
+    {sellOrders.map((so) => (
+      <tr key={so._id} style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
+        <td className="px-6 py-4 whitespace-nowrap">
+          {so.store_id ? so.store_id.name : 'N/A'}
+        </td>
+        <td className="px-6 py-4 whitespace-nowrap">
+          {so.product_id ? so.product_id.name : 'N/A'}
+        </td>
+        <td className="px-6 py-4 whitespace-nowrap">{so.quantity}</td>
+        <td className="px-6 py-4 whitespace-nowrap">${so.sell_price.toFixed(2)}</td>
+        <td className="px-6 py-4 whitespace-nowrap">{new Date(so.sell_date).toLocaleDateString()}</td>
+        <td className="px-6 py-4 whitespace-nowrap">{so.customer_name}</td>
+      </tr>
+    ))}
+  </tbody>
           </table>
         </div>
       </div>
