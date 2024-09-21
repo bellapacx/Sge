@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FaHome, FaTags, FaShoppingCart, FaUsers, FaSalesforce, FaStore, FaCar, FaArrowsAltV, FaWineBottle } from 'react-icons/fa';
+import { FaHome, FaTags, FaShoppingCart, FaUsers, FaSalesforce, FaStore, FaCar, FaArrowsAltV, FaWineBottle, FaUserAlt } from 'react-icons/fa';
 import SidebarLink from './SidebarLink';
 
 
@@ -61,7 +61,7 @@ const Sidebar = () => {
             <SidebarLink icon={FaUsers} label="Users" to='/users'/>
             <SidebarLink icon={FaCar} label="Vehicles" to='/vehicles'/>
             <SidebarLink icon={FaWineBottle} label="Empty" to='/empty'/>
-            <SidebarLink icon={FaWineBottle} label="Subagent" to='/subagent'/>
+            <SidebarLink icon={FaUserAlt} label="Subagent" to='/subagent'/>
           </>
         )}
         {userRole === 'cashier' && (
