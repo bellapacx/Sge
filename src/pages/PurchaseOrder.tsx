@@ -231,7 +231,7 @@ const PurchaseOrders: React.FC = () => {
     }
   };
 
-  const updateEmptyCrates = async (userStoreId: string, productId: string, quantity: number) => {
+  const updateEmptyCrates = async (storeId: string, productId: string, quantity: number) => {
     try {
       let emptyCrates;
       console.log(productId);
@@ -239,30 +239,22 @@ const PurchaseOrders: React.FC = () => {
         // Fetch current inventory for the store
         const response = await axios.get(`https://sgebackend.onrender.com/api/emptycrates/${userStoreId}`);
         emptyCrates = response.data;
+        
+        if (emptyCrates.error === "No empty crates found for the specified store") {
+          emptyCrates = {
+            store_id: storeId,
+            inventory: [],
+            created_at: new Date(),
+            updated_at: new Date(),
+          };
 
-        // Check if the inventory is empty or not found
-         if (!emptyCrates.inventory || emptyCrates.inventory.length === 0) {
-       // Initialize or update emptyCrates with default values
-         emptyCrates = {
-        store_id: userStoreId,
-         inventory: [{ product_id: productId, quantity: -quantity }], // Add the product to the inventory
-      created_at: emptyCrates.created_at || new Date(),
-      updated_at: new Date(),
-    };
-     
-     
-    // If the record was found but inventory is empty, update it using PUT
-    await axios.put(`https://sgebackend.onrender.com/api/emptycrates/${userStoreId}`, {
-      inventory: emptyCrates.inventory,
-      updated_at: new Date(),
-    });
-
-          // POST to create a new empty crates entry
           await axios.post('https://sgebackend.onrender.com/api/emptycrates', {
             store_id: userStoreId,
-            inventory: [{ product_id: productId, quantity: -quantity }],
+            inventory: [{ product_id: productId, quantity: quantity }],
           });
+     
 
+         
           console.log('Created new empty crates entry');
           return;
         }
