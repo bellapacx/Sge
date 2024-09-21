@@ -196,9 +196,10 @@ const PurchaseOrders: React.FC = () => {
       await axios.put(`https://sgebackend.onrender.com/api/porders/${id}/accept`, {
         accepted_quantity: acceptedQty,
       });
-
+       
+      const storeid = userStoreId ?? '';
       // Call the updateEmptyCrates function to update inventory
-      await updateEmptyCrates(po.store_id._id, po.product_id._id, acceptedQty);
+      await updateEmptyCrates(storeid, po.product_id._id, acceptedQty);
 
       await refreshPurchaseOrders();
     } catch (error) {
