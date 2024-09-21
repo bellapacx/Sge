@@ -117,7 +117,7 @@ const SellOrders: React.FC = () => {
 
       // Prepare data for submission
       const dataToSubmit = {
-        store_id: formData.store_id,
+        store_id: userStoreId,
         product_id: formData.product_id,
         quantity: formData.quantity,
         sell_date: formData.sell_date,
