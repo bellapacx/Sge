@@ -21,15 +21,16 @@ const MainLayout: React.FC = () => {
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
+
     return (
         <div className="bg-gray-200 flex flex-col h-full">
-            <Header toggleSidebar={toggleSidebar}/>
+            <Header toggleSidebar={toggleSidebar} />
             <div className="flex flex-1">
                 <Sidebar isOpen={isSidebarOpen} />
                 <main className="flex-1 p-4">
-                    <Routes >
-                    <Route path="/" element={<Navigate to="" />} />
-                        <Route path="/dashboard"  element={<AuthenticatedRoute element={<Dashboard />} requiredRoles={["admin"]} />} />
+                    <Routes>
+                        <Route path="/" element={<Navigate to="" />} />
+                        <Route path="/dashboard" element={<AuthenticatedRoute element={<Dashboard />} requiredRoles={["admin"]} />} />
                         <Route path="/products" element={<AuthenticatedRoute element={<Products />} requiredRoles={["admin"]} />} />
                         <Route path="/reports" element={<AuthenticatedRoute element={<SellReports />} requiredRoles={['admin']} />} />
                         <Route path="/purchase" element={<AuthenticatedRoute element={<PurchaseOrders />} requiredRoles={['admin','shopkeeper']} />} />

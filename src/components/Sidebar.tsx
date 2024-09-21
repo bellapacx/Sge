@@ -4,9 +4,10 @@ import SidebarLink from './SidebarLink';
 
 interface SidebarProps {
   isOpen: boolean; // Add this prop type
+  closeSidebar: () => void; // New prop
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
   const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
@@ -48,26 +49,26 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
       <nav className="flex flex-col flex-grow">
         {userRole === 'admin' && (
           <>
-            <SidebarLink icon={FaHome} label="Dashboard" to='/dashboard' />
-            <SidebarLink icon={FaArrowsAltV} label="Reports" to='/reports'/>
-            <SidebarLink icon={FaTags} label="Products" to='/products'/>
-            <SidebarLink icon={FaShoppingCart} label="Orders" to='/purchase'/>
-            <SidebarLink icon={FaSalesforce} label="Sales" to='/sell'/>
-            <SidebarLink icon={FaStore} label="Stores" to='/stores'/>
-            <SidebarLink icon={FaUsers} label="Users" to='/users'/>
-            <SidebarLink icon={FaCar} label="Vehicles" to='/vehicles'/>
-            <SidebarLink icon={FaWineBottle} label="Empty" to='/empty'/>
-            <SidebarLink icon={FaUserAlt} label="Subagent" to='/subagent'/>
+            <SidebarLink icon={FaHome} label="Dashboard" to='/dashboard' closeSidebar={closeSidebar}/>
+            <SidebarLink icon={FaArrowsAltV} label="Reports" to='/reports' closeSidebar={closeSidebar}/>
+            <SidebarLink icon={FaTags} label="Products" to='/products' closeSidebar={closeSidebar}/>
+            <SidebarLink icon={FaShoppingCart} label="Orders" to='/purchase' closeSidebar={closeSidebar}/>
+            <SidebarLink icon={FaSalesforce} label="Sales" to='/sell' closeSidebar={closeSidebar}/>
+            <SidebarLink icon={FaStore} label="Stores" to='/stores' closeSidebar={closeSidebar}/>
+            <SidebarLink icon={FaUsers} label="Users" to='/users' closeSidebar={closeSidebar}/>
+            <SidebarLink icon={FaCar} label="Vehicles" to='/vehicles' closeSidebar={closeSidebar}/>
+            <SidebarLink icon={FaWineBottle} label="Empty" to='/empty' closeSidebar={closeSidebar}/>
+            <SidebarLink icon={FaUserAlt} label="Subagent" to='/subagent' closeSidebar={closeSidebar}/>
           </>
         )}
         {userRole === 'cashier' && (
           <>
-            <SidebarLink icon={FaSalesforce} label="Sales" to='/sell'/>
+            <SidebarLink icon={FaSalesforce} label="Sales" to='/sell' closeSidebar={closeSidebar}/>
           </>
         )}
         {userRole === 'shopkeeper' && (
           <>
-            <SidebarLink icon={FaShoppingCart} label="Orders" to='/purchase'/>
+            <SidebarLink icon={FaShoppingCart} label="Orders" to='/purchase' closeSidebar={closeSidebar}/>
           </>
         )}
         {/* Add other roles and their corresponding links here */}
