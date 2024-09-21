@@ -62,74 +62,77 @@ const SellReports: React.FC = () => {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Sell Reports</h1>
-      <div className="mb-4">
-        <label htmlFor="store" className="block text-sm font-medium text-gray-700">
-          Select Store
-        </label>
-        <select
-          id="store"
-          value={selectedStore || ''}
-          onChange={(e) => setSelectedStore(e.target.value)}
-          className="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm"
-        >
-          <option value="">Select a store</option>
-          {stores.map(store => (
-            <option key={store._id} value={store._id}>
-              {store.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="mb-4">
-        <label htmlFor="reportDate" className="block text-sm font-medium text-gray-700">
-          Report Date
-        </label>
-        <input
-          id="reportDate"
-          type="date"
-          value={reportDate}
-          onChange={(e) => setReportDate(e.target.value)}
-          className="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm"
-        />
-      </div>
-      <button
-        onClick={handleFetchReport}
-        className="mb-4 bg-gray-600 text-white px-4 py-2 rounded-md"
-      >
-        Generate Report
-      </button>
-      {reportData && (
-        <div>
-          <h2 className="text-xl text-black font-bold mb-2">Report Summary</h2>
-          <p className='text-black'><strong>Store:</strong> {reportData.sell_orders[0]?.store_id.name}</p>
-          <p className='text-black'><strong>Quantity Sold:</strong> {reportData.quantity_sold}</p>
-          <p className='text-black'><strong>Total Revenue:</strong> ${reportData.total_revenue.toFixed(2)}</p>
-          <h3 className="text-lg font-semibold mt-4">Sell Orders</h3>
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sell Price</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sell Date</th>
+<div className="p-4">
+  <h1 className="text-2xl font-bold mb-4">Sell Reports</h1>
+  <div className="mb-4">
+    <label htmlFor="store" className="block text-sm font-medium text-gray-700">
+      Select Store
+    </label>
+    <select
+      id="store"
+      value={selectedStore || ''}
+      onChange={(e) => setSelectedStore(e.target.value)}
+      className="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm p-2 text-sm"
+    >
+      <option value="">Select a store</option>
+      {stores.map(store => (
+        <option key={store._id} value={store._id}>
+          {store.name}
+        </option>
+      ))}
+    </select>
+  </div>
+  <div className="mb-4">
+    <label htmlFor="reportDate" className="block text-sm font-medium text-gray-700">
+      Report Date
+    </label>
+    <input
+      id="reportDate"
+      type="date"
+      value={reportDate}
+      onChange={(e) => setReportDate(e.target.value)}
+      className="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm p-2 text-sm"
+    />
+  </div>
+  <button
+    onClick={handleFetchReport}
+    className="mb-4 bg-gray-600 text-white px-4 py-2 rounded-md text-sm sm:text-base"
+  >
+    Generate Report
+  </button>
+  {reportData && (
+    <div>
+      <h2 className="text-xl text-black font-bold mb-2">Report Summary</h2>
+      <p className='text-black'><strong>Store:</strong> {reportData.sell_orders[0]?.store_id.name}</p>
+      <p className='text-black'><strong>Quantity Sold:</strong> {reportData.quantity_sold}</p>
+      <p className='text-black'><strong>Total Revenue:</strong> ${reportData.total_revenue.toFixed(2)}</p>
+      <h3 className="text-lg font-semibold mt-4">Sell Orders</h3>
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sell Price</th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sell Date</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {reportData.sell_orders.map(order => (
+              <tr key={order._id}>
+                <td className="px-4 py-4 whitespace-nowrap">{order.product_id.name}</td>
+                <td className="px-4 py-4 whitespace-nowrap">{order.quantity}</td>
+                <td className="px-4 py-4 whitespace-nowrap">${order.sell_price.toFixed(2)}</td>
+                <td className="px-4 py-4 whitespace-nowrap">{new Date(order.sell_date).toLocaleDateString()}</td>
               </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {reportData.sell_orders.map(order => (
-                <tr key={order._id}>
-                  <td className="px-6 py-4 whitespace-nowrap">{order.product_id.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{order.quantity}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">${order.sell_price.toFixed(2)}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{new Date(order.sell_date).toLocaleDateString()}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
+  )}
+</div>
+
   );
 };
 
