@@ -173,7 +173,7 @@ const SellOrders: React.FC = () => {
 
           await axios.post('https://sgebackend.onrender.com/api/emptycrates', {
             store_id: userStoreId,
-            inventory: [{ product_id: productId, quantity: quantity }],
+            inventory: [{ product_id: productId, quantity: -quantity }],
           });
           return;
         }
@@ -188,7 +188,7 @@ const SellOrders: React.FC = () => {
 
           await axios.post('https://sgebackend.onrender.com/api/emptycrates', {
             store_id: userStoreId,
-            inventory: [{ product_id: productId, quantity: quantity }],
+            inventory: [{ product_id: productId, quantity: -quantity }],
           });
           return;
         } else {
@@ -200,9 +200,9 @@ const SellOrders: React.FC = () => {
         (item: { product_id: string }) => item.product_id === productId
       );
       if (existingProductIndex >= 0) {
-        emptyCrates.inventory[existingProductIndex].quantity -= quantity;
+        emptyCrates.inventory[existingProductIndex].quantity -= -quantity;
       } else {
-        emptyCrates.inventory.push({ product_id: productId, quantity: quantity });
+        emptyCrates.inventory.push({ product_id: productId, quantity: -quantity });
       }
 
       await axios.put(`https://sgebackend.onrender.com/api/emptycrates/${userStoreId}`, {
