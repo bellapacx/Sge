@@ -39,12 +39,15 @@ const Dashboard: React.FC = () => {
   
         // Wait for products to be fetched before calculating income
         const calculatedIncome = sellOrders.reduce((acc: number, order: any) => {
-          const product = products.find((p) => p._id === order.product_id._id); // Find the product by ID
-          if (product && product.purchase_price) { // Check if product exists and has a purchase price
-            const incomeFromOrder = (order.sell_price - product.purchase_price) * (order.quantity || 0);
-            return acc + incomeFromOrder; // Only add if product is found
+          // Check if order.product_id is defined and valid
+          if (order.product_id) {
+            const product = products.find((p) => p._id === order.product_id._id); // Find the product by ID
+            if (product && product.purchase_price) { // Check if product exists and has a purchase price
+              const incomeFromOrder = (order.sell_price - product.purchase_price) * (order.quantity || 0);
+              return acc + incomeFromOrder; // Only add if product is found
+            }
           }
-          return acc; // If no product or no purchase price, return current accumulator
+          return acc; // If no valid order or product, return current accumulator
         }, 0);
   
         setIncome(calculatedIncome);
