@@ -1,24 +1,50 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  LineElement,
+  PointElement,
+  LinearScale,
+  TimeScale,
+  Filler,
+  Tooltip,
+  Legend,
+  Title,
+} from 'chart.js';
+
+// Register necessary components
+ChartJS.register(
+  LineElement,
+  PointElement,
+  LinearScale,
+  TimeScale,
+  Filler,
+  Tooltip,
+  Legend,
+  Title
+);
+
+interface SalesData {
+  date: string;
+  total: number;
+}
 
 interface ChartProps {
-  salesData: { date: string; total: number }[];
+  salesData: SalesData[];
 }
 
 const Chart: React.FC<ChartProps> = ({ salesData }) => {
-  // Prepare data for chart
-  const labels = salesData.map(data => data.date);
-  const totals = salesData.map(data => data.total);
-
   const data = {
-    labels,
+    labels: salesData.map((item) => item.date),
     datasets: [
       {
-        label: 'Sales by Date',
-        data: totals,
-        borderColor: 'rgba(75, 192, 192, 1)',
+        label: 'Sales',
+        data: salesData.map((item) => item.total),
+        fill: true,
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderWidth: 1,
+        borderColor: 'rgba(75, 192, 192, 1)',
+        pointRadius: 5,
+        pointHoverRadius: 7,
       },
     ],
   };
