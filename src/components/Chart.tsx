@@ -35,13 +35,16 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                 backgroundColor: gradient,
                 pointBackgroundColor: '#4a90e2',
                 pointBorderColor: '#fff',
-                pointRadius: 5,
-                pointHoverRadius: 7,
+                pointRadius: 6,
+                pointHoverRadius: 8,
+                hoverBackgroundColor: '#4a90e2',
+                hoverBorderColor: '#fff',
               },
             ],
           },
           options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
               legend: {
                 display: true,
@@ -55,13 +58,23 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
               },
               tooltip: {
                 backgroundColor: '#ffffff',
-                titleColor: '#333',
+                titleColor: '#4a90e2',
                 bodyColor: '#333',
                 borderColor: '#4a90e2',
                 borderWidth: 1,
                 displayColors: false,
                 padding: 10,
-                cornerRadius: 5,
+                cornerRadius: 8,
+                callbacks: {
+                  label: (context) => {
+                    // Assert the type of context.raw
+                    const value = context.raw as number; // Assuming it's a number
+                    return `${context.dataset.label}: ₦${value.toLocaleString()}`;
+                  },
+                  title: (tooltipItems) => {
+                    return `Date: ${tooltipItems[0].label}`;
+                  },
+                },
               },
             },
             scales: {
@@ -85,6 +98,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                   font: {
                     size: 12,
                   },
+                  callback: (value) => `₦${value.toLocaleString()}`,
                 },
               },
             },
@@ -104,8 +118,12 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
   }, [salesData]);
 
   return (
-    <div className="relative w-full h-96 bg-white rounded-lg shadow-lg p-5">
+    <div className="relative w-full h-96 bg-white rounded-lg shadow-lg p-5 flex flex-col">
+      <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">Sales Overview</h3>
       <canvas ref={chartRef} className="w-full h-full" />
+      <div className="mt-2 text-center text-gray-500 text-sm">
+        Data reflects the total sales over time.
+      </div>
     </div>
   );
 };
