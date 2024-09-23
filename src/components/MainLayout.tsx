@@ -72,7 +72,7 @@ const MainLayout: React.FC = () => {
 
     // Show a loading spinner or placeholder until we fetch the userRole
     if (loading) {
-        return <div className="loading">Loading...</div>;
+        return <div className="loading"></div>;
     }
 
     return (

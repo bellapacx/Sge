@@ -30,8 +30,9 @@ const LoginForm: React.FC = () => {
           localStorage.setItem('authToken', token);
           console.log('Login successful, navigating to SGE page');
             // Redirect to the URL after login
-         // window.location.href = 'https://bellapacx.github.io/Sge/';
+         // 
             navigate('/');
+            window.location.href = 'https://bellapacx.github.io/Sge/';
         } else {
           console.log('No token received');
           setError('Login failed, no token received');
