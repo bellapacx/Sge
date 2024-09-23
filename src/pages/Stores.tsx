@@ -156,9 +156,10 @@ const Stores: React.FC = () => {
   <div className="w-full md:w-1/2 h-40 mb-4 md:mb-0">
     <Pie data={chartData} options={chartOptions} />
   </div>
-  <div className="mt-4 md:mt-0 md:ml-4 flex flex-col md:flex-row">
+  <div  className="mt-4 md:mt-0 md:ml-4 flex flex-col md:flex-row hidden"   >
   
     <button
+    
       onClick={() => handleDeleteStore(store._id)}
       className="bg-red-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-red-500"
     >
