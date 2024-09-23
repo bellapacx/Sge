@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Dashboard from '../pages/Dashboard';
@@ -18,7 +18,8 @@ import SubAgents from '../pages/Subagent';
 const MainLayout: React.FC = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [userRole, setUserRole] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true); // Added loading state
+    const [loading, setLoading] = useState(true); // Loading state
+    const navigate = useNavigate();
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -33,9 +34,12 @@ const MainLayout: React.FC = () => {
             try {
                 const token = localStorage.getItem('authToken');
                 if (!token) {
+                    // Redirect to login if there's no token
+                    navigate('/login');
                     setLoading(false);
                     return;
                 }
+
                 const response = await fetch('https://sgebackend.onrender.com/api/current-user', {
                     method: 'GET',
                     headers: {
@@ -43,27 +47,32 @@ const MainLayout: React.FC = () => {
                         'Content-Type': 'application/json',
                     },
                 });
+
                 if (response.ok) {
                     const data = await response.json();
                     setUserRole(data.role);
                 } else {
                     console.error('Failed to fetch user role');
+                    localStorage.removeItem('authToken'); // Clear invalid token
+                    navigate('/login'); // Redirect to login on failure
                     setUserRole(null);
                 }
             } catch (error) {
                 console.error('Error fetching user role!', error);
+                localStorage.removeItem('authToken');
+                navigate('/login'); // Redirect to login on error
                 setUserRole(null);
             } finally {
-                setLoading(false); // Set loading to false regardless of outcome
+                setLoading(false); // Set loading to false
             }
         };
 
         fetchUserRole();
-    }, []);
+    }, [navigate]);
 
-    // Show a loading spinner or a blank div until we fetch the userRole
+    // Show a loading spinner or placeholder until we fetch the userRole
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className="loading">Loading...</div>;
     }
 
     return (
@@ -81,6 +90,7 @@ const MainLayout: React.FC = () => {
                         ) : (
                             <Route path="/" element={<Navigate to="/dashboard" />} />
                         )}
+
                         {/* Authenticated routes */}
                         <Route path="/dashboard" element={<AuthenticatedRoute element={<Dashboard />} requiredRoles={["admin"]} />} />
                         <Route path="/products" element={<AuthenticatedRoute element={<Products />} requiredRoles={["admin"]} />} />
@@ -93,6 +103,7 @@ const MainLayout: React.FC = () => {
                         <Route path="/sell" element={<AuthenticatedRoute element={<SellOrder />} requiredRoles={['admin', 'cashier']} />} />
                         <Route path="/subagent" element={<AuthenticatedRoute element={<SubAgents />} requiredRoles={['admin']} />} />
                         <Route path="/login" element={<Login />} />
+
                         {/* Redirect to /login if no match */}
                         <Route path="*" element={<Navigate to="/login" />} />
                     </Routes>
