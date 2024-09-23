@@ -3,7 +3,7 @@ import StatCard from '../components/StatCard';
 import Chart from '../components/Chart';
 import StockAlert from '../components/StockAlert';
 import TopSellingProducts from '../components/TopSellingProducts';
-import { FaDollarSign,  FaShoppingCart, FaWallet } from 'react-icons/fa';
+import { FaDollarSign, FaShoppingCart, FaWallet } from 'react-icons/fa';
 import axios from 'axios';
 
 const Dashboard: React.FC = () => {
@@ -17,8 +17,16 @@ const Dashboard: React.FC = () => {
         const response = await axios.get('https://sgebackend.onrender.com/api/sorders'); // Adjust endpoint as necessary
         const sellOrders = response.data;
 
-        const calculatedRevenue = sellOrders.reduce((acc: number, order: any) => acc + order.total_amount, 0);
-        const calculatedIncome = sellOrders.reduce((acc: number, order: any) => acc + order.sell_price * order.quantity, 0);
+        const calculatedRevenue = sellOrders.reduce((acc: number, order: any) => {
+          const totalAmount = order.total_amount || 0; // Ensure total_amount defaults to 0
+          return acc + (typeof totalAmount === 'number' ? totalAmount : 0);
+        }, 0);
+
+        const calculatedIncome = sellOrders.reduce((acc: number, order: any) => {
+          const sellPrice = order.sell_price || 0; // Ensure sell_price defaults to 0
+          const quantity = order.quantity || 0; // Ensure quantity defaults to 0
+          return acc + (typeof sellPrice === 'number' && typeof quantity === 'number' ? sellPrice * quantity : 0);
+        }, 0);
 
         setRevenue(calculatedRevenue);
         setIncome(calculatedIncome);
@@ -32,7 +40,10 @@ const Dashboard: React.FC = () => {
         const response = await axios.get('https://sgebackend.onrender.com/api/porders'); // Adjust endpoint as necessary
         const purchaseOrders = response.data;
 
-        const calculatedPurchase = purchaseOrders.reduce((acc: number, order: any) => acc + order.total_cost, 0);
+        const calculatedPurchase = purchaseOrders.reduce((acc: number, order: any) => {
+          const totalCost = order.total_cost || 0; // Ensure total_cost defaults to 0
+          return acc + (typeof totalCost === 'number' ? totalCost : 0);
+        }, 0);
 
         setPurchase(calculatedPurchase);
       } catch (error) {
@@ -48,7 +59,6 @@ const Dashboard: React.FC = () => {
     <div className="flex flex-col p-6 bg-gray-50 min-h-screen">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
         <StatCard title="Revenue" value={`₦${revenue.toLocaleString()}`} icon={FaDollarSign} />
-
         <StatCard title="Purchase" value={`₦${purchase.toLocaleString()}`} icon={FaShoppingCart} />
         <StatCard title="Income" value={`₦${income.toLocaleString()}`} icon={FaWallet} />
       </div>
