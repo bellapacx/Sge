@@ -1,9 +1,0 @@
-declare module 'recharts/lib/cartesian/LineChart';
-declare module 'recharts/lib/cartesian/Line';
-declare module 'recharts/lib/cartesian/XAxis';
-declare module 'recharts/lib/cartesian/YAxis';
-declare module 'recharts/lib/component/Tooltip';
-declare module 'recharts/lib/component/Legend';
-declare module 'recharts/lib/component/ResponsiveContainer';
-declare module 'recharts/lib/cartesian/CartesianGrid';
-declare module 'recharts/lib/cartesian/Brush';
