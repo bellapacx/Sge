@@ -10,26 +10,33 @@ const Dashboard: React.FC = () => {
   const [revenue, setRevenue] = useState<number>(0);
   const [income, setIncome] = useState<number>(0);
   const [purchase, setPurchase] = useState<number>(0);
+  const [salesByDate, setSalesByDate] = useState<{ date: string; total: number }[]>([]);
 
   useEffect(() => {
     const fetchSellOrders = async () => {
       try {
-        const response = await axios.get('https://sgebackend.onrender.com/api/sorders'); // Adjust endpoint as necessary
+        const response = await axios.get('https://sgebackend.onrender.com/api/sorders');
         const sellOrders = response.data;
 
-        const calculatedRevenue = sellOrders.reduce((acc: number, order: any) => {
-          const totalAmount = order.total_amount || 0; // Ensure total_amount defaults to 0
-          return acc + (typeof totalAmount === 'number' ? totalAmount : 0);
-        }, 0);
-
-        const calculatedIncome = sellOrders.reduce((acc: number, order: any) => {
-          const sellPrice = order.sell_price || 0; // Ensure sell_price defaults to 0
-          const quantity = order.quantity || 0; // Ensure quantity defaults to 0
-          return acc + (typeof sellPrice === 'number' && typeof quantity === 'number' ? sellPrice * quantity : 0);
-        }, 0);
+        const calculatedRevenue = sellOrders.reduce((acc: number, order: any) => acc + (order.total_amount || 0), 0);
+        const calculatedIncome = sellOrders.reduce((acc: number, order: any) => acc + (order.sell_price * (order.quantity || 0)), 0);
 
         setRevenue(calculatedRevenue);
         setIncome(calculatedIncome);
+ // Calculate sales by date
+ const salesData = sellOrders.reduce((acc: { [key: string]: number }, order: any) => {
+  const date = new Date(order.sell_date).toLocaleDateString();
+  acc[date] = (acc[date] || 0) + (order.total_amount || 0);
+  return acc;
+}, {});
+
+const formattedSalesData = Object.entries(salesData).map(([date, total]) => ({ 
+  date, 
+  total: Number(total) // Explicitly cast total as a number
+}));
+
+setSalesByDate(formattedSalesData);
+
       } catch (error) {
         console.error("Error fetching sell orders:", error);
       }
@@ -37,14 +44,10 @@ const Dashboard: React.FC = () => {
 
     const fetchPurchaseOrders = async () => {
       try {
-        const response = await axios.get('https://sgebackend.onrender.com/api/porders'); // Adjust endpoint as necessary
+        const response = await axios.get('https://sgebackend.onrender.com/api/porders');
         const purchaseOrders = response.data;
 
-        const calculatedPurchase = purchaseOrders.reduce((acc: number, order: any) => {
-          const totalCost = order.total_cost || 0; // Ensure total_cost defaults to 0
-          return acc + (typeof totalCost === 'number' ? totalCost : 0);
-        }, 0);
-
+        const calculatedPurchase = purchaseOrders.reduce((acc: number, order: any) => acc + (order.total_cost || 0), 0);
         setPurchase(calculatedPurchase);
       } catch (error) {
         console.error("Error fetching purchase orders:", error);
@@ -67,7 +70,7 @@ const Dashboard: React.FC = () => {
         <h2 className="text-xl font-semibold text-gray-700 mb-4">Performance Overview</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-white shadow-md rounded-lg p-6">
-            <Chart />
+            <Chart salesData={salesByDate} />
           </div>
           <div className="bg-white shadow-md rounded-lg p-6">
             <TopSellingProducts />
