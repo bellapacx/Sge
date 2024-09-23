@@ -131,31 +131,42 @@ const Stores: React.FC = () => {
           };
 
           return (
-            <div key={store._id} className="bg-white p-4 rounded-lg shadow-lg flex flex-col md:flex-row items-start transition-transform duration-200 hover:scale-105">
-            <div className="w-full md:w-3/4 pr-4 mb-4 md:mb-0">
-              <h2 className="text-2xl text-black font-bold mb-2">{store.name}</h2>
+            <div key={store._id} className="bg-white p-6 rounded-lg shadow-lg flex flex-col md:flex-row items-start transition-transform duration-200 hover:scale-105">
+  <div className="w-full md:w-3/4 pr-4 mb-4 md:mb-0">
+    <h2 className="text-2xl text-black font-bold mb-2">{store.name}</h2>
+    <div>
+      <h3 className="text-lg font-semibold mb-2 text-black">Stock:</h3>
+      <div className="space-y-2 h-40 overflow-y-scroll border border-gray-200 rounded-md p-2 bg-gray-50">
+        {store.inventory.length > 0 ? (
+          store.inventory.map((item) => (
+            <div key={item.product_id._id} className="p-4 border-b last:border-b-0 border-gray-200 text-lg text-black flex justify-between items-center hover:bg-gray-100 transition duration-200">
               <div>
-                <h3 className="text-lg font-semibold mb-2 text-black">Stock:</h3>
-                <div className="space-y-2 h-40 overflow-y-scroll border border-gray-200 rounded-md p-2 bg-gray-50">
-                  {store.inventory.map((item) => (
-                    <div key={item.product_id._id} className="p-2 border-b last:border-b-0 border-gray-200 text-lg text-black hover:bg-gray-100 transition duration-200">
-                      <p className="text-black font-semibold">{item.product_id.name}</p>
-                      <p className="text-black font-medium">Qty: {item.quantity}</p>
-                    </div>
-                  ))}
-                </div>
+                <p className="font-semibold">{item.product_id.name}</p>
+                <p className="font-medium">Qty: {item.quantity}</p>
               </div>
+              <span className="text-sm text-gray-500">{item.product_id.category}</span>
             </div>
-            <div className="w-full md:w-1/2 h-40 mb-4 md:mb-0">
-              <Pie data={chartData} options={chartOptions} />
-            </div>
-            <button
-              onClick={() => handleDeleteStore(store._id)}
-              className="mt-4 md:mt-0 md:ml-4 bg-red-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-red-500"
-            >
-              Delete Store
-            </button>
-          </div>
+          ))
+        ) : (
+          <p className="text-center text-gray-500">No stock available.</p>
+        )}
+      </div>
+    </div>
+  </div>
+  <div className="w-full md:w-1/2 h-40 mb-4 md:mb-0">
+    <Pie data={chartData} options={chartOptions} />
+  </div>
+  <div className="mt-4 md:mt-0 md:ml-4 flex flex-col md:flex-row">
+  
+    <button
+      onClick={() => handleDeleteStore(store._id)}
+      className="bg-red-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-red-500"
+    >
+      Delete Store
+    </button>
+  </div>
+</div>
+
           
 
           );
