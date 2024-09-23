@@ -18,8 +18,8 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
       const ctx = chartRef.current.getContext('2d');
       if (ctx) {
         const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-        gradient.addColorStop(0, 'rgba(74, 144, 226, 0.5)'); // Light blue at top
-        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)'); // Transparent at bottom
+        gradient.addColorStop(0, 'rgba(74, 144, 226, 0.5)');
+        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
 
         const chart = new Chart(ctx, {
           type: 'line',
@@ -55,11 +55,11 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
               },
               tooltip: {
                 backgroundColor: '#ffffff',
+                titleColor: '#333',
                 bodyColor: '#333',
                 borderColor: '#4a90e2',
                 borderWidth: 1,
                 displayColors: false,
-                titleColor: '#333',
                 padding: 10,
                 cornerRadius: 5,
               },
@@ -90,7 +90,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
             },
             elements: {
               line: {
-                tension: 0.4, // Smooth curves
+                tension: 0.4,
               },
             },
           },
