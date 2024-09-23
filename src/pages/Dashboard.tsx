@@ -79,7 +79,7 @@ const Dashboard: React.FC = () => {
     <div className="flex flex-col p-6 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 min-h-screen">
   {isLoading ? (
     <div className="flex justify-center items-center h-full">
-      <div className="text-lg font-semibold text-gray-600">Loading...</div>
+      <div className="text-lg font-semibold text-gray-600 animate-pulse">Loading...</div>
     </div>
   ) : (
     <>
@@ -89,36 +89,36 @@ const Dashboard: React.FC = () => {
           title="Revenue"
           value={`₦${revenue.toLocaleString()}`}
           icon={FaDollarSign}
-          className="bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-xl"
+          className="bg-gradient-to-br from-green-400 to-green-600 text-white shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-xl p-6 flex items-center"
         />
         <StatCard
           title="Total Purchase"
           value={`₦${purchase.toLocaleString()}`}
           icon={FaShoppingCart}
-          className="bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-xl"
+          className="bg-gradient-to-br from-blue-400 to-blue-600 text-white shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-xl p-6 flex items-center"
         />
         <StatCard
           title="Income"
           value={`₦${income.toLocaleString()}`}
           icon={FaWallet}
-          className="bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-xl"
+          className="bg-gradient-to-br from-purple-400 to-purple-600 text-white shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-xl p-6 flex items-center"
         />
       </div>
 
       {/* Performance Overview */}
-      <div className="mt-4 md:mt-8 px-2 md:px-0">
+      <div className="mt-6 md:mt-8 px-2 md:px-0">
         <h2 className="text-lg md:text-xl font-semibold text-gray-800 mb-4 text-center md:text-left">
           Performance Overview
         </h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
           {/* Chart Container */}
-          <div className="bg-white shadow-lg rounded-xl p-4 md:p-6 transition-transform duration-300 transform hover:scale-105">
-  <div className="relative" style={{ paddingTop: '56.25%' }}> {/* Aspect ratio for the chart */}
-    <div className="absolute inset-0 rounded-lg overflow-hidden"> {/* Rounded corners for the chart */}
-      <Chart salesData={salesByDate} />
-    </div>
-  </div>
-</div>
+          <div className="bg-white shadow-lg rounded-xl p-4 md:p-6 transition-transform duration-300 hover:scale-105 flex flex-col">
+            <div className="relative" style={{ paddingTop: '56.25%' }}>
+              <div className="absolute inset-0 rounded-lg overflow-hidden">
+                <Chart salesData={salesByDate} />
+              </div>
+            </div>
+          </div>
           {/* Top Selling Products Container */}
           <div className="bg-white shadow-lg rounded-xl p-4 md:p-6 transition-transform duration-300 hover:scale-105">
             <TopSellingProducts />
@@ -138,6 +138,7 @@ const Dashboard: React.FC = () => {
     </>
   )}
 </div>
+
 
   );
 };

@@ -112,7 +112,7 @@ const Users: React.FC = () => {
         setEditingUser(null);
         setIsModalOpen(true);
       }}
-      className="mb-4 bg-gray-600 text-white px-4 py-2 rounded-md"
+      className="mb-4 bg-gray-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-gray-500"
     >
       Add User
     </button>
@@ -120,27 +120,27 @@ const Users: React.FC = () => {
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Store</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
+            <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
+            <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+            <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Store</th>
+            <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {Array.isArray(users) && users.length > 0 ? (
             users.map((user) => (
               <tr key={user._id}>
-                <td className="px-4 py-4 whitespace-nowrap text-sm">{user.username}</td>
-                <td className="px-4 py-4 whitespace-nowrap text-sm">{user.phone_number}</td>
-                <td className="px-4 py-4 whitespace-nowrap text-sm">{user.role}</td>
-                <td className="px-4 py-4 whitespace-nowrap text-sm">
+                <td className="px-2 py-4 whitespace-nowrap text-sm">{user.username}</td>
+                <td className="px-2 py-4 whitespace-nowrap text-sm">{user.phone_number}</td>
+                <td className="px-2 py-4 whitespace-nowrap text-sm">{user.role}</td>
+                <td className="px-2 py-4 whitespace-nowrap text-sm">
                   {stores.find((store) => store._id === user.store_id)?.name || 'N/A'}
                 </td>
-                <td className="px-4 py-4 whitespace-nowrap text-sm">
+                <td className="px-2 py-4 whitespace-nowrap text-sm">
                   <button
                     onClick={() => handleEditClick(user)}
-                    className="ml-2 bg-yellow-500 text-white px-3 py-1 rounded-md text-sm"
+                    className="bg-yellow-500 text-white px-3 py-1 rounded-md text-sm transition duration-200 hover:bg-yellow-400"
                   >
                     Edit
                   </button>

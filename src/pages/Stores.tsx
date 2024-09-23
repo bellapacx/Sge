@@ -141,8 +141,8 @@ const Stores: React.FC = () => {
           store.inventory.map((item) => (
             <div key={item.product_id._id} className="p-4 border-b last:border-b-0 border-gray-200 text-lg text-black flex justify-between items-center hover:bg-gray-100 transition duration-200">
               <div>
-                <p className="font-semibold">{item.product_id.name}</p>
-                <p className="font-medium">Qty: {item.quantity}</p>
+                <p className="text-black font-semibold">{item.product_id.name}</p>
+                <p className="text-black font-medium">Qty: {item.quantity}</p>
               </div>
               <span className="text-sm text-gray-500">{item.product_id.category}</span>
             </div>
