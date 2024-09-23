@@ -50,50 +50,59 @@ const Vehicles: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Vehicles</h1>
-      <button
-        onClick={() => {
-          setEditVehicle(null);
-          setIsModalOpen(true);
-        }}
-        className="mb-4 bg-gray-600 text-white px-4 py-2 rounded-md"
-      >
-        Add Vehicle
-      </button>
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Driver Name</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plate Number</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {vehicles.map(vehicle => (
+    <h1 className="text-2xl font-bold mb-4">Vehicles</h1>
+    <button
+      onClick={() => {
+        setEditVehicle(null);
+        setIsModalOpen(true);
+      }}
+      className="mb-4 bg-gray-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-gray-500"
+    >
+      Add Vehicle
+    </button>
+    <div className="overflow-x-auto">
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Driver Name</th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plate Number</th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {vehicles.length > 0 ? (
+            vehicles.map(vehicle => (
               <tr key={vehicle._id}>
-                <td className="px-6 py-4 whitespace-nowrap">{vehicle.driverName}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{vehicle.plateNumber}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-4 py-4 whitespace-nowrap text-sm">{vehicle.driverName}</td>
+                <td className="px-4 py-4 whitespace-nowrap text-sm">{vehicle.plateNumber}</td>
+                <td className="px-4 py-4 whitespace-nowrap">
                   <button
                     onClick={() => openEditModal(vehicle)}
-                    className="bg-gray-400 text-white px-4 py-2 rounded-md"
+                    className="bg-gray-400 text-white px-3 py-1 rounded-md transition duration-200 hover:bg-gray-300"
                   >
                     Edit
                   </button>
                 </td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <VehicleForm
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSubmit={handleAddVehicle}
-        initialData={editVehicle ? { _id: editVehicle._id, driverName: editVehicle.driverName, plateNumber: editVehicle.plateNumber } : undefined}
-      />
+            ))
+          ) : (
+            <tr>
+              <td colSpan={3} className="px-4 py-4 text-center text-gray-500">
+                No vehicles found.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </div>
+    <VehicleForm
+      isOpen={isModalOpen}
+      onClose={() => setIsModalOpen(false)}
+      onSubmit={handleAddVehicle}
+      initialData={editVehicle ? { _id: editVehicle._id, driverName: editVehicle.driverName, plateNumber: editVehicle.plateNumber } : undefined}
+    />
+  </div>
+  
   );
 };
 

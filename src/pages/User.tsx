@@ -131,16 +131,16 @@ const Users: React.FC = () => {
           {Array.isArray(users) && users.length > 0 ? (
             users.map((user) => (
               <tr key={user._id}>
-                <td className="px-4 py-4 whitespace-nowrap">{user.username}</td>
-                <td className="px-4 py-4 whitespace-nowrap">{user.phone_number}</td>
-                <td className="px-4 py-4 whitespace-nowrap">{user.role}</td>
-                <td className="px-4 py-4 whitespace-nowrap">
+                <td className="px-4 py-4 whitespace-nowrap text-sm">{user.username}</td>
+                <td className="px-4 py-4 whitespace-nowrap text-sm">{user.phone_number}</td>
+                <td className="px-4 py-4 whitespace-nowrap text-sm">{user.role}</td>
+                <td className="px-4 py-4 whitespace-nowrap text-sm">
                   {stores.find((store) => store._id === user.store_id)?.name || 'N/A'}
                 </td>
-                <td className="px-4 py-4 whitespace-nowrap">
+                <td className="px-4 py-4 whitespace-nowrap text-sm">
                   <button
                     onClick={() => handleEditClick(user)}
-                    className="ml-2 bg-yellow-500 text-white px-4 py-2 rounded-md"
+                    className="ml-2 bg-yellow-500 text-white px-3 py-1 rounded-md text-sm"
                   >
                     Edit
                   </button>
@@ -179,7 +179,8 @@ const Users: React.FC = () => {
         password: '', // Password field for new user
       }}
     />
-  </div>  
+  </div>
+  
 
   );
 };
