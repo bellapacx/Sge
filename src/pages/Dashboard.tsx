@@ -76,46 +76,70 @@ const Dashboard: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col p-6 bg-gray-50 min-h-screen">
-      {isLoading ? <p>Loading...</p> : (
-        <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-            <StatCard title="Revenue" value={`₦${revenue.toLocaleString()}`} icon={FaDollarSign} />
-            <StatCard title="Total Purchase" value={`₦${purchase.toLocaleString()}`} icon={FaShoppingCart} />
-            <StatCard title="Income" value={`₦${income.toLocaleString()}`} icon={FaWallet} />
-          </div>
-
-          <div className="mt-4 md:mt-8 px-2 md:px-0">
-  <h2 className="text-lg md:text-xl font-semibold text-gray-700 mb-4 text-center md:text-left">Performance Overview</h2>
-  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
-    {/* Chart Container with aspect ratio */}
-    <div className="bg-white shadow-md rounded-lg p-4 md:p-6">
-      <div className="relative" style={{ paddingTop: '56.25%' }}> {/* Aspect ratio container (16:9) */}
-        <div className="absolute inset-0">
-          <Chart salesData={salesByDate} />
-        </div>
+    <div className="flex flex-col p-6 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 min-h-screen">
+  {isLoading ? (
+    <div className="flex justify-center items-center h-full">
+      <div className="text-lg font-semibold text-gray-600">Loading...</div>
+    </div>
+  ) : (
+    <>
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+        <StatCard
+          title="Revenue"
+          value={`₦${revenue.toLocaleString()}`}
+          icon={FaDollarSign}
+          className="bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-xl"
+        />
+        <StatCard
+          title="Total Purchase"
+          value={`₦${purchase.toLocaleString()}`}
+          icon={FaShoppingCart}
+          className="bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-xl"
+        />
+        <StatCard
+          title="Income"
+          value={`₦${income.toLocaleString()}`}
+          icon={FaWallet}
+          className="bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-xl"
+        />
       </div>
-    </div>
-    {/* Top Selling Products Container */}
-    <div className="bg-white shadow-md rounded-lg p-4 md:p-6">
-      <TopSellingProducts />
-    </div>
-  </div>
-</div>
 
-
-          <div className="mt-8">
-            <h2 className="text-xl font-semibold text-gray-700 mb-4">Stock Overview</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="bg-white shadow-md rounded-lg p-6">
-                <StockAlert />
+      {/* Performance Overview */}
+      <div className="mt-4 md:mt-8 px-2 md:px-0">
+        <h2 className="text-lg md:text-xl font-semibold text-gray-800 mb-4 text-center md:text-left">
+          Performance Overview
+        </h2>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+          {/* Chart Container */}
+          <div className="bg-white shadow-lg rounded-xl p-4 md:p-6 transition-transform duration-300 hover:scale-105">
+            <div className="relative" style={{ paddingTop: '56.25%' }}>
+              <div className="absolute inset-0">
+                <Chart salesData={salesByDate} />
               </div>
-             
             </div>
           </div>
-        </>
-      )}
-    </div>
+
+          {/* Top Selling Products Container */}
+          <div className="bg-white shadow-lg rounded-xl p-4 md:p-6 transition-transform duration-300 hover:scale-105">
+            <TopSellingProducts />
+          </div>
+        </div>
+      </div>
+
+      {/* Stock Overview */}
+      <div className="mt-8">
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">Stock Overview</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="bg-white shadow-lg rounded-xl p-6 transition-transform duration-300 hover:scale-105">
+            <StockAlert />
+          </div>
+        </div>
+      </div>
+    </>
+  )}
+</div>
+
   );
 };
 
