@@ -32,7 +32,7 @@ const LoginForm: React.FC = () => {
             // Redirect to the URL after login
          // 
             navigate('/');
-            window.location.href = 'https://bellapacx.github.io/Sge/';
+           // window.location.href = 'https://bellapacx.github.io/Sge/';
         } else {
           console.log('No token received');
           setError('Login failed, no token received');
