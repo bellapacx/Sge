@@ -1,15 +1,15 @@
-import React from 'react';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  CartesianGrid,
-  Brush,
-} from 'recharts';
+import React, { lazy, Suspense } from 'react';
+
+// Dynamic imports for recharts components
+const LineChart = lazy(() => import('recharts/lib/cartesian/LineChart'));
+const Line = lazy(() => import('recharts/lib/cartesian/Line'));
+const XAxis = lazy(() => import('recharts/lib/cartesian/XAxis'));
+const YAxis = lazy(() => import('recharts/lib/cartesian/YAxis'));
+const Tooltip = lazy(() => import('recharts/lib/component/Tooltip'));
+const Legend = lazy(() => import('recharts/lib/component/Legend'));
+const ResponsiveContainer = lazy(() => import('recharts/lib/component/ResponsiveContainer'));
+const CartesianGrid = lazy(() => import('recharts/lib/cartesian/CartesianGrid'));
+const Brush = lazy(() => import('recharts/lib/cartesian/Brush'));
 
 interface SalesData {
   date: string;
@@ -39,24 +39,26 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
 
 const Chart: React.FC<ChartProps> = ({ salesData }) => {
   return (
-    <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={salesData}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" />
-        <YAxis />
-        <Tooltip content={<CustomTooltip />} />
-        <Legend />
-        <Line
-          type="monotone"
-          dataKey="total"
-          stroke="#4a90e2"
-          strokeWidth={3}
-          dot={{ stroke: '#4a90e2', strokeWidth: 2 }}
-          activeDot={{ r: 6 }}
-        />
-        <Brush dataKey="date" height={30} stroke="#4a90e2" />
-      </LineChart>
-    </ResponsiveContainer>
+    <Suspense fallback={<div>Loading chart...</div>}>
+      <ResponsiveContainer width="100%" height={400}>
+        <LineChart data={salesData}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="date" />
+          <YAxis />
+          <Tooltip content={<CustomTooltip />} />
+          <Legend />
+          <Line
+            type="monotone"
+            dataKey="total"
+            stroke="#4a90e2"
+            strokeWidth={3}
+            dot={{ stroke: '#4a90e2', strokeWidth: 2 }}
+            activeDot={{ r: 6 }}
+          />
+          <Brush dataKey="date" height={30} stroke="#4a90e2" />
+        </LineChart>
+      </ResponsiveContainer>
+    </Suspense>
   );
 };
 
