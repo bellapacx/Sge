@@ -86,16 +86,17 @@ const Dashboard: React.FC = () => {
           </div>
 
           <div className="mt-8">
-            <h2 className="text-xl font-semibold text-gray-700 mb-4">Performance Overview</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="bg-white shadow-md rounded-lg p-6">
-                <Chart salesData={salesByDate} />
-              </div>
-              <div className="bg-white shadow-md rounded-lg p-6">
-                <TopSellingProducts />
-              </div>
-            </div>
-          </div>
+  <h2 className="text-xl font-semibold text-gray-700 mb-4">Performance Overview</h2>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="bg-white shadow-md rounded-lg p-6">
+      <Chart salesData={salesByDate} />
+    </div>
+    <div className="bg-white shadow-md rounded-lg p-6">
+      <TopSellingProducts />
+    </div>
+  </div>
+</div>
+
 
           <div className="mt-8">
             <h2 className="text-xl font-semibold text-gray-700 mb-4">Stock Overview</h2>
