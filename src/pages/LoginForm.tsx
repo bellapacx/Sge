@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
 import './LoginForm.css';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 
 const LoginForm: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +31,7 @@ const LoginForm: React.FC = () => {
           console.log('Login successful, navigating to SGE page');
             // Redirect to the URL after login
          // 
-            navigate('/');
+         //   navigate('/');
            window.location.href = 'https://bellapacx.github.io/Sge/';
         } else {
           console.log('No token received');
