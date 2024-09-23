@@ -3,6 +3,7 @@
 interface StatCardProps {
     title: string;
     value: string;
+    className?: string; // Add this line
   }
   
   const StatCard: React.FC<StatCardProps> = ({ title, value }) => {
