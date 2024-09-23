@@ -85,13 +85,19 @@ const Dashboard: React.FC = () => {
             <StatCard title="Income" value={`₦${income.toLocaleString()}`} icon={FaWallet} />
           </div>
 
-          <div className="mt-8">
-  <h2 className="text-xl font-semibold text-gray-700 mb-4">Performance Overview</h2>
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <div className="bg-white shadow-md rounded-lg p-6">
-      <Chart salesData={salesByDate} />
+          <div className="mt-4 md:mt-8 px-2 md:px-0">
+  <h2 className="text-lg md:text-xl font-semibold text-gray-700 mb-4 text-center md:text-left">Performance Overview</h2>
+  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+    {/* Chart Container with aspect ratio */}
+    <div className="bg-white shadow-md rounded-lg p-4 md:p-6">
+      <div className="relative" style={{ paddingTop: '56.25%' }}> {/* Aspect ratio container (16:9) */}
+        <div className="absolute inset-0">
+          <Chart salesData={salesByDate} />
+        </div>
+      </div>
     </div>
-    <div className="bg-white shadow-md rounded-lg p-6">
+    {/* Top Selling Products Container */}
+    <div className="bg-white shadow-md rounded-lg p-4 md:p-6">
       <TopSellingProducts />
     </div>
   </div>
