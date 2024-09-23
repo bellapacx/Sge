@@ -7,7 +7,6 @@ const LoginForm: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [userRole, setUserRole] = useState<string>('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,31 +28,10 @@ const LoginForm: React.FC = () => {
         if (token) {
           // Save the JWT token to localStorage or sessionStorage
           localStorage.setItem('authToken', token);
-         
-                const responses = await fetch('https://sgebackend.onrender.com/api/current-user', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                    // Ensure cookies are sent with the request
-                }); //
-                const data = await responses.json();
-                setUserRole(data.role || '');
-                // Redirect based on user role
-  if (userRole === 'admin') {
-    navigate('/dashboard');
-  } else if (userRole === 'cashier') {
-    navigate('/sell');
-  } else if (userRole === 'shopkeeper') {
-    navigate('/purchase');
-  } else {
-    navigate('/'); // Default navigation if role is unrecognized
-  }
           console.log('Login successful, navigating to SGE page');
             // Redirect to the URL after login
-          //  window.location.href = 'https://bellapacx.github.io/Sge/';
-            
+            window.location.href = 'https://bellapacx.github.io/Sge/';
+            navigate('/');
         } else {
           console.log('No token received');
           setError('Login failed, no token received');

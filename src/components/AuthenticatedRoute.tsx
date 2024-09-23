@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
-
 interface AuthenticatedRouteProps {
     element: React.ReactElement;
     requiredRoles?: string[]; // Allow multiple roles
@@ -23,8 +22,8 @@ const AuthenticatedRoute: React.FC<AuthenticatedRouteProps> = ({ element, requir
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json',
                     },
-                    // Ensure cookies are sent with the request
-                }); // Debugging
+                });
+                
                 if (response.ok) {
                     const data = await response.json();
                     if (isMounted) {
@@ -36,7 +35,7 @@ const AuthenticatedRoute: React.FC<AuthenticatedRouteProps> = ({ element, requir
                 }
                 
             } catch (error) {
-                console.log('Authentication error:', error); // Debugging
+                console.log('Authentication error:', error);
                 if (isMounted) {
                     setIsAuthenticated(false);
                 }
@@ -51,13 +50,23 @@ const AuthenticatedRoute: React.FC<AuthenticatedRouteProps> = ({ element, requir
     }, []);
 
     if (isAuthenticated === null) {
-        return <div></div>;
+        return <div>Loading...</div>; // Optionally show a loading state
     }
 
-    console.log('User role:', userRole); // Debugging
-    console.log('Required roles:', requiredRoles); // Debugging
+    if (!isAuthenticated) {
+        return <Navigate to="/login" />;
+    }
 
-    if (!isAuthenticated || (requiredRoles.length > 0 && !requiredRoles.includes(userRole))) {
+    // Role-based navigation
+    if (userRole === 'admin') {
+        return <Navigate to="/dashboard" />;
+    } else if (userRole === 'cashier') {
+        return <Navigate to="/sell" />;
+    } else if (userRole === 'shopkeeper') {
+        return <Navigate to="/purchase" />;
+    }
+
+    if (requiredRoles.length > 0 && !requiredRoles.includes(userRole)) {
         return <Navigate to="/login" />;
     }
 
