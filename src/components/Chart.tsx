@@ -118,13 +118,15 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
   }, [salesData]);
 
   return (
-    <div className="relative w-full h-96 bg-white rounded-lg shadow-lg p-5 flex flex-col">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">Sales Overview</h3>
-      <canvas ref={chartRef} className="w-full h-full" />
-      <div className="mt-2 text-center text-gray-500 text-sm">
-        Data reflects the total sales over time.
-      </div>
+    <div className="relative w-full bg-white rounded-lg shadow-lg p-5 flex flex-col">
+    <div className="relative" style={{ paddingTop: '56.25%' }}> {/* Aspect ratio for the chart */}
+      <canvas ref={chartRef} className="absolute inset-0 w-full h-full rounded-lg" />
     </div>
+    <div className="mt-2 text-center text-gray-500 text-sm">
+      Data reflects the total sales over time.
+    </div>
+  </div>
+  
   );
 };
 
