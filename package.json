@@ -15,7 +15,7 @@
   "dependencies": {
     "antd": "^5.20.2",
     "axios": "^1.7.4",
-    "chart.js": "^4.4.3",
+    "chart.js": "^4.4.4",
     "chartjs-plugin-datalabels": "^2.2.0",
     "cors": "^2.8.5",
     "express": "^4.19.2",
