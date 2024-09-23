@@ -38,13 +38,12 @@ const Dashboard: React.FC = () => {
     
         // Calculate income using product purchase prices
         const calculatedIncome = sellOrders.reduce((acc: number, order: any) => {
-          const product = products.find((p) => p._id === order.product_id._id); // Adjusted to access the correct product ID
-          if (product) {
-            // Calculate income based on the difference between sell_price and purchase_price
+          const product = products.find((p) => p._id === order.product_id._id); // Find the product by ID
+          if (product && product.purchase_price) { // Check if product exists and has a purchase price
             const incomeFromOrder = (order.sell_price - product.purchase_price) * (order.quantity || 0);
-            return acc + incomeFromOrder;
+            return acc + incomeFromOrder; // Only add if product is found
           }
-          return acc;
+          return acc; // If no product or no purchase price, return current accumulator
         }, 0);
     
         setIncome(calculatedIncome);
@@ -68,7 +67,6 @@ const Dashboard: React.FC = () => {
       }
     };
     
-
     const fetchPurchaseOrders = async () => {
       try {
         const response = await axios.get('https://sgebackend.onrender.com/api/porders');
