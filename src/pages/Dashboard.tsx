@@ -103,9 +103,7 @@ const Dashboard: React.FC = () => {
               <div className="bg-white shadow-md rounded-lg p-6">
                 <StockAlert />
               </div>
-              <div className="bg-white shadow-md rounded-lg p-6">
-                <TopSellingProducts />
-              </div>
+             
             </div>
           </div>
         </>
