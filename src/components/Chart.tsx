@@ -67,8 +67,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                 cornerRadius: 8,
                 callbacks: {
                   label: (context) => {
-                    // Assert the type of context.raw
-                    const value = context.raw as number; // Assuming it's a number
+                    const value = context.raw as number; // Ensure it's treated as a number
                     return `${context.dataset.label}: ₦${value.toLocaleString()}`;
                   },
                   title: (tooltipItems) => {
@@ -119,14 +118,13 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
 
   return (
     <div className="relative w-full bg-white rounded-lg shadow-lg p-5 flex flex-col">
-    <div className="relative" style={{ paddingTop: '56.25%' }}> {/* Aspect ratio for the chart */}
-      <canvas ref={chartRef} className="absolute inset-0 w-full h-full rounded-lg" />
+      <div className="relative" style={{ paddingTop: '56.25%' }}> {/* Aspect ratio for the chart */}
+        <canvas ref={chartRef} className="absolute inset-0 w-full h-full rounded-lg" />
+      </div>
+      <div className="mt-2 text-center text-gray-500 text-sm">
+        Data reflects the total sales over time.
+      </div>
     </div>
-    <div className="mt-2 text-center text-gray-500 text-sm">
-      Data reflects the total sales over time.
-    </div>
-  </div>
-  
   );
 };
 
