@@ -6,11 +6,16 @@ import TopSellingProducts from '../components/TopSellingProducts';
 import { FaDollarSign, FaShoppingCart, FaWallet } from 'react-icons/fa';
 import axios from 'axios';
 
+interface SalesData {
+  date: string;
+  total: number;
+}
+
 const Dashboard: React.FC = () => {
   const [revenue, setRevenue] = useState<number>(0);
   const [income, setIncome] = useState<number>(0);
   const [purchase, setPurchase] = useState<number>(0);
-  const [salesByDate, setSalesByDate] = useState<{ date: string; total: number }[]>([]);
+  const [salesByDate, setSalesByDate] = useState<SalesData[]>([]);
 
   useEffect(() => {
     const fetchSellOrders = async () => {
@@ -23,19 +28,20 @@ const Dashboard: React.FC = () => {
 
         setRevenue(calculatedRevenue);
         setIncome(calculatedIncome);
- // Calculate sales by date
- const salesData = sellOrders.reduce((acc: { [key: string]: number }, order: any) => {
-  const date = new Date(order.sell_date).toLocaleDateString();
-  acc[date] = (acc[date] || 0) + (order.total_amount || 0);
-  return acc;
-}, {});
 
-const formattedSalesData = Object.entries(salesData).map(([date, total]) => ({ 
-  date, 
-  total: Number(total) // Explicitly cast total as a number
-}));
+        // Calculate sales by date
+        const salesData = sellOrders.reduce((acc: { [key: string]: number }, order: any) => {
+          const date = new Date(order.sell_date).toLocaleDateString();
+          acc[date] = (acc[date] || 0) + (order.total_amount || 0);
+          return acc;
+        }, {});
 
-setSalesByDate(formattedSalesData);
+        const formattedSalesData = Object.entries(salesData).map(([date, total]) => ({
+          date,
+          total: Number(total), // Explicitly cast total as a number
+        }));
+
+        setSalesByDate(formattedSalesData);
 
       } catch (error) {
         console.error("Error fetching sell orders:", error);
