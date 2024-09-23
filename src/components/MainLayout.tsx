@@ -18,9 +18,12 @@ import SubAgents from '../pages/Subagent';
 const MainLayout: React.FC = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [userRole, setUserRole] = useState<string | null>(null);
+    const [loading, setLoading] = useState(true); // Added loading state
+
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
+
     const closeSidebar = () => {
         setIsSidebarOpen(false); // Close the sidebar
     };
@@ -29,6 +32,10 @@ const MainLayout: React.FC = () => {
         const fetchUserRole = async () => {
             try {
                 const token = localStorage.getItem('authToken');
+                if (!token) {
+                    setLoading(false);
+                    return;
+                }
                 const response = await fetch('https://sgebackend.onrender.com/api/current-user', {
                     method: 'GET',
                     headers: {
@@ -39,40 +46,55 @@ const MainLayout: React.FC = () => {
                 if (response.ok) {
                     const data = await response.json();
                     setUserRole(data.role);
+                } else {
+                    console.error('Failed to fetch user role');
+                    setUserRole(null);
                 }
             } catch (error) {
                 console.error('Error fetching user role!', error);
                 setUserRole(null);
+            } finally {
+                setLoading(false); // Set loading to false regardless of outcome
             }
         };
 
         fetchUserRole();
     }, []);
+
+    // Show a loading spinner or a blank div until we fetch the userRole
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div className="bg-gray-400 flex flex-col h-full">
-            <Header toggleSidebar={toggleSidebar} />
+            {userRole && <Header toggleSidebar={toggleSidebar} />}
             <div className="flex flex-1">
-            {isSidebarOpen && <Sidebar isOpen={isSidebarOpen} closeSidebar={closeSidebar} />}
+                {isSidebarOpen && <Sidebar isOpen={isSidebarOpen} closeSidebar={closeSidebar} />}
                 <main className="flex-1 p-4">
                     <Routes>
-                    {userRole === 'cashier' ? (
+                        {/* Redirect based on userRole */}
+                        {userRole === 'cashier' ? (
                             <Route path="/" element={<Navigate to="/sell" />} />
                         ) : userRole === 'shopkeeper' ? (
                             <Route path="/" element={<Navigate to="/purchase" />} />
                         ) : (
                             <Route path="/" element={<Navigate to="/dashboard" />} />
                         )}
+                        {/* Authenticated routes */}
                         <Route path="/dashboard" element={<AuthenticatedRoute element={<Dashboard />} requiredRoles={["admin"]} />} />
                         <Route path="/products" element={<AuthenticatedRoute element={<Products />} requiredRoles={["admin"]} />} />
                         <Route path="/reports" element={<AuthenticatedRoute element={<SellReports />} requiredRoles={['admin']} />} />
-                        <Route path="/purchase" element={<AuthenticatedRoute element={<PurchaseOrders />} requiredRoles={['admin','shopkeeper']} />} />
+                        <Route path="/purchase" element={<AuthenticatedRoute element={<PurchaseOrders />} requiredRoles={['admin', 'shopkeeper']} />} />
                         <Route path="/empty" element={<AuthenticatedRoute element={<Empty />} requiredRoles={['admin', 'cashier']} />} />
                         <Route path="/stores" element={<AuthenticatedRoute element={<Stores />} requiredRoles={['admin']} />} />
                         <Route path="/users" element={<AuthenticatedRoute element={<User />} requiredRoles={['admin']} />} />
                         <Route path="/vehicles" element={<AuthenticatedRoute element={<Vehicles />} requiredRoles={['admin']} />} />
-                        <Route path="/sell" element={<AuthenticatedRoute element={<SellOrder />} requiredRoles={['admin','cashier']} />} />
-                        <Route path="/subagent" element={<SubAgents />} />
+                        <Route path="/sell" element={<AuthenticatedRoute element={<SellOrder />} requiredRoles={['admin', 'cashier']} />} />
+                        <Route path="/subagent" element={<AuthenticatedRoute element={<SubAgents />} requiredRoles={['admin']} />} />
                         <Route path="/login" element={<Login />} />
+                        {/* Redirect to /login if no match */}
+                        <Route path="*" element={<Navigate to="/login" />} />
                     </Routes>
                 </main>
             </div>
