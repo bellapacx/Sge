@@ -27,16 +27,17 @@ const Dashboard: React.FC = () => {
         console.error("Error fetching products:", error);
       }
     };
-
+  
     const fetchSellOrders = async () => {
       try {
         const response = await axios.get('https://sgebackend.onrender.com/api/sorders');
         const sellOrders = response.data;
-    
+  
+        // Calculate revenue
         const calculatedRevenue = sellOrders.reduce((acc: number, order: any) => acc + (order.total_amount || 0), 0);
         setRevenue(calculatedRevenue);
-    
-        // Calculate income using product purchase prices
+  
+        // Wait for products to be fetched before calculating income
         const calculatedIncome = sellOrders.reduce((acc: number, order: any) => {
           const product = products.find((p) => p._id === order.product_id._id); // Find the product by ID
           if (product && product.purchase_price) { // Check if product exists and has a purchase price
@@ -45,45 +46,45 @@ const Dashboard: React.FC = () => {
           }
           return acc; // If no product or no purchase price, return current accumulator
         }, 0);
-    
+  
         setIncome(calculatedIncome);
-    
+  
         // Calculate sales by date
         const salesData = sellOrders.reduce((acc: { [key: string]: number }, order: any) => {
           const date = new Date(order.sell_date).toLocaleDateString();
           acc[date] = (acc[date] || 0) + (order.total_amount || 0);
           return acc;
         }, {});
-    
+  
         const formattedSalesData = Object.entries(salesData).map(([date, total]) => ({
           date,
           total: Number(total),
         }));
-    
+  
         setSalesByDate(formattedSalesData);
-    
+  
       } catch (error) {
         console.error("Error fetching sell orders:", error);
       }
     };
-    
+  
     const fetchPurchaseOrders = async () => {
       try {
         const response = await axios.get('https://sgebackend.onrender.com/api/porders');
         const purchaseOrders = response.data;
-
+  
         const calculatedPurchase = purchaseOrders.reduce((acc: number, order: any) => acc + (order.total_cost || 0), 0);
         setPurchase(calculatedPurchase);
       } catch (error) {
         console.error("Error fetching purchase orders:", error);
       }
     };
-
-    fetchProducts(); // Fetch products
+  
+    fetchProducts(); // Fetch products first
     fetchSellOrders();
     fetchPurchaseOrders();
-  }, []);
-
+  }, [products]); // Trigger effect when products change
+  
   return (
     <div className="flex flex-col p-6 bg-gray-50 min-h-screen">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
