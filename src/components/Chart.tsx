@@ -1,28 +1,13 @@
 import React from 'react';
-import { Line } from 'react-chartjs-2';
 import {
-  Chart as ChartJS,
-  LineElement,
-  PointElement,
-  LinearScale,
-  TimeScale,
-  Filler,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
   Tooltip,
   Legend,
-  Title,
-} from 'chart.js';
-
-// Register necessary components
-ChartJS.register(
-  LineElement,
-  PointElement,
-  LinearScale,
-  TimeScale,
-  Filler,
-  Tooltip,
-  Legend,
-  Title
-);
+  ResponsiveContainer,
+} from 'recharts';
 
 interface SalesData {
   date: string;
@@ -34,22 +19,17 @@ interface ChartProps {
 }
 
 const Chart: React.FC<ChartProps> = ({ salesData }) => {
-  const data = {
-    labels: salesData.map((item) => item.date),
-    datasets: [
-      {
-        label: 'Sales',
-        data: salesData.map((item) => item.total),
-        fill: true,
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        pointRadius: 5,
-        pointHoverRadius: 7,
-      },
-    ],
-  };
-
-  return <Line data={data} />;
+  return (
+    <ResponsiveContainer width="100%" height={300}>
+      <LineChart data={salesData}>
+        <XAxis dataKey="date" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Line type="monotone" dataKey="total" stroke="#8884d8" />
+      </LineChart>
+    </ResponsiveContainer>
+  );
 };
 
 export default Chart;
