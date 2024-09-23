@@ -54,7 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
             <SidebarLink icon={FaTags} label="Products" to='/products' closeSidebar={closeSidebar}/>
             <SidebarLink icon={FaShoppingCart} label="Orders" to='/purchase' closeSidebar={closeSidebar}/>
             <SidebarLink icon={FaSalesforce} label="Sales" to='/sell' closeSidebar={closeSidebar}/>
-            <SidebarLink icon={FaStore} label="Stores" to='/stores' closeSidebar={closeSidebar}/>
+            <SidebarLink icon={FaStore} label="Stoke" to='/stores' closeSidebar={closeSidebar}/>
             <SidebarLink icon={FaUsers} label="Users" to='/users' closeSidebar={closeSidebar}/>
             <SidebarLink icon={FaCar} label="Vehicles" to='/vehicles' closeSidebar={closeSidebar}/>
             <SidebarLink icon={FaWineBottle} label="Empty" to='/empty' closeSidebar={closeSidebar}/>
