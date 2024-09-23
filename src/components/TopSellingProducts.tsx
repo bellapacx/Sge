@@ -20,8 +20,11 @@ const TopSellingProducts: React.FC = () => {
         // Calculate total sold for each product
         const productSales: { [key: string]: number } = {};
         sellOrders.forEach((order: any) => {
-          const productId = order.product_id._id;
-          productSales[productId] = (productSales[productId] || 0) + (order.quantity || 0);
+          // Only consider orders with a valid product_id
+          if (order.product_id && order.product_id._id) {
+            const productId = order.product_id._id;
+            productSales[productId] = (productSales[productId] || 0) + (order.quantity || 0);
+          }
         });
 
         // Fetch product details
@@ -37,7 +40,7 @@ const TopSellingProducts: React.FC = () => {
             name: product.name,
             totalSold: productSales[product._id],
           }))
-          .sort((a: Product, b: Product) => b.totalSold - a.totalSold) // Explicitly define types for sorting
+          .sort((a: Product, b: Product) => b.totalSold - a.totalSold) // Sort by total sold
           .slice(0, 5); // Get top 5
 
         setTopProducts(topSelling);
