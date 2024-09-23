@@ -53,7 +53,7 @@ const MainLayout: React.FC = () => {
                     setUserRole(data.role);
                 } else {
                     console.error('Failed to fetch user role');
-                    localStorage.removeItem('authToken'); // Clear invalid token
+                    //localStorage.removeItem('authToken'); // Clear invalid token
                     navigate('/login'); // Redirect to login on failure
                     setUserRole(null);
                 }
