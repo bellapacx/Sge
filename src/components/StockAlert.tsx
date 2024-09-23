@@ -27,7 +27,7 @@ const StockAlert: React.FC = () => {
         const response = await axios.get('https://sgebackend.onrender.com/api/stores');
         setStores(response.data);
       } catch (error) {
-        console.error("Error fetching stores:", error);
+        console.error('Error fetching stores:', error);
       } finally {
         setLoading(false);
       }
@@ -37,29 +37,39 @@ const StockAlert: React.FC = () => {
   }, []);
 
   const lowStockProducts = stores.flatMap(store =>
-    store.inventory.filter(product => product.quantity < lowStockThreshold).map(product => ({
-      storeName: store.name,
-      productName: product.product_id.name,
-      quantity: product.quantity,
-    }))
+    store.inventory
+      .filter(product => product.quantity < lowStockThreshold)
+      .map(product => ({
+        storeName: store.name,
+        productName: product.product_id.name,
+        quantity: product.quantity,
+      }))
   );
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6">
-      <h3 className="text-lg font-semibold mb-4">Stock Alerts</h3>
+    <div className="bg-white shadow-md rounded-lg p-6 animate-fade-in transition-all duration-300">
+      <h3 className="text-lg font-semibold mb-4 text-gray-700">📢 Stock Alerts</h3>
       {loading ? (
-        <p>Loading...</p>
+        <p className="text-gray-500">Loading...</p>
       ) : lowStockProducts.length > 0 ? (
-        <ul>
+        <ul className="space-y-3">
           {lowStockProducts.map((item, index) => (
-            <li key={index} className="flex justify-between py-2 border-b">
-              <span>{item.productName} in {item.storeName}</span>
-              <span>{item.quantity} left</span>
+            <li
+              key={index}
+              className="flex justify-between items-center py-2 px-4 border-l-4 border-red-500 bg-red-50 rounded shadow-sm animate-slide-in"
+            >
+              <div className="flex items-center space-x-2">
+                
+                <span className="text-gray-700">
+                  <strong>{item.productName}</strong> in <strong>{item.storeName}</strong>
+                </span>
+              </div>
+              <span className="font-bold text-red-600">{item.quantity} left</span>
             </li>
           ))}
         </ul>
       ) : (
-        <p>No low stock items!</p>
+        <p className="text-green-600">No low stock items! 🎉</p>
       )}
     </div>
   );

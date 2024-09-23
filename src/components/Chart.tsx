@@ -28,9 +28,9 @@ interface CustomTooltipProps {
 const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white border border-gray-300 rounded shadow-lg p-2">
-        <p className="text-black">{`Date: ${payload[0].payload.date}`}</p>
-        <p className="text-black">{`Total Sales: ₦${payload[0].value.toLocaleString()}`}</p>
+      <div className="bg-white border border-gray-200 rounded-lg shadow-md p-3">
+        <p className="text-gray-700 font-semibold">{`Date: ${payload[0].payload.date}`}</p>
+        <p className="text-blue-600 font-bold">{`Total Sales: ₦${payload[0].value.toLocaleString()}`}</p>
       </div>
     );
   }
@@ -40,21 +40,26 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
 const Chart: React.FC<ChartProps> = ({ salesData }) => {
   return (
     <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={salesData}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" />
-        <YAxis />
+      <LineChart data={salesData} margin={{ top: 20, right: 30, left: 20, bottom: 10 }}>
+        <CartesianGrid strokeDasharray="4 4" stroke="#e0e0e0" />
+        <XAxis dataKey="date" tick={{ fill: '#8884d8' }} />
+        <YAxis tick={{ fill: '#8884d8' }} />
         <Tooltip content={<CustomTooltip />} />
-        <Legend />
+        <Legend
+          wrapperStyle={{
+            paddingTop: 10,
+            color: '#4a90e2',
+          }}
+        />
         <Line
           type="monotone"
           dataKey="total"
           stroke="#4a90e2"
-          strokeWidth={3}
-          dot={{ stroke: '#4a90e2', strokeWidth: 2 }}
-          activeDot={{ r: 6 }}
+          strokeWidth={2.5}
+          dot={{ stroke: '#4a90e2', strokeWidth: 3, r: 4 }}
+          activeDot={{ r: 7, fill: '#4a90e2', stroke: '#ffffff', strokeWidth: 2 }}
         />
-        <Brush dataKey="date" height={30} stroke="#4a90e2" />
+        <Brush dataKey="date" height={20} stroke="#4a90e2" />
       </LineChart>
     </ResponsiveContainer>
   );
