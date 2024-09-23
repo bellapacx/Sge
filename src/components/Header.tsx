@@ -45,6 +45,7 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
             localStorage.removeItem('authToken');
             setUsername(null);
             navigate('/login');
+            window.location.href = 'https://bellapacx.github.io/Sge/';
         } catch (error) {
             console.error('Logout failed', error);
             setError('Logout failed. Please try again.');
