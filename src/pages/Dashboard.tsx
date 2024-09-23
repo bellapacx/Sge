@@ -112,13 +112,15 @@ const Dashboard: React.FC = () => {
         </h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
           {/* Chart Container */}
-          <div className="bg-white shadow-lg rounded-xl p-4 md:p-6 transition-transform duration-300 hover:scale-105">
-            <div className="relative" style={{ paddingTop: '56.25%' }}>
-              <div className="absolute inset-0">
-                <Chart salesData={salesByDate} />
-              </div>
-            </div>
-          </div>
+          <div className="bg-white shadow-lg rounded-xl p-4 md:p-6 transition-transform duration-300 transform hover:scale-105">
+  <h2 className="text-lg font-semibold text-gray-700 mb-4 text-center">Sales Overview</h2>
+  <div className="relative" style={{ paddingTop: '56.25%' }}> {/* Aspect ratio for the chart */}
+    <div className="absolute inset-0 rounded-lg overflow-hidden"> {/* Rounded corners for the chart */}
+      <Chart salesData={salesByDate} />
+    </div>
+  </div>
+</div>
+
 
           {/* Top Selling Products Container */}
           <div className="bg-white shadow-lg rounded-xl p-4 md:p-6 transition-transform duration-300 hover:scale-105">
