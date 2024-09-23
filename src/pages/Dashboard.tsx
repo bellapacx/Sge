@@ -32,40 +32,42 @@ const Dashboard: React.FC = () => {
       try {
         const response = await axios.get('https://sgebackend.onrender.com/api/sorders');
         const sellOrders = response.data;
-
+    
         const calculatedRevenue = sellOrders.reduce((acc: number, order: any) => acc + (order.total_amount || 0), 0);
         setRevenue(calculatedRevenue);
-
+    
         // Calculate income using product purchase prices
         const calculatedIncome = sellOrders.reduce((acc: number, order: any) => {
-          const product = products.find((p) => p._id === order.product_id); // Adjust based on your order structure
+          const product = products.find((p) => p._id === order.product_id._id); // Adjusted to access the correct product ID
           if (product) {
+            // Calculate income based on the difference between sell_price and purchase_price
             const incomeFromOrder = (order.sell_price - product.purchase_price) * (order.quantity || 0);
             return acc + incomeFromOrder;
           }
           return acc;
         }, 0);
-
+    
         setIncome(calculatedIncome);
-
+    
         // Calculate sales by date
         const salesData = sellOrders.reduce((acc: { [key: string]: number }, order: any) => {
           const date = new Date(order.sell_date).toLocaleDateString();
           acc[date] = (acc[date] || 0) + (order.total_amount || 0);
           return acc;
         }, {});
-
+    
         const formattedSalesData = Object.entries(salesData).map(([date, total]) => ({
           date,
           total: Number(total),
         }));
-
+    
         setSalesByDate(formattedSalesData);
-
+    
       } catch (error) {
         console.error("Error fetching sell orders:", error);
       }
     };
+    
 
     const fetchPurchaseOrders = async () => {
       try {
