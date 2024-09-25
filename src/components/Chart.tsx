@@ -17,6 +17,9 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
     if (chartRef.current) {
       const ctx = chartRef.current.getContext('2d');
       if (ctx) {
+        // Sort salesData by date
+        const sortedSalesData = [...salesData].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
         const gradient = ctx.createLinearGradient(0, 0, 0, 400);
         gradient.addColorStop(0, 'rgba(74, 144, 226, 0.5)');
         gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
@@ -24,11 +27,11 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
         const chart = new Chart(ctx, {
           type: 'line',
           data: {
-            labels: salesData.map((data) => data.date),
+            labels: sortedSalesData.map((data) => data.date),
             datasets: [
               {
                 label: 'Total Sales',
-                data: salesData.map((data) => data.total),
+                data: sortedSalesData.map((data) => data.total),
                 borderColor: '#4a90e2',
                 borderWidth: 2,
                 fill: true,
@@ -117,11 +120,13 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
   }, [salesData]);
 
   return (
-    <div className="relative w-full bg-white rounded-lg shadow-lg p-5 flex flex-col">
-      <div className="relative" style={{ paddingTop: '56.25%' }}> {/* Aspect ratio for the chart */}
+    <div
+      className="relative bg-gradient-to-r from-indigo-500 to-purple-500 w-full rounded-lg shadow-lg p-5 flex flex-col"    
+    >
+      <div className="relative" style={{ paddingTop: '56.25%' }}>
         <canvas ref={chartRef} className="absolute inset-0 w-full h-full rounded-lg" />
       </div>
-      <div className="mt-2 text-center text-gray-500 text-sm">
+      <div className="mt-2 text-center text-gray-200 text-sm">
         Data reflects the total sales over time.
       </div>
     </div>
