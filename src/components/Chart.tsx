@@ -27,7 +27,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
     } else if (screenWidth >= 576) {
       setChartSize({ height: 360, width: 400 }); // Extra small screen (large phones)
     } else {
-      setChartSize({ height: 300, width: 300 }); // Very small screen (mobile)
+      setChartSize({ height: 300, width: 280 }); // Very small screen (mobile)
     }
   };
 
