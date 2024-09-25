@@ -90,7 +90,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                     size: 12,
                   },
                   autoSkip: false, // Prevents skipping ticks
-                  maxTicksLimit: 10, // Adjusts the number of ticks displayed
+                  
                   minRotation: 0, // Ensures labels are horizontal
                   maxRotation: 90, // Adjusts max rotation for better visibility
                 },
@@ -105,7 +105,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                     size: 12,
                   },
                   autoSkip: false, // Prevents skipping ticks
-                  maxTicksLimit: 10, // Adjusts the number of ticks displayed
+                 
                   callback: (value) => `₦${value.toLocaleString()}`, // Formatting for y-axis
                 },
               },
