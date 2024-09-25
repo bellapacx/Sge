@@ -108,7 +108,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                   },
                   autoSkip: false, // Prevents skipping ticks
                   maxTicksLimit: 10, // Adjusts the number of ticks displayed
-                  callback: (value) => `₦${value.toLocaleString()}`,
+                 // callback: (value) => `₦${value.toLocaleString()}`,
                 },
               },
             },
