@@ -65,6 +65,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                 borderColor: '#fff',
                 borderWidth: 2,
                 fill: true,
+                
                 backgroundColor: gradient,
                 pointBackgroundColor: '#fff',
                 pointBorderColor: '#fff',
@@ -107,6 +108,17 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                     return `Date: ${tooltipItems[0].label}`;
                   },
                 },
+              },
+              datalabels: {
+                display: true,
+                color: '#000', // Change this to your desired color
+                font: {
+                  size: 12,
+                  weight: 'bold',
+                },
+                align: 'top',
+                anchor: 'end',
+                formatter: (value) => `₦${value.toLocaleString()}`,
               },
             },
             scales: {
