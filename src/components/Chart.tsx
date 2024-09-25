@@ -89,6 +89,8 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                   font: {
                     size: 12,
                   },
+                  autoSkip: false, // Prevents skipping ticks
+                  maxTicksLimit: 10, // Adjusts the number of ticks displayed
                 },
               },
               y: {
