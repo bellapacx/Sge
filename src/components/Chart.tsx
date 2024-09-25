@@ -115,10 +115,12 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                 font: {
                   size: 12,
                   weight: 'bold',
+                  
                 },
                 align: 'top',
                 anchor: 'end',
-                formatter: (value) => `₦${value.toLocaleString()}`,
+                rotation:45,
+                formatter: (value) => `${value.toLocaleString()}`,
               },
             },
             scales: {
