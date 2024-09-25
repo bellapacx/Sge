@@ -60,8 +60,8 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                 },
               },
               tooltip: {
-                backgroundColor: '#ffffff',
-                titleColor: '#000',
+                backgroundColor: '#000000',
+                titleColor: '#000000',
                 bodyColor: '#333',
                 borderColor: '#4a90e2',
                 borderWidth: 1,
@@ -124,7 +124,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
       className="relative bg-gradient-to-r from-indigo-500 to-purple-500 w-full rounded-lg shadow-lg p-5 flex flex-col"    
     >
       <div className="relative" style={{ paddingTop: '67.25%' }}>
-        <canvas ref={chartRef} className="absolute inset-0 w-full h-full rounded-lg" />
+        <canvas ref={chartRef} className="absolute inset-0 w-full h-full rounded-lg pt-52" />
       </div>
       <div className="mt-2 text-center text-gray-200 text-sm">
         Data reflects the total sales over time.
