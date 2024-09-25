@@ -81,6 +81,8 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
             },
             scales: {
               x: {
+                type: 'category', // Use category scale for x-axis
+                labels: sortedSalesData.map((data) => data.date),
                 grid: {
                   display: false,
                 },
@@ -90,9 +92,9 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                     size: 12,
                   },
                   autoSkip: false, // Prevents skipping ticks
-                  
-                  minRotation: 0, // Ensures labels are horizontal
-                  maxRotation: 90, // Adjusts max rotation for better visibility
+                  maxTicksLimit: sortedSalesData.length, // Show all ticks
+                  minRotation: 0,
+                  maxRotation: 0, // Keep labels horizontal
                 },
               },
               y: {
@@ -105,8 +107,8 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                     size: 12,
                   },
                   autoSkip: false, // Prevents skipping ticks
-                 
-                  callback: (value) => `₦${value.toLocaleString()}`, // Formatting for y-axis
+                  maxTicksLimit: 10, // Adjusts the number of ticks displayed
+                  callback: (value) => `₦${value.toLocaleString()}`,
                 },
               },
             },
@@ -126,9 +128,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
   }, [salesData]);
 
   return (
-    <div
-      className="relative bg-gradient-to-r from-indigo-500 to-purple-500 w-full rounded-lg shadow-lg p-5 flex flex-col"    
-    >
+    <div className="relative bg-gradient-to-r from-indigo-500 to-purple-500 w-full rounded-lg shadow-lg p-5 flex flex-col">
       <div className="relative" style={{ paddingTop: '67.25%' }}>
         <canvas ref={chartRef} className="absolute inset-0 w-full h-full rounded-lg" />
       </div>
