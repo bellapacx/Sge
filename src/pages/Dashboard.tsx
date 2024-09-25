@@ -112,8 +112,8 @@ const Dashboard: React.FC = () => {
         </h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
          {/* Chart Container */}
-<div className="bg-white shadow-lg rounded-xl p-4 md:p-6 flex flex-col">
-  <div className="relative h-80 md:h-96 lg:h-[500px]"> {/* Adjusted height for mobile view */}
+<div className="bg-white shadow-lg rounded-xl p-2 md:p-4 flex flex-col">
+  <div className="relative h-96 md:h-96 lg:h-[500px]"> {/* Adjusted height for mobile view */}
     <div className="absolute inset-0 rounded-lg overflow-hidden">
       <Chart salesData={salesByDate} />
     </div>
