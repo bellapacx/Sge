@@ -82,7 +82,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
               legend: {
                 display: true,
                 labels: {
-                  color: '#fff',
+                  color: '#000',
                   font: {
                     size: 14,
                     family: 'Arial, sans-serif',
