@@ -19,13 +19,13 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
     const screenWidth = window.innerWidth;
     
     if (screenWidth >= 1200) {
-      setChartSize({ height: 500, width: 700 }); // Large screen (desktop)
+      setChartSize({ height: 500, width: 600 }); // Large screen (desktop)
     } else if (screenWidth >= 992) {
-      setChartSize({ height: 450, width: 700 }); // Medium screen (tablet landscape)
+      setChartSize({ height: 450, width: 500 }); // Medium screen (tablet landscape)
     } else if (screenWidth >= 768) {
-      setChartSize({ height: 400, width: 600 }); // Small screen (tablet portrait)
+      setChartSize({ height: 400, width: 450 }); // Small screen (tablet portrait)
     } else if (screenWidth >= 576) {
-      setChartSize({ height: 360, width: 500 }); // Extra small screen (large phones)
+      setChartSize({ height: 360, width: 400 }); // Extra small screen (large phones)
     } else {
       setChartSize({ height: 300, width: 300 }); // Very small screen (mobile)
     }
