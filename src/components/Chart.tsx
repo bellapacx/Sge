@@ -123,8 +123,8 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
     <div
       className="relative bg-gradient-to-r from-indigo-500 to-purple-500 w-full rounded-lg shadow-lg p-5 flex flex-col"    
     >
-      <div className="relative" style={{ paddingTop: '72.25%' }}>
-        <canvas ref={chartRef} className="absolute inset-0 w-full h-full rounded-lg pt-52" />
+      <div className="relative" style={{ paddingTop: '67.25%' }}>
+        <canvas ref={chartRef} className="absolute inset-0 w-full h-full rounded-lg" />
       </div>
       <div className="mt-2 text-center text-gray-200 text-sm">
         Data reflects the total sales over time.
