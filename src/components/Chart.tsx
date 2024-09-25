@@ -1,8 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Chart, registerables } from 'chart.js';
-
-// Register the required Chart.js components
-Chart.register(...registerables);
+import Chart from 'chart.js/auto';
 
 interface SalesData {
   date: string;
@@ -24,7 +21,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
         const sortedSalesData = [...salesData].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
         const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-        gradient.addColorStop(0, 'rgba(74, 144, 226, 0.5)'); // Adjusted gradient color
+        gradient.addColorStop(0, 'rgba(74, 144, 226, 0.5)');
         gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
 
         const chart = new Chart(ctx, {
@@ -35,11 +32,11 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
               {
                 label: 'Total Sales',
                 data: sortedSalesData.map((data) => data.total),
-                borderColor: '#4a90e2', // Adjusted border color for visibility
+                borderColor: '#fff',
                 borderWidth: 2,
                 fill: true,
                 backgroundColor: gradient,
-                pointBackgroundColor: '#4a90e2',
+                pointBackgroundColor: '#fff',
                 pointBorderColor: '#fff',
                 pointRadius: 6,
                 pointHoverRadius: 8,
@@ -50,12 +47,12 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
           },
           options: {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: false, // Allow the chart to fill the container
             plugins: {
               legend: {
                 display: true,
                 labels: {
-                  color: '#4a90e2', // Adjusted legend label color for better visibility
+                  color: '#fff',
                   font: {
                     size: 14,
                     family: 'Arial, sans-serif',
@@ -64,8 +61,8 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
               },
               tooltip: {
                 backgroundColor: '#000000',
-                titleColor: '#ffffff',
-                bodyColor: '#ffffff',
+                titleColor: '#000000',
+                bodyColor: '#333',
                 borderColor: '#4a90e2',
                 borderWidth: 1,
                 displayColors: false,
@@ -94,6 +91,9 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                   },
                   autoSkip: false, // Prevents skipping ticks
                   maxTicksLimit: 10, // Adjusts the number of ticks displayed
+                  padding: 10, // Add padding around tick labels
+                  // Rotation can help with overlapping labels
+                  callback: (value: any) => value, // This can be customized further if needed
                 },
               },
               y: {
@@ -111,21 +111,21 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
             },
             elements: {
               line: {
-                tension: 0.4, // Smooth line curve
+                tension: 0.4,
               },
             },
           },
         });
 
         return () => {
-          chart.destroy(); // Clean up chart instance
+          chart.destroy();
         };
       }
     }
   }, [salesData]);
 
   return (
-    <div className="relative bg-gradient-to-r from-indigo-500 to-purple-500 w-full rounded-lg shadow-lg p-5 flex flex-col">
+    <div className="relative bg-gradient-to-r from-indigo-500 to-purple-500 w-full rounded-lg shadow-lg p-5 flex flex-col">    
       <div className="relative" style={{ paddingTop: '67.25%' }}>
         <canvas ref={chartRef} className="absolute inset-0 w-full h-full rounded-lg" />
       </div>
