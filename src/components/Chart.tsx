@@ -32,11 +32,11 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
               {
                 label: 'Total Sales',
                 data: sortedSalesData.map((data) => data.total),
-                borderColor: '#4a90e2',
+                borderColor: '#fff',
                 borderWidth: 2,
                 fill: true,
                 backgroundColor: gradient,
-                pointBackgroundColor: '#4a90e2',
+                pointBackgroundColor: '#fff',
                 pointBorderColor: '#fff',
                 pointRadius: 6,
                 pointHoverRadius: 8,
@@ -52,7 +52,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
               legend: {
                 display: true,
                 labels: {
-                  color: '#4a90e2',
+                  color: '#fff',
                   font: {
                     size: 14,
                     family: 'Arial, sans-serif',
@@ -85,7 +85,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                   display: false,
                 },
                 ticks: {
-                  color: '#8884d8',
+                  color: '#e0e0e0',
                   font: {
                     size: 12,
                   },
@@ -93,10 +93,10 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
               },
               y: {
                 grid: {
-                  color: '#e0e0e0',
+                  color: 'rgba(255, 255, 255, 0.2)',
                 },
                 ticks: {
-                  color: '#8884d8',
+                  color: '#e0e0e0',
                   font: {
                     size: 12,
                   },
