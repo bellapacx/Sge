@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 
 interface SalesData {
@@ -12,6 +12,36 @@ interface ChartProps {
 
 const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
+  const [chartSize, setChartSize] = useState({ height: 360, width: 300 });
+
+  // Function to set chart dimensions based on screen size
+  const updateChartSize = () => {
+    const screenWidth = window.innerWidth;
+    
+    if (screenWidth >= 1200) {
+      setChartSize({ height: 500, width: 800 }); // Large screen (desktop)
+    } else if (screenWidth >= 992) {
+      setChartSize({ height: 450, width: 700 }); // Medium screen (tablet landscape)
+    } else if (screenWidth >= 768) {
+      setChartSize({ height: 400, width: 600 }); // Small screen (tablet portrait)
+    } else if (screenWidth >= 576) {
+      setChartSize({ height: 360, width: 500 }); // Extra small screen (large phones)
+    } else {
+      setChartSize({ height: 300, width: 300 }); // Very small screen (mobile)
+    }
+  };
+
+  useEffect(() => {
+    // Set initial size
+    updateChartSize();
+
+    // Add event listener to resize
+    window.addEventListener('resize', updateChartSize);
+
+    return () => {
+      window.removeEventListener('resize', updateChartSize);
+    };
+  }, []);
 
   useEffect(() => {
     if (chartRef.current) {
@@ -128,7 +158,8 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
   }, [salesData]);
 
   return (
-    <div className="relative bg-gradient-to-r from-indigo-500 to-purple-500 w-full rounded-lg shadow-lg p-5 flex flex-col" style={{ height: '360px', width:'300px'}}>
+    <div className="relative bg-gradient-to-r from-indigo-500 to-purple-500 w-full rounded-lg shadow-lg p-5 flex flex-col" style={{  height: chartSize.height,
+      width: chartSize.width}}>
       <div className="relative h-full" >
         <canvas ref={chartRef} className="absolute inset-0 w-full h-full rounded-lg" />
       </div>
