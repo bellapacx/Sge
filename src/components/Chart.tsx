@@ -101,7 +101,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                 callbacks: {
                   label: (context) => {
                     const value = context.raw as number; // Ensure it's treated as a number
-                    return `${context.dataset.label}: ₦${value.toLocaleString()}`;
+                    return `${context.dataset.label}: ${value.toLocaleString()}`;
                   },
                   title: (tooltipItems) => {
                     return `Date: ${tooltipItems[0].label}`;
