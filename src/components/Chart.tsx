@@ -94,7 +94,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                   autoSkip: false, // Prevents skipping ticks
                   maxTicksLimit: sortedSalesData.length, // Show all ticks
                   minRotation: 0,
-                  maxRotation: 0, // Keep labels horizontal
+                  maxRotation: 45, // Keep labels horizontal
                 },
               },
               y: {
@@ -128,7 +128,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
   }, [salesData]);
 
   return (
-    <div className="relative bg-gradient-to-r from-indigo-500 to-purple-500 w-full rounded-lg shadow-lg p-5 flex flex-col" style={{ height: '300px', width:'300px'}}>
+    <div className="relative bg-gradient-to-r from-indigo-500 to-purple-500 w-full rounded-lg shadow-lg p-5 flex flex-col" style={{ height: '360px', width:'300px'}}>
       <div className="relative h-full" >
         <canvas ref={chartRef} className="absolute inset-0 w-full h-full rounded-lg" />
       </div>
