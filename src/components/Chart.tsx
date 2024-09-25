@@ -60,7 +60,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                 },
               },
               tooltip: {
-                backgroundColor: '#000000',
+                backgroundColor: '#4a90e2',
                 titleColor: '#000000',
                 bodyColor: '#333',
                 borderColor: '#4a90e2',
