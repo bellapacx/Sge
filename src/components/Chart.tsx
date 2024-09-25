@@ -132,10 +132,7 @@ const CustomChart: React.FC<ChartProps> = ({ salesData }) => {
                   color: 'rgba(255, 255, 255, 0.2)',
                 },
                 ticks: {
-                  color: '#e0e0e0',
-                  font: {
-                    size: 12,
-                  },
+                  display: false,
                   autoSkip: false, // Prevents skipping ticks
                   maxTicksLimit: 10, // Adjusts the number of ticks displayed
                  // callback: (value) => `₦${value.toLocaleString()}`,
