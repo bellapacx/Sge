@@ -111,14 +111,15 @@ const Dashboard: React.FC = () => {
           Performance Overview
         </h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
-          {/* Chart Container */}
-          <div className="bg-white shadow-lg rounded-xl p-4 md:p-6 flex flex-col">
-            <div className="relative h-[420px] md:h-96 lg:h-[500px]" >
-              <div className="absolute inset-0 rounded-lg overflow-hidden">
-                <Chart salesData={salesByDate} />
-              </div>
-            </div>
-          </div>
+         {/* Chart Container */}
+<div className="bg-white shadow-lg rounded-xl p-4 md:p-6 flex flex-col">
+  <div className="relative h-80 md:h-96 lg:h-[500px]"> {/* Adjusted height for mobile view */}
+    <div className="absolute inset-0 rounded-lg overflow-hidden">
+      <Chart salesData={salesByDate} />
+    </div>
+  </div>
+</div>
+
           {/* Top Selling Products Container */}
           <div className="bg-white shadow-lg rounded-xl p-4 md:p-6 transition-transform duration-300 hover:scale-105">
             <TopSellingProducts />
